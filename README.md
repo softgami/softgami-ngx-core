@@ -1,0 +1,1 @@
+# softgami-ngx-core
