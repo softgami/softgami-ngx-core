@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
 
-import { Html5StorageService } from '../html5-storage.service';
+import { AbstractHtml5StorageService } from '../abstract-html5-storage.service';
 import { SHOULD_ENCRYPT_SESSION_STORAGE } from '../should-encrypt-session-storage.const';
 
 @Injectable({
     providedIn: 'root',
 })
-export class SessionStorageService extends Html5StorageService {
+export class SessionStorageService extends AbstractHtml5StorageService {
 
     shouldEncrypt: boolean;
 

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Html5StorageService } from '../html5-storage.service';
+import { AbstractHtml5StorageService } from '../abstract-html5-storage.service';
 import { SessionStorageService } from './session-storage.service';
 import { SHOULD_ENCRYPT_SESSION_STORAGE } from '../should-encrypt-session-storage.const';
 
 describe('SessionStorageService', () => {
 
-    let spySuper;
+    let spySuper: jasmine.Spy;
     let service: SessionStorageService;
 
     beforeEach(() => {
@@ -34,45 +34,85 @@ describe('SessionStorageService', () => {
 
     });
 
-    it('set should call super set when values are passed', () => {
+    describe('set', () => {
 
-        spySuper = spyOn(Html5StorageService.prototype, 'set');
+        it('set should call super set with "key" and "value" when args are "key" and "value"', () => {
 
-        service.set('key', 'value');
+            spySuper = spyOn(AbstractHtml5StorageService.prototype, 'set');
 
-        expect(spySuper).toHaveBeenCalledWith('key', 'value');
+            service.set('key', 'value');
 
-        service.set('key2', 'value2');
+            expect(spySuper).toHaveBeenCalledWith('key', 'value');
 
-        expect(spySuper).toHaveBeenCalledWith('key2', 'value2');
+        });
 
-    });
+        it('set should call super set with "key2" and "value2" when args are "key2" and "value2"', () => {
 
-    it('set should call super get when values are passed', () => {
+            spySuper = spyOn(AbstractHtml5StorageService.prototype, 'set');
 
-        spySuper = spyOn(Html5StorageService.prototype, 'get').and.returnValue('value');
+            service.set('key2', 'value2');
 
-        const result = service.get('key');
+            expect(spySuper).toHaveBeenCalledWith('key2', 'value2');
 
-        expect(spySuper).toHaveBeenCalledWith('key');
-        expect(result).toEqual('value');
-
-        spySuper.and.returnValue('value2');
-
-        const result2 = service.get('key2');
-
-        expect(spySuper).toHaveBeenCalledWith('key2');
-        expect(result2).toEqual('value2');
+        });
 
     });
 
-    it('set should call super clear when clear was called', () => {
+    describe('get', () => {
 
-        spySuper = spyOn(Html5StorageService.prototype, 'clear');
+        it('get should call super get with "key" when arg is "key"', () => {
 
-        service.clear();
+            spySuper = spyOn(AbstractHtml5StorageService.prototype, 'get').and.returnValue('value');
 
-        expect(spySuper).toHaveBeenCalled();
+            const result: string = service.get<string>('key');
+
+            expect(spySuper).toHaveBeenCalledWith('key');
+
+        });
+
+        it('get should call super get with "key2" when arg is "key2"', () => {
+
+            spySuper = spyOn(AbstractHtml5StorageService.prototype, 'get').and.returnValue('value');
+
+            const result: string = service.get<string>('key2');
+
+            expect(spySuper).toHaveBeenCalledWith('key2');
+
+        });
+
+        it('get should return "value" when super get return "value"', () => {
+
+            spySuper = spyOn(AbstractHtml5StorageService.prototype, 'get').and.returnValue('value');
+
+            const result: string = service.get<string>('key');
+
+            expect(result).toBe('value');
+
+        });
+
+        it('get should return "value2" when super get return "value2"', () => {
+
+            spySuper = spyOn(AbstractHtml5StorageService.prototype, 'get').and.returnValue('value2');
+
+            const result: string = service.get<string>('key');
+
+            expect(result).toBe('value2');
+
+        });
+
+    });
+
+    describe('clear', () => {
+
+        it('clear should call super clear when clear was called', () => {
+
+            spySuper = spyOn(AbstractHtml5StorageService.prototype, 'clear');
+
+            service.clear();
+
+            expect(spySuper).toHaveBeenCalled();
+
+        });
 
     });
 

@@ -5,7 +5,7 @@ import { Inject, Injectable, Optional } from '@angular/core';
 @Injectable({
     providedIn: 'root',
 })
-export abstract class Html5StorageService {
+export abstract class AbstractHtml5StorageService {
 
     privateKey: string;
     changes: BehaviorSubject<string>;
@@ -20,6 +20,12 @@ export abstract class Html5StorageService {
         this.shouldEncrypt = shouldEncrypt;
         this.storage = storage;
         this.changes = new BehaviorSubject(null);
+
+    }
+
+    onChanges(): BehaviorSubject<string> {
+
+        return this.changes;
 
     }
 

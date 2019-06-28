@@ -1,5 +1,6 @@
 import { Html5StorageModule } from './html5-storage.module';
 import { LocalStorageService } from './local-storage/local-storage.service';
+import { ModuleWithProviders } from '@angular/core';
 import { SessionStorageService } from './session-storage/session-storage.service';
 import { SHOULD_ENCRYPT_LOCAL_STORAGE } from './should-encrypt-local-storage.const';
 import { SHOULD_ENCRYPT_SESSION_STORAGE } from './should-encrypt-session-storage.const';
@@ -20,98 +21,102 @@ describe('Html5StorageModule', () => {
 
     });
 
-    it('forRoot should return object when should encrypt session true and should encrypt local true', () => {
+    describe('forRoot', () => {
 
-        expect(html5StorageModule).toBeTruthy();
+        it('forRoot should return object when should encrypt session true and should encrypt local true', () => {
 
-        const result = Html5StorageModule.forRoot(true, true);
+            expect(html5StorageModule).toBeTruthy();
 
-        expect(result).toEqual({
-            ngModule: Html5StorageModule,
-            providers: [
-                {
-                    provide: SHOULD_ENCRYPT_SESSION_STORAGE,
-                    useValue: true,
-                },
-                {
-                    provide: SHOULD_ENCRYPT_LOCAL_STORAGE,
-                    useValue: true,
-                },
-                LocalStorageService,
-                SessionStorageService,
-            ],
+            const result: ModuleWithProviders<any> = Html5StorageModule.forRoot(true, true);
+
+            expect(result).toEqual({
+                ngModule: Html5StorageModule,
+                providers: [
+                    {
+                        provide: SHOULD_ENCRYPT_SESSION_STORAGE,
+                        useValue: true,
+                    },
+                    {
+                        provide: SHOULD_ENCRYPT_LOCAL_STORAGE,
+                        useValue: true,
+                    },
+                    LocalStorageService,
+                    SessionStorageService,
+                ],
+            });
+
         });
 
-    });
+        it('forRoot should return object when should encrypt session true and should encrypt local false', () => {
 
-    it('forRoot should return object when should encrypt session true and should encrypt local false', () => {
+            expect(html5StorageModule).toBeTruthy();
 
-        expect(html5StorageModule).toBeTruthy();
+            const result: ModuleWithProviders<any> = Html5StorageModule.forRoot(true, false);
 
-        const result = Html5StorageModule.forRoot(true, false);
+            expect(result).toEqual({
+                ngModule: Html5StorageModule,
+                providers: [
+                    {
+                        provide: SHOULD_ENCRYPT_SESSION_STORAGE,
+                        useValue: true,
+                    },
+                    {
+                        provide: SHOULD_ENCRYPT_LOCAL_STORAGE,
+                        useValue: false,
+                    },
+                    LocalStorageService,
+                    SessionStorageService,
+                ],
+            });
 
-        expect(result).toEqual({
-            ngModule: Html5StorageModule,
-            providers: [
-                {
-                    provide: SHOULD_ENCRYPT_SESSION_STORAGE,
-                    useValue: true,
-                },
-                {
-                    provide: SHOULD_ENCRYPT_LOCAL_STORAGE,
-                    useValue: false,
-                },
-                LocalStorageService,
-                SessionStorageService,
-            ],
         });
 
-    });
+        it('forRoot should return object when should encrypt session false and should encrypt local true', () => {
 
-    it('forRoot should return object when should encrypt session false and should encrypt local true', () => {
+            expect(html5StorageModule).toBeTruthy();
 
-        expect(html5StorageModule).toBeTruthy();
+            const result: ModuleWithProviders<any> = Html5StorageModule.forRoot(false, true);
 
-        const result = Html5StorageModule.forRoot(false, true);
+            expect(result).toEqual({
+                ngModule: Html5StorageModule,
+                providers: [
+                    {
+                        provide: SHOULD_ENCRYPT_SESSION_STORAGE,
+                        useValue: false,
+                    },
+                    {
+                        provide: SHOULD_ENCRYPT_LOCAL_STORAGE,
+                        useValue: true,
+                    },
+                    LocalStorageService,
+                    SessionStorageService,
+                ],
+            });
 
-        expect(result).toEqual({
-            ngModule: Html5StorageModule,
-            providers: [
-                {
-                    provide: SHOULD_ENCRYPT_SESSION_STORAGE,
-                    useValue: false,
-                },
-                {
-                    provide: SHOULD_ENCRYPT_LOCAL_STORAGE,
-                    useValue: true,
-                },
-                LocalStorageService,
-                SessionStorageService,
-            ],
         });
 
-    });
+        it('forRoot should return object when should encrypt session false and should encrypt local false', () => {
 
-    it('forRoot should return object when should encrypt session false and should encrypt local false', () => {
+            expect(html5StorageModule).toBeTruthy();
 
-        expect(html5StorageModule).toBeTruthy();
+            const result: ModuleWithProviders<any> = Html5StorageModule.forRoot(false, false);
 
-        const result = Html5StorageModule.forRoot(false, false);
+            expect(result).toEqual({
+                ngModule: Html5StorageModule,
+                providers: [
+                    {
+                        provide: SHOULD_ENCRYPT_SESSION_STORAGE,
+                        useValue: false,
+                    },
+                    {
+                        provide: SHOULD_ENCRYPT_LOCAL_STORAGE,
+                        useValue: false,
+                    },
+                    LocalStorageService,
+                    SessionStorageService,
+                ],
+            });
 
-        expect(result).toEqual({
-            ngModule: Html5StorageModule,
-            providers: [
-                {
-                    provide: SHOULD_ENCRYPT_SESSION_STORAGE,
-                    useValue: false,
-                },
-                {
-                    provide: SHOULD_ENCRYPT_LOCAL_STORAGE,
-                    useValue: false,
-                },
-                LocalStorageService,
-                SessionStorageService,
-            ],
         });
 
     });
