@@ -1,6 +1,8 @@
+import { ModuleWithProviders } from '@angular/core';
+
 import { SharedModule } from './shared.module';
 
-describe('Html5StorageModule', () => {
+describe('SharedModule', () => {
 
     let sharedModule: SharedModule;
 
@@ -16,15 +18,19 @@ describe('Html5StorageModule', () => {
 
     });
 
-    it('forRoot should return object', () => {
+    describe('forRoot', () => {
 
-        expect(sharedModule).toBeTruthy();
+        it('forRoot should return object', () => {
 
-        const result = SharedModule.forRoot();
+            expect(sharedModule).toBeTruthy();
 
-        expect(result).toEqual({
-            ngModule: SharedModule,
-            providers: [ ],
+            const result: ModuleWithProviders<any> = SharedModule.forRoot();
+
+            expect(result).toEqual({
+                ngModule: SharedModule,
+                providers: [ ],
+            });
+
         });
 
     });
