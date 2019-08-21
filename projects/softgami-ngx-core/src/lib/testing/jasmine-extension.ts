@@ -1,3 +1,5 @@
+import * as jasmine from 'jasmine-core';
+
 export abstract class JasmineExtension {
 
     public static createComponentSpy<T>(object: any): jasmine.SpyObj<T> {
@@ -29,7 +31,7 @@ export abstract class JasmineExtension {
         JasmineExtension.getInstanceMethodNames(object)
         // .filter((property: string) => skipMethodsList.includes(property) === false)
         .forEach((property: string) => {
-            componentSpy[property] = spyOn(object, property);
+            componentSpy[property] = jasmine.spyOn(object, property);
             componentSpy[property].and.callThrough();
         });
 
