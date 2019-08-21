@@ -40,7 +40,11 @@
     },
     "softgami-ngx-core-tester": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+            "styleext": "scss"
+        }
+      },
       "root": "projects/softgami-ngx-core-tester",
       "sourceRoot": "projects/softgami-ngx-core-tester/src",
       "prefix": "app",
