@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { Html5StorageTesterModule } from './html5-storage-tester/html5-storage-tester.module';
+import { SharedTesterModule } from './shared-tester/shared-tester.module';
 
 @NgModule({
     declarations: [
@@ -17,6 +18,7 @@ import { Html5StorageTesterModule } from './html5-storage-tester/html5-storage-t
         FormsModule,
         Html5StorageTesterModule,
         ReactiveFormsModule,
+        SharedTesterModule,
     ],
     providers: [
     ],

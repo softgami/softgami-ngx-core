@@ -1,0 +1,48 @@
+<div class="wrapper">
+    <h1>Shared Validators</h1>
+    <form class="form-validators" [formGroup]="form" #f="ngForm">
+        <div class="validator-block">
+            <h2>Date Validator</h2>
+            <input type="text" name="date" formControlName="date" autocomplete="off">
+            <label for="">required: {{ !form.controls['date'].hasError('required') }}</label>
+            <label for="">valid: {{ form.controls['date'].valid }}</label>
+            <label for="">date: {{ !form.controls['date'].hasError('date') }}</label>
+        </div>
+        <div class="validator-block">
+            <h2>Email Validator</h2>
+            <input type="text" name="email" formControlName="email" autocomplete="off">
+            <label for="">required: {{ !form.controls['email'].hasError('required') }}</label>
+            <label for="">valid: {{ form.controls['email'].valid }}</label>
+            <label for="">email: {{ !form.controls['email'].hasError('email') }}</label>
+        </div>
+        <div class="validator-block">
+            <h2>Match Other Validator</h2>
+            <input type="text" name="firstInput" formControlName="firstInput" autocomplete="off">
+            <input type="text" name="secondInput" formControlName="secondInput" autocomplete="off">
+            <label for="">required: {{ !form.controls['secondInput'].hasError('required') }}</label>
+            <label for="">valid: {{ form.controls['secondInput'].valid }}</label>
+            <label for="">matchOther: {{ !form.controls['secondInput'].hasError('matchOther') }}</label>
+        </div>
+        <div class="validator-block">
+            <h2>No WhiteSpace Validator</h2>
+            <input type="text" name="whitespace" formControlName="whitespace" autocomplete="off">
+            <label for="">required: {{ !form.controls['whitespace'].hasError('required') }}</label>
+            <label for="">valid: {{ form.controls['whitespace'].valid }}</label>
+            <label for="">whitespace: {{ !form.controls['whitespace'].hasError('whitespace') }}</label>
+        </div>
+        <div class="validator-block">
+            <h2>Phone Validator</h2>
+            <input type="text" name="phone" formControlName="phone" autocomplete="off">
+            <label for="">required: {{ !form.controls['phone'].hasError('required') }}</label>
+            <label for="">valid: {{ form.controls['phone'].valid }}</label>
+            <label for="">phone: {{ !form.controls['phone'].hasError('phone') }}</label>
+        </div>
+        <div class="validator-block">
+            <h2>TaxNumber Validator</h2>
+            <input type="text" name="taxNumber" formControlName="taxNumber" autocomplete="off">
+            <label for="">required: {{ !form.controls['taxNumber'].hasError('required') }}</label>
+            <label for="">valid: {{ form.controls['taxNumber'].valid }}</label>
+            <label for="">taxNumber: {{ !form.controls['taxNumber'].hasError('taxNumber') }}</label>
+        </div>
+    </form>
+</div>

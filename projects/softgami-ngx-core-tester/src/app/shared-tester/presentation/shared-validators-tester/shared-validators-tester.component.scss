@@ -1,0 +1,12 @@
+.wrapper{
+    .form-validators{
+        .validator-block{
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1pt solid #CCCCCC;
+            input{
+                width: 30%;
+            }
+        }
+    }
+}

@@ -1,6 +1,17 @@
 <ul>
     <li>
+        <a [routerLink]="['/']" routerLinkActive="router-link-active">Home</a>
+    </li>
+    <li>
         <a [routerLink]="['/html5-storage']" routerLinkActive="router-link-active">Html5 Storage Module</a>
+    </li>
+    <li>
+        Shared
+        <ul>
+            <li>
+                <a [routerLink]="['/shared/validators']" routerLinkActive="router-link-active">Validators</a>
+            </li>
+        </ul>
     </li>
 </ul>
 <router-outlet></router-outlet>
