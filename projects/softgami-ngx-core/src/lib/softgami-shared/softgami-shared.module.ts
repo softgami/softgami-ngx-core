@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
+import { FileSizeFormatterPipe } from './pipes/file-size-formatter.pipe';
 import { MathPipe } from './pipes';
 
 @NgModule({
@@ -8,9 +9,11 @@ import { MathPipe } from './pipes';
         CommonModule,
     ],
     declarations: [
+        FileSizeFormatterPipe,
         MathPipe,
     ],
     exports: [
+        FileSizeFormatterPipe,
         MathPipe,
     ],
 })
