@@ -84,16 +84,6 @@ describe('Phone Validator', () => {
 
     });
 
-    it('should be invalid when locale is "pt" and value is "4199999999"', () => {
-
-        control.clearValidators();
-        control.setValidators(PhoneValidator('pt'));
-        control.setValue('4199999999');
-        expect(control.invalid).toBeTruthy();
-        expect(control.valid).toBeFalsy();
-
-    });
-
     it('should be invalid when locale is "pt" and value is "(4199999999"', () => {
 
         control.clearValidators();
@@ -131,6 +121,26 @@ describe('Phone Validator', () => {
         control.setValue('(41)9999-99999');
         expect(control.invalid).toBeTruthy();
         expect(control.valid).toBeFalsy();
+
+    });
+
+    it('should be valid when locale is "pt" and value is "4199999999"', () => {
+
+        control.clearValidators();
+        control.setValidators(PhoneValidator('pt'));
+        control.setValue('4199999999');
+        expect(control.valid).toBeTruthy();
+        expect(control.invalid).toBeFalsy();
+
+    });
+
+    it('should be valid when locale is "pt" and value is "41999999999"', () => {
+
+        control.clearValidators();
+        control.setValidators(PhoneValidator('pt'));
+        control.setValue('41999999999');
+        expect(control.valid).toBeTruthy();
+        expect(control.invalid).toBeFalsy();
 
     });
 

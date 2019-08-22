@@ -56,11 +56,11 @@ describe('AbstractBaseComponent', () => {
 
     beforeEach(async(() => {
 
-        coreServiceSpy = JasmineExtension.createServiceSpy<AbstractCoreService>(AbstractCoreService);
-        routerSpy = JasmineExtension.createServiceSpy<Router>(Router);
-        translateServiceSpy = JasmineExtension.createServiceSpy<TranslateService>(TranslateService);
-        html5StorageServiceSpy = JasmineExtension.createServiceSpy<AbstractHtml5StorageService>(AbstractHtml5StorageService);
-        activatedRouteSpy = JasmineExtension.createServiceSpy<ActivatedRoute>(ActivatedRoute);
+        coreServiceSpy = JasmineExtension.createServiceSpy(AbstractCoreService);
+        routerSpy = JasmineExtension.createServiceSpy(Router);
+        translateServiceSpy = JasmineExtension.createServiceSpy(TranslateService);
+        html5StorageServiceSpy = JasmineExtension.createServiceSpy(AbstractHtml5StorageService);
+        activatedRouteSpy = JasmineExtension.createServiceSpy(ActivatedRoute);
 
     }));
 

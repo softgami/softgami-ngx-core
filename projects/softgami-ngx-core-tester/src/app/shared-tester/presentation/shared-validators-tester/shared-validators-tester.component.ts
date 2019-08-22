@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { DateValidator } from 'projects/softgami-ngx-core/src/lib/shared/validators/date.validator';
-import { EmailValidator } from 'projects/softgami-ngx-core/src/lib/shared/validators/email.validator';
-import { MatchOtherValidator } from 'projects/softgami-ngx-core/src/lib/shared/validators/match-other.validator';
-import { NoWhitespaceValidator } from 'projects/softgami-ngx-core/src/lib/shared/validators/no-whitespace.validator';
-import { PhoneValidator } from 'projects/softgami-ngx-core/src/lib/shared/validators/phone.validator';
-import { TaxNumberValidator } from 'projects/softgami-ngx-core/src/lib/shared/validators/tax-number.validator';
+import { DateValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/date.validator';
+import { EmailValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/email.validator';
+import { MatchOtherValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/match-other.validator';
+import { NoWhitespaceValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/no-whitespace.validator';
+import { PhoneValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/phone.validator';
+import { TaxNumberValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/tax-number.validator';
 
 @Component({
     selector: 'app-shared-validators-tester',

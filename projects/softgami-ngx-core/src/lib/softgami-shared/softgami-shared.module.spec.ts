@@ -1,14 +1,14 @@
 import { ModuleWithProviders } from '@angular/core';
 
-import { SharedModule } from './shared.module';
+import { SoftgamiSharedModule } from './softgami-shared.module';
 
-describe('SharedModule', () => {
+describe('SoftgamiSharedModule', () => {
 
-    let sharedModule: SharedModule;
+    let sharedModule: SoftgamiSharedModule;
 
     beforeEach(() => {
 
-        sharedModule = new SharedModule();
+        sharedModule = new SoftgamiSharedModule();
 
     });
 
@@ -24,10 +24,10 @@ describe('SharedModule', () => {
 
             expect(sharedModule).toBeTruthy();
 
-            const result: ModuleWithProviders<any> = SharedModule.forRoot();
+            const result: ModuleWithProviders<any> = SoftgamiSharedModule.forRoot();
 
             expect(result).toEqual({
-                ngModule: SharedModule,
+                ngModule: SoftgamiSharedModule,
                 providers: [ ],
             });
 
