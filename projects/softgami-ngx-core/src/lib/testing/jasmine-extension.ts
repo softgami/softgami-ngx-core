@@ -1,8 +1,17 @@
-import * as jasmine from 'jasmine-core';
 
 export abstract class JasmineExtension {
 
-    public static createComponentSpy<T>(object: any): jasmine.SpyObj<T> {
+    public static spyOn: (arg1: any, arg2: any) => any;
+    public static createSpyObj: (arg1: any, arg2: any) => any;
+
+    public static init(spyOn: (arg1: any, arg2: any) => any, createSpyObj: (arg1: any, arg2: any) => any) {
+
+        JasmineExtension.spyOn = spyOn;
+        JasmineExtension.createSpyObj = createSpyObj;
+
+    }
+
+    public static createComponentSpy<T>(object: any): T {
 
         const skipMethodsList: string[] = [
             'constructor',
@@ -31,11 +40,11 @@ export abstract class JasmineExtension {
         JasmineExtension.getInstanceMethodNames(object)
         // .filter((property: string) => skipMethodsList.includes(property) === false)
         .forEach((property: string) => {
-            componentSpy[property] = jasmine.spyOn(object, property);
+            componentSpy[property] = JasmineExtension.spyOn(object, property);
             componentSpy[property].and.callThrough();
         });
 
-        return componentSpy as jasmine.SpyObj<T>;
+        return componentSpy as T;
 
     }
 
@@ -71,9 +80,9 @@ export abstract class JasmineExtension {
 
     }
 
-    public static createServiceSpy<T>(type: any): jasmine.SpyObj<T> {
+    public static createServiceSpy<T>(type: any): T {
 
-        return jasmine.createSpyObj<T>(type.name as string, Object.getOwnPropertyNames(type.prototype) as any);
+        return JasmineExtension.createSpyObj(type.name as string, Object.getOwnPropertyNames(type.prototype) as any);
 
     }
 

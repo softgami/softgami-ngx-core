@@ -8,6 +8,8 @@ import {
     platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
 
+import { JasmineExtension } from './lib/testing/jasmine-extension';
+
 declare const require: any;
 
 // First, initialize the Angular testing environment.
@@ -19,3 +21,5 @@ getTestBed().initTestEnvironment(
 const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
+
+JasmineExtension.init(spyOn, jasmine.createSpyObj);
