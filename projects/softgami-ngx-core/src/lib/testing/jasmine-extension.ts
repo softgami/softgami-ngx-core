@@ -1,8 +1,8 @@
 
 export abstract class JasmineExtension {
 
-    public static spyOn: (arg1: any, arg2: any) => any;
-    public static createSpyObj: (arg1: any, arg2: any) => any;
+    public static spyOn: (arg1: any, arg2: any) => any = null;
+    public static createSpyObj: (arg1: any, arg2: any) => any = null;
 
     public static init(spyOn: (arg1: any, arg2: any) => any, createSpyObj: (arg1: any, arg2: any) => any) {
 
