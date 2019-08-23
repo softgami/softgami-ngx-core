@@ -7,7 +7,7 @@ import { TranslateService} from '@ngx-translate/core';
 import { AbstractCoreService } from '../../services/abstract-core.service';
 import { AbstractHtml5StorageService } from '../../../html5-storage/abstract-html5-storage.service';
 
-export abstract class AbstractBaseComponent<QueryParamsT> implements OnDestroy, OnInit {
+export abstract class AbstractBaseComponent<QueryParamsT extends Params> implements OnDestroy, OnInit {
 
     static providers: StaticProvider[] = [];
     static injector: Injector = null;
@@ -17,11 +17,12 @@ export abstract class AbstractBaseComponent<QueryParamsT> implements OnDestroy, 
     router: Router;
     translateService: TranslateService;
     html5StorageService: AbstractHtml5StorageService;
-    params: Params;
+    queryParams: QueryParamsT;
 
     constructor() {}
 
     abstract initQueryParams(): QueryParamsT;
+    abstract updateParams(params: Params);
     abstract handleQueryParams(params: QueryParamsT);
 
     ngOnInit() {
@@ -84,10 +85,14 @@ export abstract class AbstractBaseComponent<QueryParamsT> implements OnDestroy, 
         .pipe(
             debounceTime(100),
             map((params: Params) => {
-                this.params = this.initQueryParams();
+                this.queryParams = this.queryParams ? this.queryParams : this.initQueryParams();
                 return params;
             }),
             filter((params: Params) => this.hasParamsChanged(params)),
+            map((params: Params) => {
+                this.updateParams(params);
+                return params;
+            }),
         )
         .subscribe((params: Params) => {
 
@@ -100,8 +105,11 @@ export abstract class AbstractBaseComponent<QueryParamsT> implements OnDestroy, 
 
     hasParamsChanged(params: Params): boolean {
 
-        for (const prop in this.params) {
-            if (this.params[prop] !== params[prop]) return true;
+        for (let [key, value] of Object.entries(this.queryParams)) {
+            let paramsValue = params[key];
+            if (value) value = value.toString();
+            if (paramsValue) paramsValue = paramsValue.toString();
+            if ((value || paramsValue) && value !== paramsValue) return true;
         }
 
         return false;
