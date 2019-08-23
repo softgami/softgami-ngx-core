@@ -1,18 +1,36 @@
 <ul>
     <li>
-        <a [routerLink]="['/']" routerLinkActive="router-link-active">Home</a>
+        <h3>
+            <a [routerLink]="['/']" routerLinkActive="router-link-active">Home</a>
+        </h3>
     </li>
     <li>
-        <a [routerLink]="['/html5-storage']" routerLinkActive="router-link-active">Html5 Storage Module</a>
+        <h3>
+            <a [routerLink]="['/html5-storage']" routerLinkActive="router-link-active">Html5 Storage Module</a>
+        </h3>
     </li>
     <li>
-        Shared
+        <h3>Shared</h3>
         <ul>
             <li>
-                <a [routerLink]="['/shared/pipes']" routerLinkActive="router-link-active">Pipes</a>
+                <h4>
+                    <a [routerLink]="['/shared/pipes']" routerLinkActive="router-link-active">Pipes</a>
+                </h4>
             </li>
             <li>
-                <a [routerLink]="['/shared/validators']" routerLinkActive="router-link-active">Validators</a>
+                <h4>
+                    <a [routerLink]="['/shared/validators']" routerLinkActive="router-link-active">Validators</a>
+                </h4>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <h3>Core</h3>
+        <ul>
+            <li>
+                <h4>
+                    <a [routerLink]="['/core/base']" routerLinkActive="router-link-active">Base</a>
+                </h4>
             </li>
         </ul>
     </li>

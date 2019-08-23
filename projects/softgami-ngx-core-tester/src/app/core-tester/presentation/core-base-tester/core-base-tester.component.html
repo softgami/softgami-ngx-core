@@ -1,0 +1,24 @@
+<p>
+    ----------------------------------------------------------------------------------------
+</p>
+<h5>{{ queryParams?.userId }}</h5>
+<h5>{{ queryParams?.appId }}</h5>
+<p>
+    ----------------------------------------------------------------------------------------
+</p>
+<h4>
+    <a [routerLink]="'./'">Clean</a>
+</h4>
+<h4>
+    <a [routerLink]="'./'" [queryParams]="{userId: 1}">User 1</a>
+</h4>
+<h4>
+    <a [routerLink]="'./'" [queryParams]="{userId: 2}">User 2</a>
+</h4>
+<h4>
+    <a [routerLink]="'./'" [queryParams]="{appId: 1, userId: 1}">User 1, App 1</a>
+</h4>
+<h4>
+    <a [routerLink]="'./'" [queryParams]="{otherId: 1, userId: 1}">User 1, Other 1</a>
+</h4>
+<button (click)="incrementUserId()">Increment UserId</button>

@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { CoreTesterModule } from './core-tester/core-tester.module';
 import { Html5StorageTesterModule } from './html5-storage-tester/html5-storage-tester.module';
 import { SharedTesterModule } from './shared-tester/shared-tester.module';
 
@@ -13,8 +14,8 @@ import { SharedTesterModule } from './shared-tester/shared-tester.module';
     ],
     imports: [
         AppRoutingModule,
-        // SoftgamiCoreModule.forRoot(CoreService),
         BrowserModule,
+        CoreTesterModule,
         FormsModule,
         Html5StorageTesterModule,
         ReactiveFormsModule,
@@ -24,9 +25,4 @@ import { SharedTesterModule } from './shared-tester/shared-tester.module';
     ],
     bootstrap: [AppComponent],
 })
-export class AppModule {
-
-    /*constructor(injector: Injector) {
-        SoftgamiCoreModule.setInjector(injector);
-    }*/
-}
+export class AppModule {}
