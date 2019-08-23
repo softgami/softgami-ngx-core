@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { TranslateService} from '@ngx-translate/core';
 
 import { AbstractCoreService } from '../../services/abstract-core.service';
-import { AbstractHtml5StorageService } from '../../../html5-storage';
+import { AbstractHtml5StorageService } from '../../../html5-storage/abstract-html5-storage.service';
 
 export abstract class AbstractBaseComponent<QueryParamsT> implements OnDestroy, OnInit {
 

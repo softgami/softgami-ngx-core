@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { AbstractBaseComponent } from './abstract-base.component';
 import { AbstractCoreService } from '../../services/abstract-core.service';
-import { AbstractHtml5StorageService } from '../../../html5-storage';
+import { AbstractHtml5StorageService } from '../../../html5-storage/abstract-html5-storage.service';
 import { JasmineExtension } from '../../../testing/jasmine-extension';
 
 @Component({

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import { FileSizeFormatterPipe } from './pipes/file-size-formatter.pipe';
-import { MathPipe } from './pipes';
+import { MathPipe } from './pipes/math.pipe';
 
 @NgModule({
     imports: [
