@@ -70,6 +70,33 @@ describe('UtilsService', () => {
 
         });
 
+        it('resolveObjectPath should return "some value" when object string and path ""', () => {
+
+            const obj: any  = 'some value';
+            const result: string = service.resolveObjectPath<string>(obj, '');
+
+            expect(result).toBe('some value');
+
+        });
+
+        it('resolveObjectPath should return true when object boolean and path ""', () => {
+
+            const obj: any  = true;
+            const result: boolean = service.resolveObjectPath<boolean>(obj, '');
+
+            expect(result).toBe(true);
+
+        });
+
+        it('resolveObjectPath should return number when object number and path ""', () => {
+
+            const obj: any  = 10;
+            const result: number = service.resolveObjectPath<number>(obj, '');
+
+            expect(result).toEqual(10);
+
+        });
+
         it('resolveObjectPath should return "some value content" when object and path "value.content"', () => {
 
             const obj: any  = {
