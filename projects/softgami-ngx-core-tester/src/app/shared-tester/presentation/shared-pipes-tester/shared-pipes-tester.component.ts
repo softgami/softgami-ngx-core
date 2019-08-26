@@ -11,26 +11,24 @@ export class SharedPipesTesterComponent {
         {
             user: {
                 name: 'Jules Verne',
-                age: 1,
+                age: 10,
+                valid: true,
             },
         },
         {
             user: {
                 name: 'Edgar Allan Poe',
-                age: 1,
+                age: 11,
+                valid: false,
             },
         },
         {
             user: {
                 name: 'Arthur Conan Doyle',
-                age: 1,
+                age: 12,
+                valid: true,
             },
         }
     ];
-
-    constructor() {
-
-
-    }
 
 }
