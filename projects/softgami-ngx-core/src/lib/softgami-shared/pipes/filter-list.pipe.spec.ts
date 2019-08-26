@@ -80,11 +80,14 @@ describe('FilterListPipe', () => {
 
         });
 
-        it('transform should return empty list when path is ""', () => {
+        it('transform should return list when path is "" and valuesList is with basic strings', () => {
 
-            const result: Array<any> = pipe.transform([''], '', null);
+            utilsServiceSpy.resolveObjectPath.and.returnValue('Jules Verne');
 
-            expect(result).toEqual([]);
+            const result: Array<any> = pipe.transform(['Jules Verne'], '', 'Jules Verne');
+
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('Jules Verne', '');
+            expect(result).toEqual(['Jules Verne']);
 
         });
 

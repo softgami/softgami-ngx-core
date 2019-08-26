@@ -12,7 +12,7 @@ export class FilterListPipe implements PipeTransform {
     transform(valuesList: Array<any>, path: string, filter: string | boolean | number): Array<any> {
 
         if (valuesList === null || valuesList === undefined || !valuesList.length) return [];
-        if (path === null || path === undefined || path === '') return [];
+        if (path === null || path === undefined) return [];
         if (filter === null || filter === undefined || filter === '') return [];
         const resultList: Array<any> = [];
 
