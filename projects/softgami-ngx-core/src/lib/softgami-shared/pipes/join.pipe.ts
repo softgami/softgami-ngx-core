@@ -11,7 +11,7 @@ export class JoinPipe implements PipeTransform {
 
     transform(valuesList: Array<any>, path?: string): string {
 
-        if (path === null || path === undefined || path === '') return '';
+        if (path === null || path === undefined) return '';
 
         const valuesListCopy: Array<any> = Object.assign([], valuesList);
 

@@ -56,11 +56,13 @@ describe('FileSizeFormatterPipe', () => {
 
         });
 
-        it('transform should return "" when path is ""', () => {
+        it('transform should return "Jules Verne" when path is "" and list is basic strings list', () => {
 
-            const result: string = pipe.transform([], '');
+            utilsServiceSpy.resolveObjectPath.and.returnValue('Jules Verne');
+            const result: string = pipe.transform(['Jules Verne'], '');
 
-            expect(result).toEqual('');
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('Jules Verne', '');
+            expect(result).toEqual('Jules Verne');
 
         });
 
