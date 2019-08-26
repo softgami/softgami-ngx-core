@@ -7,6 +7,30 @@ import { Component } from '@angular/core';
 })
 export class SharedPipesTesterComponent {
 
-    constructor() { }
+    elementsList: any[] = [
+        {
+            user: {
+                name: 'Jules Verne',
+                age: 1,
+            },
+        },
+        {
+            user: {
+                name: 'Edgar Allan Poe',
+                age: 1,
+            },
+        },
+        {
+            user: {
+                name: 'Arthur Conan Doyle',
+                age: 1,
+            },
+        }
+    ];
+
+    constructor() {
+
+
+    }
 
 }

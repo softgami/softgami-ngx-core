@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
@@ -13,6 +14,7 @@ import { SharedValidatorsTesterComponent } from './presentation/shared-validator
         SharedValidatorsTesterComponent,
     ],
     imports: [
+        CommonModule,
         FormsModule,
         ReactiveFormsModule,
         SharedTesterRoutingModule,
