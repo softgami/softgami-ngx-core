@@ -30,5 +30,9 @@ export class SharedPipesTesterComponent {
             },
         }
     ];
+    basicStringElementsList: string[] = ['Jules Verne', 'Edgar Allan Poe', 'Arthur Conan Doyle'];
+    basicBooleanElementsList: boolean[] = [true, false, true];
+    searchText = '';
+    searchTextBasicStrings = '';
 
 }

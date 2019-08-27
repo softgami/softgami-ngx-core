@@ -3,7 +3,6 @@ import { Injector, ModuleWithProviders } from '@angular/core';
 import { AbstractBaseComponent } from './base/abstract-base/abstract-base.component';
 import { AbstractCoreService } from './services/abstract-core.service';
 import { NgModuleSoftgamiCoreModule } from './ng-module-softgami-core.module';
-import { UtilsService } from './services/utils.service';
 
 export class SoftgamiCoreModule {
 
@@ -18,7 +17,6 @@ export class SoftgamiCoreModule {
                     provide: AbstractCoreService,
                     useExisting: CoreService,
                 },
-                UtilsService,
             ],
         };
 

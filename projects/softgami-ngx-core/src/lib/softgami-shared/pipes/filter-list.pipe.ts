@@ -1,13 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
-import { UtilsService } from '../../softgami-core/services/utils.service';
+import { SoftgamiTsUtilsService } from 'softgami-ts-core';
 
 @Pipe({
     name: 'filterList',
 })
 export class FilterListPipe implements PipeTransform {
 
-    constructor(private readonly utilsService: UtilsService) {}
+    constructor(private readonly utilsService: SoftgamiTsUtilsService) {}
 
     transform(valuesList: Array<any>, path: string, filter: string | boolean | number): Array<any> {
 

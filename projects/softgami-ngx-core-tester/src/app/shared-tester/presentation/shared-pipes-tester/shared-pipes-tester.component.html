@@ -10,6 +10,11 @@
     <li *ngFor="let elem of elementsList">{{  elem | json }}</li>
 </ul>
 <h3>Joined: {{ elementsList | join:'user.name' }}</h3>
+<h3>Basic String Values:</h3>
+<ul>
+    <li *ngFor="let elem of basicStringElementsList">{{  elem | json }}</li>
+</ul>
+<h3>Joined: {{ basicStringElementsList | join:'' }}</h3>
 <p>---------------------------------------------------------------------------------------------------</p>
 <h1>Filter List Pipe</h1>
 <h3>Values:</h3>
@@ -19,4 +24,30 @@
 <h3>Is Valid:</h3>
 <ul>
     <li *ngFor="let elem of elementsList | filterList: 'user.valid': true">{{  elem | json }}</li>
+</ul>
+<h3>Basic Boolean Values:</h3>
+<ul>
+    <li *ngFor="let elem of basicBooleanElementsList">{{  elem | json }}</li>
+</ul>
+<h3>Is Valid Basic Boolean Values:</h3>
+<ul>
+    <li *ngFor="let elem of basicBooleanElementsList | filterList: '': true">{{  elem | json }}</li>
+</ul>
+<p>---------------------------------------------------------------------------------------------------</p>
+<h1>Includes Pipe</h1>
+<h3>Values:</h3>
+<ul>
+    <li *ngFor="let elem of elementsList">{{  elem | json }}</li>
+</ul>
+<input type="text" [(ngModel)]="searchText">
+<ul>
+    <li *ngFor="let elem of elementsList | includes: 'user.name': searchText">{{  elem | json }}</li>
+</ul>
+<h3>Basic String Values:</h3>
+<ul>
+    <li *ngFor="let elem of basicStringElementsList">{{  elem | json }}</li>
+</ul>
+<input type="text" [(ngModel)]="searchTextBasicStrings">
+<ul>
+    <li *ngFor="let elem of basicStringElementsList | includes: '': searchTextBasicStrings: true">{{  elem | json }}</li>
 </ul>

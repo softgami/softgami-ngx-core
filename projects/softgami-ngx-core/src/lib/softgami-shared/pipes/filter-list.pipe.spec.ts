@@ -1,15 +1,15 @@
+import { SoftgamiTsUtilsService } from 'softgami-ts-core';
 import { TestBed } from '@angular/core/testing';
 import { Type } from '@angular/core';
 
 import { FilterListPipe } from './filter-list.pipe';
 import { JasmineExtension } from '../../testing/jasmine-extension';
-import { UtilsService } from '../../softgami-core/services/utils.service';
 
 describe('FilterListPipe', () => {
 
     let pipe: FilterListPipe;
 
-    let utilsServiceSpy: jasmine.SpyObj<UtilsService>;
+    let utilsServiceSpy: jasmine.SpyObj<SoftgamiTsUtilsService>;
 
     beforeEach(() => {
 
@@ -17,8 +17,8 @@ describe('FilterListPipe', () => {
             providers: [
                 FilterListPipe,
                 {
-                    provide: UtilsService,
-                    useValue: JasmineExtension.createServiceSpy(UtilsService),
+                    provide: SoftgamiTsUtilsService,
+                    useValue: JasmineExtension.createServiceSpy(SoftgamiTsUtilsService),
                 }
             ],
         });
@@ -27,7 +27,7 @@ describe('FilterListPipe', () => {
 
     beforeEach(() => {
 
-        utilsServiceSpy = TestBed.get<UtilsService>(UtilsService as Type<UtilsService>);
+        utilsServiceSpy = TestBed.get<SoftgamiTsUtilsService>(SoftgamiTsUtilsService as Type<SoftgamiTsUtilsService>);
         pipe = TestBed.get<FilterListPipe>(FilterListPipe as Type<FilterListPipe>);
 
     });
@@ -77,6 +77,42 @@ describe('FilterListPipe', () => {
             const result: Array<any> = pipe.transform([''], undefined, null);
 
             expect(result).toEqual([]);
+
+        });
+
+        it('transform should call resolveObjectPath 1 time when values list has 1 element', () => {
+
+            utilsServiceSpy.resolveObjectPath.and.returnValue('Jules Verne');
+
+            const result: Array<any> = pipe.transform(['Jules Verne'], '', 'Jules Verne');
+
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledTimes(1);
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('Jules Verne', '');
+
+        });
+
+        it('transform should call resolveObjectPath 2 times when values list has 2 element', () => {
+
+            utilsServiceSpy.resolveObjectPath.and.returnValues('Jules Verne', 'Arthur Conan Doyle');
+
+            const result: Array<any> = pipe.transform(['Jules Verne', 'Arthur Conan Doyle'], '', 'Jules Verne');
+
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledTimes(2);
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('Jules Verne', '');
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('Arthur Conan Doyle', '');
+
+        });
+
+        it('transform should call resolveObjectPath 3 times when values list has 3 element', () => {
+
+            utilsServiceSpy.resolveObjectPath.and.returnValues('Jules Verne', 'Arthur Conan Doyle', 'J. R. R. Tolkien');
+
+            const result: Array<any> = pipe.transform(['Jules Verne', 'Arthur Conan Doyle', 'J. R. R. Tolkien'], '', 'Jules Verne');
+
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledTimes(3);
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('Jules Verne', '');
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('Arthur Conan Doyle', '');
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('J. R. R. Tolkien', '');
 
         });
 

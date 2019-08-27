@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { SoftgamiTsUtilsService } from 'softgami-ts-core';
 
 import { FileSizeFormatterPipe } from './pipes/file-size-formatter.pipe';
 import { FilterListPipe } from './pipes/filter-list.pipe';
+import { IncludesPipe } from './pipes/includes.pipe';
 import { JoinPipe } from './pipes/join.pipe';
 import { MathPipe } from './pipes/math.pipe';
 
@@ -13,12 +15,20 @@ import { MathPipe } from './pipes/math.pipe';
     declarations: [
         FileSizeFormatterPipe,
         FilterListPipe,
+        IncludesPipe,
         JoinPipe,
         MathPipe,
+    ],
+    providers: [
+        {
+            provide: SoftgamiTsUtilsService,
+            useValue: new SoftgamiTsUtilsService(),
+        }
     ],
     exports: [
         FileSizeFormatterPipe,
         FilterListPipe,
+        IncludesPipe,
         JoinPipe,
         MathPipe,
     ],
