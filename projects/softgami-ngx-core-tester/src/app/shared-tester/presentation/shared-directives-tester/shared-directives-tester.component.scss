@@ -1,0 +1,5 @@
+.focusable-element{
+    &:focus{
+        border: 1pt solid cadetblue;
+    }
+}

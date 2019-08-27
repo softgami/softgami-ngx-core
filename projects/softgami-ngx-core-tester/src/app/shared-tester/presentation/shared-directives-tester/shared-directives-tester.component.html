@@ -1,0 +1,4 @@
+<h1>AutoFocus Directive</h1>
+<h3 class="focusable-element" *ngIf="showFocusableElement" autoFocus tabindex="100">Focusable element</h3>
+<button (click)="showFocusableElement = true">Create Element</button>
+<button (click)="showFocusableElement = false">Destroy Element</button>
