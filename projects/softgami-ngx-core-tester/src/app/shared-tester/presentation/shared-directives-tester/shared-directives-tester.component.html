@@ -2,3 +2,11 @@
 <h3 class="focusable-element" *ngIf="showFocusableElement" autoFocus tabindex="100">Focusable element</h3>
 <button (click)="showFocusableElement = true">Create Element</button>
 <button (click)="showFocusableElement = false">Destroy Element</button>
+<p>--------------------------------------------------------------------------------</p>
+<h1>Trim On Blur Directive</h1>
+<input type="text" [(ngModel)]="trimOnBlur" trimOnBlur>
+<p>value with trim: <{{ trimOnBlur }}> </p>
+<form [formGroup]="formTrimOnBlur" #fTrimOnBlur="ngForm">
+    <input type="text" formControlName="trimOnBlurControl" trimOnBlur>
+    <p>value with trim: <{{ trimOnBlurControl.value }}></p>
+</form>

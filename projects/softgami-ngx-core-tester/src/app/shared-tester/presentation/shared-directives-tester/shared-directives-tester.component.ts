@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'app-shared-directives-tester',
@@ -8,8 +9,19 @@ import { Component, OnInit } from '@angular/core';
 export class SharedDirectivesTesterComponent implements OnInit {
 
     showFocusableElement = false;
+    trimOnBlur = '';
+    trimOnBlurControl: FormControl;
+    formTrimOnBlur: FormGroup;
+    @ViewChild('fTrimOnBlur', {static: false}) fTrimOnBlur: HTMLFormElement;
 
-    constructor() { }
+    constructor() {
+
+        this.trimOnBlurControl = new FormControl(null);
+        this.formTrimOnBlur = new FormGroup({
+            trimOnBlurControl: this.trimOnBlurControl,
+        });
+
+    }
 
     ngOnInit() {
     }

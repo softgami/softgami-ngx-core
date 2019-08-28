@@ -8,6 +8,7 @@ import { FilterListPipe } from './pipes/filter-list.pipe';
 import { IncludesPipe } from './pipes/includes.pipe';
 import { JoinPipe } from './pipes/join.pipe';
 import { MathPipe } from './pipes/math.pipe';
+import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
 
 @NgModule({
     imports: [
@@ -20,6 +21,7 @@ import { MathPipe } from './pipes/math.pipe';
         IncludesPipe,
         JoinPipe,
         MathPipe,
+        TrimOnBlurDirective,
     ],
     providers: [
         {
@@ -34,6 +36,7 @@ import { MathPipe } from './pipes/math.pipe';
         IncludesPipe,
         JoinPipe,
         MathPipe,
+        TrimOnBlurDirective,
     ],
 })
 export class SoftgamiSharedModule {
