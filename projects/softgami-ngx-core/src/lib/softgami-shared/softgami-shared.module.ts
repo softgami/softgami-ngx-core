@@ -24,10 +24,7 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
         TrimOnBlurDirective,
     ],
     providers: [
-        {
-            provide: SoftgamiTsUtilsService,
-            useValue: new SoftgamiTsUtilsService(),
-        }
+        SoftgamiTsUtilsService,
     ],
     exports: [
         AutoFocusDirective,

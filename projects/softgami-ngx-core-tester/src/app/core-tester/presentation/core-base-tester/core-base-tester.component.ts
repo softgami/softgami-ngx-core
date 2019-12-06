@@ -1,15 +1,26 @@
 import { Component } from '@angular/core';
 
 import { AbstractBaseComponent } from 'projects/softgami-ngx-core/src/lib/softgami-core/base/abstract-base/abstract-base.component';
+import { AbstractQueryable } from 'projects/softgami-ngx-core/src/lib/softgami-core/repository/models/abstract-queryable';
+import { Sortable } from 'projects/softgami-ngx-core/src/lib/softgami-core/repository/decorators/sortable.decorator';
+import { Type } from 'projects/softgami-ngx-core/src/lib/softgami-core/repository/decorators/type.decorator';
 
 import { AppParams } from './app-params.interface';
+
+export class TQueryable extends AbstractQueryable {
+
+    @Sortable({ label: 'TYPE' })
+    @Type('string')
+    type: string = null;
+
+}
 
 @Component({
     selector: 'app-core-base-tester',
     templateUrl: './core-base-tester.component.html',
     styleUrls: ['./core-base-tester.component.scss'],
 })
-export class CoreBaseTesterComponent extends AbstractBaseComponent<AppParams> {
+export class CoreBaseTesterComponent extends AbstractBaseComponent<TQueryable> {
 
     constructor() {
 
@@ -17,26 +28,17 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<AppParams> {
 
     }
 
-    initQueryParams(): AppParams {
+    initQueryParams(): TQueryable {
 
-        const params: AppParams = {
-            userId: null,
-            appId: null,
-        };
-        return params;
+        return new TQueryable();
 
     }
 
-    updateParams(params: AppParams) {
+    updateParams(params: AppParams) {}
 
-        this.queryParams.userId = params.userId ? parseInt(params.userId.toString(), 10) : null;
-        this.queryParams.appId = params.appId ? parseInt(params.appId.toString(), 10) : null;
+    handleQueryParams(params: TQueryable) {
 
-    }
-
-    handleQueryParams(params: AppParams) {
-
-        console.log(this.queryParams);
+        console.log(this.queryable);
         console.log('----------------------');
         console.log(params);
 
@@ -44,7 +46,7 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<AppParams> {
 
     incrementUserId() {
 
-        this.updateRoute({userId: this.queryParams.userId + 1});
+        // this.updateRoute({userId: this.queryable.userId + 1});
 
     }
 
