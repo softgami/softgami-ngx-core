@@ -1,5 +1,4 @@
-
-import * as HttpStatus from 'http-status-codes';
+import { HttpStatus } from 'softgami-ts-core';
 
 import { ErrorResponse } from './error-response.interface';
 import { RequestErrorResponse } from './request-error-response.service';

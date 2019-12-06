@@ -1,13 +1,16 @@
+
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { debounceTime, filter, map } from 'rxjs/operators';
-import { Injector, OnDestroy, OnInit, StaticProvider, Type } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Injector, OnDestroy, OnInit, StaticProvider, Type, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TranslateService} from '@ngx-translate/core';
 
 import { AbstractCoreService } from '../../services/abstract-core.service';
 import { AbstractHtml5StorageService } from '../../../html5-storage/abstract-html5-storage.service';
+import { AbstractQueryable } from '../../repository/models/abstract-queryable';
 
-export abstract class AbstractBaseComponent<QueryParamsT extends Params> implements OnDestroy, OnInit {
+export abstract class AbstractBaseComponent<Q extends AbstractQueryable> implements OnDestroy, OnInit {
 
     static providers: StaticProvider[] = [];
     static injector: Injector = null;
@@ -17,17 +20,38 @@ export abstract class AbstractBaseComponent<QueryParamsT extends Params> impleme
     router: Router;
     translateService: TranslateService;
     html5StorageService: AbstractHtml5StorageService;
-    queryParams: QueryParamsT;
+    queryable: Q;
+    isInitCalled: boolean;
+    form: FormGroup;
+    shouldUpdateDefaultFormFromParams: boolean;
 
-    constructor() {}
+    @ViewChild('formElement', { static: false }) formElement;
 
-    abstract initQueryParams(): QueryParamsT;
-    abstract updateParams(params: Params);
-    abstract handleQueryParams(params: QueryParamsT);
+    constructor() {
+
+        this.shouldUpdateDefaultFormFromParams = true;
+        this.waitForInit();
+
+    }
+
+    abstract initQueryParams(): Q;
+    abstract handleQueryParams(params: Q);
 
     ngOnInit() {
 
+        this.isInitCalled = true;
         this.initializeBase();
+
+    }
+
+    waitForInit() {
+
+        setTimeout(() => {
+            if (this.isInitCalled !== true) {
+                throw new Error(
+                    this.constructor.name + ': ngOnInit must be called on child class if child class invoke own ngOnInit method.');
+            }
+        }, 1000);
 
     }
 
@@ -69,12 +93,12 @@ export abstract class AbstractBaseComponent<QueryParamsT extends Params> impleme
 
     }
 
-    getInjectedResource<T>(staticInjector: Injector, type: Type<T>): T {
+    getInjectedResource<I>(staticInjector: Injector, type: Type<I>): I {
 
         try {
-            return staticInjector.get<T>(type) as T;
+            return staticInjector.get<I>(type) as I;
         } catch (ex) {
-            return AbstractBaseComponent.injector.get<T>(type) as T;
+            return AbstractBaseComponent.injector.get<I>(type) as I;
         }
 
     }
@@ -85,18 +109,23 @@ export abstract class AbstractBaseComponent<QueryParamsT extends Params> impleme
         .pipe(
             debounceTime(100),
             map((params: Params) => {
-                this.queryParams = this.queryParams ? this.queryParams : this.initQueryParams();
+                this.queryable = this.queryable ? this.queryable : this.initQueryParams();
                 return params;
             }),
-            filter((params: Params) => this.hasParamsChanged(params)),
+            filter((params: Params) => {
+                return this.hasParamsChanged(params);
+            }),
             map((params: Params) => {
-                this.updateParams(params);
+                this.updateQueryable(params);
+                if (this.shouldUpdateDefaultFormFromParams) {
+                    this.updateFormFromQueryable(this.queryable, this.form);
+                }
                 return params;
             }),
         )
         .subscribe((params: Params) => {
 
-            this.handleQueryParams(params as QueryParamsT);
+            this.handleQueryParams(params as Q);
 
         });
         this.addSubscription(subscription);
@@ -105,27 +134,71 @@ export abstract class AbstractBaseComponent<QueryParamsT extends Params> impleme
 
     hasParamsChanged(params: Params): boolean {
 
-        for (let [key, value] of Object.entries(this.queryParams)) {
-            let paramsValue = params[key];
-            if (value) value = value.toString();
-            if (paramsValue) paramsValue = paramsValue.toString();
-            if ((value || paramsValue) && value !== paramsValue) return true;
-        }
+        let hasChanged = false;
+        Object.getOwnPropertyNames(this.queryable).forEach((property: string) => {
+            const paramsValue: string = params[property] ? params[property].toString() : params[property];
+            const value: string = this.queryable[property] ? this.queryable[property].toString() : this.queryable[property];
+            if (value !== paramsValue) {
+                hasChanged =  true;
+            }
+        });
 
-        return false;
+        return hasChanged;
 
     }
 
-    updateRoute(queryParams: Params, activatedRoute?: ActivatedRoute, comands?: any[], queryParamsHandling?: 'merge' | 'preserve' | '') {
+    updateQueryable(params: Params) {
+
+        this.queryable.updatePropertiesFromParams(params);
+
+    }
+
+    updateFormFromQueryable(queryable: AbstractQueryable, form: FormGroup) {
+
+        if (!form || !queryable) return;
+
+        Object.getOwnPropertyNames(queryable).forEach((property: string) => {
+            if (form.get(property) && form.get(property).value !== queryable[property]) {
+                form.get(property).setValue(queryable[property]);
+            }
+        });
+
+    }
+
+    updateFormFromObject<T>(form: FormGroup, object: T) {
+
+        if (!form || !object) return;
+
+        Object.getOwnPropertyNames(form.controls).forEach((control: string) => {
+            form.get(control).setValue(object[control]);
+        });
+
+    }
+
+    updateRoute(queryParams: Params, activatedRoute?: ActivatedRoute, commands?: any[], queryParamsHandling?: 'merge' | 'preserve' | '') {
 
         let url: string = this.router.createUrlTree([]).toString();
-        if (activatedRoute && comands) {
-            url = this.router.createUrlTree(comands, { relativeTo: activatedRoute }).toString();
+        if (activatedRoute && commands) {
+            url = this.router.createUrlTree(commands, { relativeTo: activatedRoute }).toString();
         }
         if (queryParamsHandling === null || queryParamsHandling === undefined) {
             queryParamsHandling = 'merge';
         }
+        queryParams = this.cleanParams(queryParams);
         this.router.navigate([url], { queryParams, queryParamsHandling });
+
+    }
+
+    cleanParams(params: Params): Params {
+
+        if (!params) return params;
+
+        Object.getOwnPropertyNames(params).forEach((property: string) => {
+            if (params[property] === undefined || params[property] === '') {
+                params[property] = null;
+            }
+        });
+        return params;
 
     }
 

@@ -1,3 +1,4 @@
-export { AbstractBaseComponent } from './base/abstract-base/abstract-base.component';
-export { SoftgamiCoreModule } from './softgami-core.module';
+export * from './base/index';
 export * from './services/index';
+export * from './repository/index';
+export { SoftgamiCoreModule } from './softgami-core.module';
