@@ -150,7 +150,7 @@ export abstract class AbstractQueryable {
 
     canUpdateSortParam(param: string): boolean {
 
-        if (!param) return false;
+        if (param === null || param === undefined || param === '') return true;
         const arrValues: string[] = param.split(':');
         if (arrValues[0] && this.hasOwnProperty(arrValues[0])) {
             return true;
