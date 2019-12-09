@@ -24,6 +24,7 @@ export abstract class AbstractBaseComponent<Q extends AbstractQueryable> impleme
     isInitCalled: boolean;
     form: FormGroup;
     shouldUpdateDefaultFormFromParams: boolean;
+    totalControlsFilled = 0;
 
     @ViewChild('formElement', { static: false }) formElement;
 
@@ -125,6 +126,7 @@ export abstract class AbstractBaseComponent<Q extends AbstractQueryable> impleme
         )
         .subscribe((params: Params) => {
 
+            this.updateTotalControlsFilled();
             this.handleQueryParams(params as Q);
 
         });
@@ -162,6 +164,7 @@ export abstract class AbstractBaseComponent<Q extends AbstractQueryable> impleme
                 form.get(property).setValue(queryable[property]);
             }
         });
+        this.updateTotalControlsFilled();
 
     }
 
@@ -172,6 +175,7 @@ export abstract class AbstractBaseComponent<Q extends AbstractQueryable> impleme
         Object.getOwnPropertyNames(form.controls).forEach((control: string) => {
             form.get(control).setValue(object[control]);
         });
+        this.updateTotalControlsFilled();
 
     }
 
@@ -186,6 +190,20 @@ export abstract class AbstractBaseComponent<Q extends AbstractQueryable> impleme
         }
         queryParams = this.cleanParams(queryParams);
         this.router.navigate([url], { queryParams, queryParamsHandling });
+
+    }
+
+    updateTotalControlsFilled() {
+
+        if (!this.form) return;
+
+        this.totalControlsFilled =  Object.keys(this.form.controls)
+        .filter((key: string) => {
+            const control = this.form.get(key);
+            if (!control || control.value === null || control.value === undefined) {
+                return false;
+            } else return true;
+        }).length;
 
     }
 
