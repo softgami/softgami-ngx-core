@@ -160,8 +160,8 @@ export abstract class AbstractBaseComponent<Q extends AbstractQueryable> impleme
         if (!form || !queryable) return;
 
         Object.getOwnPropertyNames(queryable).forEach((property: string) => {
-            if (form.get(property) && form.get(property).value !== queryable[property]) {
-                form.get(property).setValue(queryable[property]);
+            if (form.controls[property] && form.controls[property].value !== queryable[property]) {
+                form.controls[property].setValue(queryable[property]);
             }
         });
         this.updateTotalControlsFilled();
@@ -173,7 +173,7 @@ export abstract class AbstractBaseComponent<Q extends AbstractQueryable> impleme
         if (!form || !object) return;
 
         Object.getOwnPropertyNames(form.controls).forEach((control: string) => {
-            form.get(control).setValue(object[control]);
+            form.controls[control].setValue(object[control]);
         });
         this.updateTotalControlsFilled();
 
@@ -199,7 +199,7 @@ export abstract class AbstractBaseComponent<Q extends AbstractQueryable> impleme
 
         this.totalControlsFilled =  Object.keys(this.form.controls)
         .filter((key: string) => {
-            const control = this.form.get(key);
+            const control = this.form.controls[key];
             if (!control || control.value === null || control.value === undefined) {
                 return false;
             } else return true;
