@@ -10,7 +10,7 @@ export class NumbersOnlyDirective {
     // private regex: RegExp = new RegExp(/^\d+(((\.){0}\d*)|((\.){1}\d{1,}))$/g);
     private regex: RegExp = new RegExp(/^\d+(\.){0,1}\d*$/g);
     private regexIntegerOnly = '^[0-9]*$';
-    private specialKeys: Array<string> = [ 'Backspace', 'Tab', 'End', 'Home', '-', 'Control', 'ArrowRight', 'ArrowLeft'];
+    private specialKeys: Array<string> = [ 'Backspace', 'Tab', 'End', 'Home', '-', 'Control', 'ArrowRight', 'ArrowLeft', 'Enter'];
     @Input() integerOnly: boolean;
     @Input() asNumber: boolean;
 
