@@ -10,3 +10,24 @@
     <input type="text" formControlName="trimOnBlurControl" trimOnBlur>
     <p>value with trim: <{{ trimOnBlurControl.value }}></p>
 </form>
+<p>--------------------------------------------------------------------------------</p>
+<h1>Numbers Only Directive</h1>
+<form [formGroup]="formNumbersOnly" #fNumbersOnly="ngForm">
+    <h3>Decimal and Integers</h3>
+    <input
+        type="text"
+        min="10"
+        max="2019"
+        formControlName="numbersOnlyControl"
+        numbersOnly
+        [asNumber]="true">
+    <h3>{{ typeOf(numbersOnlyControl.value) }}</h3>
+    <h3>Integers Only</h3>
+    <input
+        type="text"
+        formControlName="numbersOnlyIntegersControl"
+        numbersOnly
+        [integerOnly]="true"
+        [asNumber]="true">
+    <h3>{{ typeOf(numbersOnlyIntegersControl.value) }}</h3>
+</form>

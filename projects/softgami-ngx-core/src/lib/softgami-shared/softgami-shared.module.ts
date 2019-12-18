@@ -8,6 +8,7 @@ import { FilterListPipe } from './pipes/filter-list.pipe';
 import { IncludesPipe } from './pipes/includes.pipe';
 import { JoinPipe } from './pipes/join.pipe';
 import { MathPipe } from './pipes/math.pipe';
+import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
 
 @NgModule({
@@ -21,9 +22,15 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
         IncludesPipe,
         JoinPipe,
         MathPipe,
+        NumbersOnlyDirective,
         TrimOnBlurDirective,
     ],
     providers: [
+        FileSizeFormatterPipe,
+        FilterListPipe,
+        IncludesPipe,
+        JoinPipe,
+        MathPipe,
         SoftgamiTsUtilsService,
     ],
     exports: [
@@ -33,6 +40,7 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
         IncludesPipe,
         JoinPipe,
         MathPipe,
+        NumbersOnlyDirective,
         TrimOnBlurDirective,
     ],
 })

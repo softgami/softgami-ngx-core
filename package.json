@@ -1,6 +1,6 @@
 {
     "name": "softgami-ngx-core",
-    "version": "1.2.7",
+    "version": "1.2.8",
     "scripts": {
         "ng": "ng",
         "start": "ng serve --aot softgami-ngx-core-tester",

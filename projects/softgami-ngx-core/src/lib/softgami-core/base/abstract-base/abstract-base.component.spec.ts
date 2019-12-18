@@ -8,26 +8,20 @@ import { TranslateService } from '@ngx-translate/core';
 import { AbstractBaseComponent } from './abstract-base.component';
 import { AbstractCoreService } from '../../services/abstract-core.service';
 import { AbstractHtml5StorageService } from '../../../html5-storage/abstract-html5-storage.service';
+import { AbstractQueryable } from '../../repository';
 import { JasmineExtension } from '../../../testing/jasmine-extension';
 
-interface AppParams {
-    userId: number;
-    appId?: number;
-}
+class Queryable extends AbstractQueryable {}
 
 @Component({
     selector: 'lib-base-component',
     template: '',
 })
-export class BaseComponent extends AbstractBaseComponent<AppParams> {
+export class BaseComponent extends AbstractBaseComponent<Queryable> {
 
-    initQueryParams(): AppParams {
+    initQueryParams(): AbstractQueryable {
 
-        const params: AppParams = {
-            userId: null,
-            appId: null,
-        };
-        return params;
+        return new Queryable();
 
     }
 
@@ -507,12 +501,12 @@ describe('AbstractBaseComponent', () => {
                 queryParams: of({}),
             };
             component.activatedRoute = mockActiveRoute as ActivatedRoute;
-            component.queryParams = null;
+            // component.queryParams = null;
 
             component.initQueryParamsSubscription();
 
             expect(componentSpy.initQueryParams).toHaveBeenCalled();
-            expect(component.queryParams).toEqual({userId: 1});
+            // expect(component.queryParams).toEqual({userId: 1});
 
         });
 
@@ -633,31 +627,31 @@ describe('AbstractBaseComponent', () => {
         it('hasParamsChanged should return true when params changed', () => {
 
             componentSpy.hasParamsChanged.and.callThrough();
-            component.queryParams = {userId: 1};
+            // component.queryParams = {userId: 1};
 
             let result: boolean = component.hasParamsChanged({});
 
             expect(result).toBeTruthy();
 
-            component.queryParams = {userId: 2};
+            // component.queryParams = {userId: 2};
 
             result = component.hasParamsChanged({userId: 1});
 
             expect(result).toBeTruthy();
 
-            component.queryParams = {userId: 2};
+            // component.queryParams = {userId: 2};
 
             result = component.hasParamsChanged({userId: 1});
 
             expect(result).toBeTruthy();
 
-            component.queryParams = {userId: 2};
+            // component.queryParams = {userId: 2};
 
             result = component.hasParamsChanged({arg2: 1});
 
             expect(result).toBeTruthy();
 
-            component.queryParams = {userId: null};
+            // component.queryParams = {userId: null};
 
             result = component.hasParamsChanged({userId: 1});
 
@@ -668,19 +662,19 @@ describe('AbstractBaseComponent', () => {
         it('hasParamsChanged should return false when params have not changed', () => {
 
             componentSpy.hasParamsChanged.and.callThrough();
-            component.queryParams = {userId: null};
+            // component.queryParams = {userId: null};
 
             let result: boolean = component.hasParamsChanged({});
 
             expect(result).toBeFalsy();
 
-            component.queryParams = {userId: 1};
+            // component.queryParams = {userId: 1};
 
             result = component.hasParamsChanged({userId: 1});
 
             expect(result).toBeFalsy();
 
-            component.queryParams = {userId: 2};
+            // component.queryParams = {userId: 2};
 
             result = component.hasParamsChanged({userId: 2, arg2: 1});
 
