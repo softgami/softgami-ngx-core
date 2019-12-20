@@ -1,6 +1,6 @@
 
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { debounceTime, filter, map } from 'rxjs/operators';
+import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
+import { debounceTime, concatMap, filter, map } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Injector, OnDestroy, OnInit, StaticProvider, Type, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -56,6 +56,12 @@ export abstract class AbstractBaseComponent<Q extends AbstractQueryable> impleme
 
     }
 
+    getActivatedRoute(): ActivatedRoute {
+
+        return this.activatedRoute;
+
+    }
+
     initializeBase() {
 
         this.initProviders();
@@ -92,7 +98,42 @@ export abstract class AbstractBaseComponent<Q extends AbstractQueryable> impleme
         this.html5StorageService = this.getInjectedResource<AbstractHtml5StorageService>
             (staticInjector, AbstractHtml5StorageService as Type<AbstractHtml5StorageService>);
 
+        this.subscribeParamMap();
+
     }
+
+    subscribeParamMap() {
+
+        this.activatedRoute = this.getActivatedRoute();
+
+        let param: string;
+        let translatedNewRoute: string;
+        const s: Subscription = this.activatedRoute.paramMap
+        .pipe(
+            map((paramsAsMap: ParamMap) => paramsAsMap.get('id')),
+            filter((p: string) => p !== null && p !== undefined && p !== ''),
+            concatMap((p: string) => {
+                param = p;
+                return this.translateService.get('ROUTES.new');
+            }),
+            map((value: string) => {
+                translatedNewRoute = value;
+                return value === param;
+            }),
+        )
+        .subscribe((value: boolean) => {
+
+            if (value) this.handleParamMapNewRoute(translatedNewRoute);
+            else this.handleParamMapId(param);
+
+        });
+        this.addSubscription(s);
+
+    }
+
+    handleParamMapId(id: string) {}
+
+    handleParamMapNewRoute(routeParam: string) {}
 
     getInjectedResource<I>(staticInjector: Injector, type: Type<I>): I {
 
