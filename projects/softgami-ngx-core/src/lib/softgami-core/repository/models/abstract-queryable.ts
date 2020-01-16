@@ -1,5 +1,7 @@
 import 'reflect-metadata';
 
+import { QueryParam } from '../decorators/query-param.decorator';
+import { QueryParamMetadataKey } from '../decorators/query-param-metadata-keys';
 import { Sortable } from '../decorators/sortable.decorator';
 import { SortableMetadataKey } from '../decorators/sortable-metadata-key';
 import { SortBySelectOption } from './sort-by-select-options.interface';
@@ -8,25 +10,35 @@ import { TypeMetadataKey } from '../decorators/type-metadata-key';
 
 export abstract class AbstractQueryable {
 
+    @Type('number')
+    uniqueId: number = new Date().getTime();
+
+    @QueryParam()
     @Type('string')
     sort: string = null;
 
+    @QueryParam()
     @Type('number')
     limit: number = null;
 
+    @QueryParam()
     @Type('number')
     skip: number = null;
 
+    @QueryParam()
     @Type('string')
     'appInstance._id': string = null;
 
+    @QueryParam()
     @Type('string')
     'user._id': string = null;
 
+    @QueryParam()
     @Sortable({ label: 'NAME' })
     @Type('string')
     name: string = null;
 
+    @QueryParam()
     @Sortable({ label: 'CREATED_AT' })
     @Type('string')
     createdAt: string = null;
@@ -48,7 +60,8 @@ export abstract class AbstractQueryable {
         const object: { [param: string]: string | string[] } = {};
 
         Object.getOwnPropertyNames(this).forEach((property: string) => {
-            if (this[property] !== null && this[property] !== undefined) {
+            const isQueryParam: boolean = Reflect.getMetadata(QueryParamMetadataKey, this, property);
+            if (isQueryParam === true && this[property] !== null && this[property] !== undefined) {
                 object[property] = this[property];
             }
         });
