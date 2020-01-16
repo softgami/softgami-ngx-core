@@ -92,21 +92,24 @@ export abstract class AbstractQueryable {
         Object.getOwnPropertyNames(this).forEach((property: string) => {
 
             const type: string = this.getType(property);
+            const isQueryParam: boolean = Reflect.getMetadata(QueryParamMetadataKey, this, property);
 
-            switch (type) {
-                case 'number':
-                    this.updateNumberParam(property, params);
-                    break;
-                case 'decimal':
-                    this.updateDecimalParam(property, params);
-                    break;
-                case 'boolean':
-                    this.updateBooleanParam(property, params);
-                    break;
-                case 'string':
-                default:
-                    this.updateStringParam(property, params);
-                    break;
+            if (isQueryParam) {
+                switch (type) {
+                    case 'number':
+                        this.updateNumberParam(property, params);
+                        break;
+                    case 'decimal':
+                        this.updateDecimalParam(property, params);
+                        break;
+                    case 'boolean':
+                        this.updateBooleanParam(property, params);
+                        break;
+                    case 'string':
+                    default:
+                        this.updateStringParam(property, params);
+                        break;
+                }
             }
 
         });
