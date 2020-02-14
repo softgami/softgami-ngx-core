@@ -3,25 +3,26 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, DebugElement, Injector, Type } from '@angular/core';
 import { of, Subscription } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Thing } from 'softgami-ts-core';
+
 import { TranslateService } from '@ngx-translate/core';
 
 import { AbstractBaseComponent } from './abstract-base.component';
 import { AbstractCoreService } from '../../services/abstract-core.service';
 import { AbstractHtml5StorageService } from '../../../html5-storage/abstract-html5-storage.service';
-import { AbstractQueryable } from '../../repository';
 import { JasmineExtension } from '../../../testing/jasmine-extension';
 
-class Queryable extends AbstractQueryable {}
+class TestObject extends Thing {}
 
 @Component({
     selector: 'lib-base-component',
     template: '',
 })
-export class BaseComponent extends AbstractBaseComponent<Queryable> {
+export class BaseComponent extends AbstractBaseComponent<TestObject> {
 
-    initQueryParams(): AbstractQueryable {
+    initQueryParams(): Thing {
 
-        return new Queryable();
+        return new TestObject();
 
     }
 
@@ -454,7 +455,6 @@ describe('AbstractBaseComponent', () => {
 
             componentSpy.initQueryParamsSubscription.and.callThrough();
             componentSpy.initQueryParams.and.returnValue(null);
-            componentSpy.hasParamsChanged.and.returnValue(null);
             componentSpy.updateParams.and.returnValue(null);
             componentSpy.handleQueryParams.and.returnValue(null);
             componentSpy.addSubscription.and.returnValue(null);
@@ -474,7 +474,6 @@ describe('AbstractBaseComponent', () => {
 
             componentSpy.initQueryParamsSubscription.and.callThrough();
             componentSpy.initQueryParams.and.returnValue(null);
-            componentSpy.hasParamsChanged.and.returnValue(null);
             componentSpy.updateParams.and.returnValue(null);
             componentSpy.handleQueryParams.and.returnValue(null);
             componentSpy.addSubscription.and.returnValue(null);
@@ -493,7 +492,6 @@ describe('AbstractBaseComponent', () => {
 
             componentSpy.initQueryParamsSubscription.and.callThrough();
             componentSpy.initQueryParams.and.returnValue({userId: 1} as any);
-            componentSpy.hasParamsChanged.and.returnValue(null);
             componentSpy.updateParams.and.returnValue(null);
             componentSpy.handleQueryParams.and.returnValue(null);
             componentSpy.addSubscription.and.returnValue(null);
@@ -510,62 +508,11 @@ describe('AbstractBaseComponent', () => {
 
         });
 
-        it('initQueryParamsSubscription should call hasParamsChanged when subscription fired', () => {
-
-            componentSpy.initQueryParamsSubscription.and.callThrough();
-            componentSpy.initQueryParams.and.returnValue({arg: 1} as any);
-            componentSpy.hasParamsChanged.and.returnValue(null);
-            componentSpy.updateParams.and.returnValue(null);
-            componentSpy.handleQueryParams.and.returnValue(null);
-            componentSpy.addSubscription.and.returnValue(null);
-            const mockActiveRoute = {
-                queryParams: of({arg: 2} as any),
-            };
-            component.activatedRoute = mockActiveRoute as ActivatedRoute;
-
-            component.initQueryParamsSubscription();
-
-            expect(componentSpy.hasParamsChanged).toHaveBeenCalledWith({arg: 2});
-
-        });
-
-        it('initQueryParamsSubscription should not call handleQueryParams when hasParamsChanged returns falsy values', () => {
-
-            componentSpy.initQueryParamsSubscription.and.callThrough();
-            componentSpy.initQueryParams.and.returnValue({arg: 1} as any);
-            componentSpy.updateParams.and.returnValue(null);
-            componentSpy.handleQueryParams.and.returnValue(null);
-            componentSpy.addSubscription.and.returnValue(null);
-            const mockActiveRoute = {
-                queryParams: of({arg: 2} as any),
-            };
-            component.activatedRoute = mockActiveRoute as ActivatedRoute;
-            componentSpy.hasParamsChanged.and.returnValue(null);
-
-            component.initQueryParamsSubscription();
-
-            expect(componentSpy.handleQueryParams).not.toHaveBeenCalled();
-
-            componentSpy.hasParamsChanged.and.returnValue(undefined);
-
-            component.initQueryParamsSubscription();
-
-            expect(componentSpy.handleQueryParams).not.toHaveBeenCalled();
-
-            componentSpy.hasParamsChanged.and.returnValue(false);
-
-            component.initQueryParamsSubscription();
-
-            expect(componentSpy.handleQueryParams).not.toHaveBeenCalled();
-
-        });
-
         it(`initQueryParamsSubscription should call updateParams with "{arg: 2}"
             when hasParamsChanged returns true and subscription fired with "{arg: 2}"`, () => {
 
             componentSpy.initQueryParamsSubscription.and.callThrough();
             componentSpy.initQueryParams.and.returnValue({arg: 1} as any);
-            componentSpy.hasParamsChanged.and.returnValue(true);
             componentSpy.updateParams.and.returnValue(null);
             componentSpy.handleQueryParams.and.returnValue(null);
             componentSpy.addSubscription.and.returnValue(null);
@@ -577,108 +524,6 @@ describe('AbstractBaseComponent', () => {
             component.initQueryParamsSubscription();
 
             expect(componentSpy.updateParams).toHaveBeenCalledWith({arg: 2});
-
-        });
-
-        it(`initQueryParamsSubscription should call handleQueryParams with "{arg: 2}"
-            when hasParamsChanged returns true and subscription fired with "{arg: 2}"`, () => {
-
-            componentSpy.initQueryParamsSubscription.and.callThrough();
-            componentSpy.initQueryParams.and.returnValue({arg: 1} as any);
-            componentSpy.hasParamsChanged.and.returnValue(true);
-            componentSpy.updateParams.and.returnValue(null);
-            componentSpy.handleQueryParams.and.returnValue(null);
-            componentSpy.addSubscription.and.returnValue(null);
-            const mockActiveRoute = {
-                queryParams: of({arg: 2} as any),
-            };
-            component.activatedRoute = mockActiveRoute as ActivatedRoute;
-
-            component.initQueryParamsSubscription();
-
-            expect(componentSpy.hasParamsChanged).toHaveBeenCalledWith({arg: 2});
-
-        });
-
-        it(`initQueryParamsSubscription should call handleQueryParams with "{arg: 3}"
-            when hasParamsChanged returns true and subscription fired with "{arg: 3}"`, () => {
-
-            componentSpy.initQueryParamsSubscription.and.callThrough();
-            componentSpy.initQueryParams.and.returnValue({arg: 1} as any);
-            componentSpy.hasParamsChanged.and.returnValue(true);
-            componentSpy.updateParams.and.returnValue(null);
-            componentSpy.handleQueryParams.and.returnValue(null);
-            componentSpy.addSubscription.and.returnValue(null);
-            const mockActiveRoute = {
-                queryParams: of({arg: 3} as any),
-            };
-            component.activatedRoute = mockActiveRoute as ActivatedRoute;
-
-            component.initQueryParamsSubscription();
-
-            expect(componentSpy.hasParamsChanged).toHaveBeenCalledWith({arg: 3});
-
-        });
-
-    });
-
-    describe('hasParamsChanged', () => {
-
-        it('hasParamsChanged should return true when params changed', () => {
-
-            componentSpy.hasParamsChanged.and.callThrough();
-            // component.queryParams = {userId: 1};
-
-            let result: boolean = component.hasParamsChanged({});
-
-            expect(result).toBeTruthy();
-
-            // component.queryParams = {userId: 2};
-
-            result = component.hasParamsChanged({userId: 1});
-
-            expect(result).toBeTruthy();
-
-            // component.queryParams = {userId: 2};
-
-            result = component.hasParamsChanged({userId: 1});
-
-            expect(result).toBeTruthy();
-
-            // component.queryParams = {userId: 2};
-
-            result = component.hasParamsChanged({arg2: 1});
-
-            expect(result).toBeTruthy();
-
-            // component.queryParams = {userId: null};
-
-            result = component.hasParamsChanged({userId: 1});
-
-            expect(result).toBeTruthy();
-
-        });
-
-        it('hasParamsChanged should return false when params have not changed', () => {
-
-            componentSpy.hasParamsChanged.and.callThrough();
-            // component.queryParams = {userId: null};
-
-            let result: boolean = component.hasParamsChanged({});
-
-            expect(result).toBeFalsy();
-
-            // component.queryParams = {userId: 1};
-
-            result = component.hasParamsChanged({userId: 1});
-
-            expect(result).toBeFalsy();
-
-            // component.queryParams = {userId: 2};
-
-            result = component.hasParamsChanged({userId: 2, arg2: 1});
-
-            expect(result).toBeFalsy();
 
         });
 

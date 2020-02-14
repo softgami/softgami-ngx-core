@@ -1,16 +1,15 @@
-
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { debounceTime, filter, map } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Injector, OnDestroy, OnInit, StaticProvider, Type, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Thing } from 'softgami-ts-core';
 import { TranslateService} from '@ngx-translate/core';
 
 import { AbstractCoreService } from '../../services/abstract-core.service';
 import { AbstractHtml5StorageService } from '../../../html5-storage/abstract-html5-storage.service';
-import { AbstractQueryable } from '../../repository/models/abstract-queryable';
 
-export abstract class AbstractBaseComponent<Q extends AbstractQueryable> implements OnDestroy, OnInit {
+export abstract class AbstractBaseComponent<T extends Thing> implements OnDestroy, OnInit {
 
     static providers: StaticProvider[] = [];
     static injector: Injector = null;
@@ -20,7 +19,7 @@ export abstract class AbstractBaseComponent<Q extends AbstractQueryable> impleme
     router: Router;
     translateService: TranslateService;
     html5StorageService: AbstractHtml5StorageService;
-    queryable: Q;
+    object: T;
     isInitCalled: boolean;
     form: FormGroup;
     shouldUpdateDefaultFormFromParams: boolean;
@@ -35,8 +34,8 @@ export abstract class AbstractBaseComponent<Q extends AbstractQueryable> impleme
 
     }
 
-    abstract initQueryParams(): Q;
-    abstract handleQueryParams(params: Q);
+    abstract initQueryParams(): T;
+    abstract handleQueryParams(params: T);
 
     ngOnInit() {
 
@@ -110,16 +109,13 @@ export abstract class AbstractBaseComponent<Q extends AbstractQueryable> impleme
         .pipe(
             debounceTime(100),
             map((params: Params) => {
-                this.queryable = this.queryable ? this.queryable : this.initQueryParams();
+                this.object = this.object ? this.object : this.initQueryParams();
                 return params;
             }),
-            filter((params: Params) => {
-                return this.hasParamsChanged(params);
-            }),
             map((params: Params) => {
-                this.updateQueryable(params);
+                this.object.updatePropertiesFromParams(params);
                 if (this.shouldUpdateDefaultFormFromParams) {
-                    this.updateFormFromQueryable(this.queryable, this.form);
+                    this.updateFormFromThing(this.form, this.object);
                 }
                 return params;
             }),
@@ -127,48 +123,27 @@ export abstract class AbstractBaseComponent<Q extends AbstractQueryable> impleme
         .subscribe((params: Params) => {
 
             this.updateTotalControlsFilled();
-            this.handleQueryParams(params as Q);
+            this.handleQueryParams(params as T);
 
         });
         this.addSubscription(subscription);
 
     }
 
-    hasParamsChanged(params: Params): boolean {
+    updateFormFromThing(form: FormGroup, thing: T) {
 
-        let hasChanged = false;
-        Object.getOwnPropertyNames(this.queryable).forEach((property: string) => {
-            const paramsValue: string = params[property] ? params[property].toString() : params[property];
-            const value: string = this.queryable[property] ? this.queryable[property].toString() : this.queryable[property];
-            if (value !== paramsValue) {
-                hasChanged =  true;
-            }
-        });
+        if (!form || !thing) return;
 
-        return hasChanged;
-
-    }
-
-    updateQueryable(params: Params) {
-
-        this.queryable.updatePropertiesFromParams(params);
-
-    }
-
-    updateFormFromQueryable(queryable: AbstractQueryable, form: FormGroup) {
-
-        if (!form || !queryable) return;
-
-        Object.getOwnPropertyNames(queryable).forEach((property: string) => {
-            if (form.controls[property] && form.controls[property].value !== queryable[property]) {
-                form.controls[property].setValue(queryable[property]);
+        Object.getOwnPropertyNames(thing).forEach((property: string) => {
+            if (form.controls[property] && form.controls[property].value !== thing[property]) {
+                form.controls[property].setValue(thing[property]);
             }
         });
         this.updateTotalControlsFilled();
 
     }
 
-    updateFormFromObject<T>(form: FormGroup, object: T) {
+    updateFormFromObject<O>(form: FormGroup, object: O) {
 
         if (!form || !object) return;
 

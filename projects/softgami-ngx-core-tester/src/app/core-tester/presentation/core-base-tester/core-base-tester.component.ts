@@ -1,17 +1,58 @@
 import { Component } from '@angular/core';
+import {
+    ExcludeIndexes,
+    Index,
+    QueryParam,
+    Required,
+    Schemable,
+    Sortable,
+    Thing,
+    Trim,
+    Type,
+    Types,
+    Unique,
+} from 'softgami-ts-core';
 
 import { AbstractBaseComponent } from 'projects/softgami-ngx-core/src/lib/softgami-core/base/abstract-base/abstract-base.component';
-import { AbstractQueryable } from 'projects/softgami-ngx-core/src/lib/softgami-core/repository/models/abstract-queryable';
-import { Sortable } from 'projects/softgami-ngx-core/src/lib/softgami-core/repository/decorators/sortable.decorator';
-import { Type } from 'projects/softgami-ngx-core/src/lib/softgami-core/repository/decorators/type.decorator';
 
 import { AppParams } from './app-params.interface';
 
-export class TQueryable extends AbstractQueryable {
+export class Language extends Thing {
 
+    @QueryParam()
+    @Sortable({ label: 'CODE' })
+    @Required()
+    @Index()
+    @Schemable()
+    @Trim()
+    @Unique()
+    @Type({ type: Types.NUMBER })
+    code: number = null;
+
+    @QueryParam()
+    @Schemable()
+    @Sortable({ label: 'LANGUAGE' })
+    @Required()
+    @Type({ type: Types.OBJECT, class: Language })
+    @ExcludeIndexes()
+    idioma: Language = null;
+
+}
+
+export class TObject extends Thing {
+
+    @QueryParam()
     @Sortable({ label: 'TYPE' })
-    @Type('string')
-    type: string = null;
+    @Type({ type: Types.ARRAY, arrayItemType: Types.NUMBER })
+    types: number[] = null;
+
+    @QueryParam()
+    @Schemable()
+    @Sortable({ label: 'LANGUAGE', field: 'language.name' })
+    @Required()
+    @Type({ type: Types.OBJECT, class: Language})
+    @ExcludeIndexes()
+    language: Language = null;
 
 }
 
@@ -20,7 +61,7 @@ export class TQueryable extends AbstractQueryable {
     templateUrl: './core-base-tester.component.html',
     styleUrls: ['./core-base-tester.component.scss'],
 })
-export class CoreBaseTesterComponent extends AbstractBaseComponent<TQueryable> {
+export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
 
     constructor() {
 
@@ -28,19 +69,30 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<TQueryable> {
 
     }
 
-    initQueryParams(): TQueryable {
+    initQueryParams(): TObject {
 
-        return new TQueryable();
+        return new TObject();
 
     }
 
     updateParams(params: AppParams) {}
 
-    handleQueryParams(params: TQueryable) {
+    handleQueryParams(params: TObject) {
 
-        console.log(this.queryable);
+        /*this.object.name = 'tempname';
+        this.object.language = new Language();
+        this.object.language.code = 1234;
+        this.object.language.name = 'languageName';
+        this.object.language.idioma = new Language();
+        this.object.language.idioma.name = 'languageName2';
+        this.object.language.idioma.code = 12345;
+        this.object.language.idioma.idioma = new Language();
+        this.object.language.idioma.idioma.name = 'languageName3';
+        this.object.language.idioma.idioma.code = 123456;*/
+
+        // console.log(this.object);
         console.log('----------------------');
-        console.log(params);
+        console.log(this.object);
 
     }
 
