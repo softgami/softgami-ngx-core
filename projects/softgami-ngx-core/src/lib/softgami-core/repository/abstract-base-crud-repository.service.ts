@@ -1,9 +1,8 @@
 import { Observable } from 'rxjs';
-
-import { AbstractQueryable } from './models/abstract-queryable';
+import { Thing } from 'softgami-ts-core';
 
 export abstract class AbstractBaseCRUDRepositoryService<T> {
-    abstract find(queryable?: AbstractQueryable): Observable<T[]>;
+    abstract find(thing?: Thing): Observable<T[]>;
     abstract findOne(id: string, appInstanceId: string): Observable<T>;
     abstract save(object: T): Observable<T>;
     abstract update(object: T): Observable<T>;

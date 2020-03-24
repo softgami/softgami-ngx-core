@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {
     ExcludeIndexes,
-    Index,
     QueryParam,
     Required,
     Schemable,
@@ -22,7 +21,6 @@ export class Language extends Thing {
     @QueryParam()
     @Sortable({ label: 'CODE' })
     @Required()
-    @Index()
     @Schemable()
     @Trim()
     @Unique()
@@ -69,7 +67,7 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
 
     }
 
-    initQueryParams(): TObject {
+    initMainObject(): TObject {
 
         return new TObject();
 

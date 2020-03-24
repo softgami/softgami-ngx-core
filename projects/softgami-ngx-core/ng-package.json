@@ -2,6 +2,12 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/softgami-ngx-core",
   "lib": {
-    "entryFile": "src/public-api.ts"
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "@ngx-translate/core": "ngxTranslateCore",
+      "crypto-js": "cryptoJs",
+      "softgami-ts-core": "softgamiTsCore",
+      "@brazilian-utils/is-valid-cpf": "isValidCpf"
+    }
   }
 }

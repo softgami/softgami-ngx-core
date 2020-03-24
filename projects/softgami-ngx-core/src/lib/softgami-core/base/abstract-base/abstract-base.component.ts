@@ -34,7 +34,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    abstract initQueryParams(): T;
+    abstract initMainObject(): T;
     abstract handleQueryParams(params: T);
 
     ngOnInit() {
@@ -109,7 +109,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         .pipe(
             debounceTime(100),
             map((params: Params) => {
-                this.object = this.object ? this.object : this.initQueryParams();
+                this.object = this.object ? this.object : this.initMainObject();
                 return params;
             }),
             map((params: Params) => {

@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { SortBySelectOption } from 'softgami-ts-core';
 
-import { CatQueryable } from '../../services/cats-http-repository.service';
-import { Cat } from '../../../../domain/core-tester/models/cat.interface';
+import { Cat } from '../../../../domain/core-tester/models/cat.model';
 import { GetAllCatsUseCaseService } from '../../../../domain/core-tester/repository-tester/use-cases/get-all-cats-use-case.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-repository-tester',
@@ -14,7 +14,7 @@ export class RepositoryTesterComponent implements OnInit {
 
     searchText: string;
     cats: Cat[];
-    sortOptions: { key: string; value: string; }[];
+    sortOptions: SortBySelectOption[];
     selectedSortOption: string;
     form: FormGroup;
     @ViewChild('f', { static: false }) f;
@@ -23,7 +23,7 @@ export class RepositoryTesterComponent implements OnInit {
 
     ngOnInit() {
 
-        this.sortOptions = new CatQueryable().toSortOptions();
+        this.sortOptions = new Cat().toSortOptions();
         this.form = new FormGroup({
             name: new FormControl('', [Validators.required]),
             description: new FormControl(''),
@@ -46,20 +46,13 @@ export class RepositoryTesterComponent implements OnInit {
             id: '12345',
             name: 'name of the language',
         });
-        const queryable: CatQueryable = new CatQueryable();
-        queryable.name = 'some';
-        queryable.q = this.searchText;
-        queryable.limit = 10;
-        queryable.skip = 0;
-        queryable.id.value = '12345';
+        const cat: Cat = new Cat();
+        cat.q = this.searchText;
 
-        const cat: Cat = this.form.getRawValue() as Cat;
-        console.log(cat);
-
-        /*this.getAllCatsUseCaseService.execute(queryable)
+        this.getAllCatsUseCaseService.execute(cat)
         .subscribe((cats: Cat[]) => {
             this.cats = cats;
-        });*/
+        });
 
     }
 

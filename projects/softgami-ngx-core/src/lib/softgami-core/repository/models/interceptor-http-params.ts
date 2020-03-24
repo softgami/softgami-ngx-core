@@ -1,20 +1,20 @@
 import { HttpParams } from '@angular/common/http';
+import { Thing } from 'softgami-ts-core';
 
-import { AbstractQueryable } from './abstract-queryable';
 import { InterceptorOptions } from './interceptor-options.interface';
 
 export class InterceptorHttpParams extends HttpParams {
 
-    queryable: AbstractQueryable;
+    thing: Thing;
     interceptorOptions: InterceptorOptions;
 
     constructor(
-        private readonly abstractQueryable: AbstractQueryable,
+        private readonly t: Thing,
         private readonly options?: InterceptorOptions,
     ) {
 
-        super({ fromObject: abstractQueryable.toQueryParamsObject() });
-        this.queryable = abstractQueryable;
+        super({ fromObject: t.toQueryParamsObject() });
+        this.thing = t;
         this.interceptorOptions = options;
 
     }
