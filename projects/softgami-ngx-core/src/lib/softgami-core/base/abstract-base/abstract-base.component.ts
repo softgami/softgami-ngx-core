@@ -116,17 +116,28 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
                 this.object.updatePropertiesFromParams(params);
                 if (this.shouldUpdateDefaultFormFromParams) {
                     this.updateFormFromThing(this.form, this.object);
+                } else {
+                    this.updateTotalControlsFilled();
                 }
                 return params;
             }),
         )
         .subscribe((params: Params) => {
 
-            this.updateTotalControlsFilled();
             this.handleQueryParams(params as T);
+            this.initFormChangesSubscription();
 
         });
         this.addSubscription(subscription);
+
+    }
+
+    initFormChangesSubscription() {
+
+        const s: Subscription = this.form.valueChanges.subscribe((val) => {
+            this.updateTotalControlsFilled();
+        });
+        this.addSubscription(s);
 
     }
 
@@ -172,13 +183,14 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
         if (!this.form) return;
 
-        this.totalControlsFilled =  Object.keys(this.form.controls)
+        this.totalControlsFilled = Object.keys(this.form.controls)
         .filter((key: string) => {
             const control = this.form.controls[key];
             if (!control || control.value === null || control.value === undefined) {
                 return false;
             } else return true;
-        }).length;
+        })
+        .length;
 
     }
 
