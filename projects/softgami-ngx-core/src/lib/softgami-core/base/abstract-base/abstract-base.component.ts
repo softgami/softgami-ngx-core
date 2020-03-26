@@ -134,6 +134,8 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     initFormChangesSubscription() {
 
+        if (!this.form) return;
+
         const s: Subscription = this.form.valueChanges.subscribe((val) => {
             this.updateTotalControlsFilled();
         });
