@@ -1,5 +1,5 @@
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { debounceTime, filter, map } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Injector, OnDestroy, OnInit, StaticProvider, Type, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -115,7 +115,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
             map((params: Params) => {
                 this.object.updatePropertiesFromParams(params);
                 if (this.shouldUpdateDefaultFormFromParams) {
-                    this.updateFormFromThing(this.form, this.object);
+                    this.updateFormFromObject(this.form, this.object);
                 } else {
                     this.updateTotalControlsFilled();
                 }
