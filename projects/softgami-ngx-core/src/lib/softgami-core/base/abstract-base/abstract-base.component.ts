@@ -1,5 +1,5 @@
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { debounceTime, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Injector, OnDestroy, OnInit, StaticProvider, Type, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -115,7 +115,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
             map((params: Params) => {
                 this.object.updatePropertiesFromParams(params);
                 if (this.shouldUpdateDefaultFormFromParams) {
-                    this.updateFormFromObject(this.form, this.object);
+                    this.updateFormFromParams(this.form, params);
                 } else {
                     this.updateTotalControlsFilled();
                 }
@@ -136,7 +136,12 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
         if (!this.form) return;
 
-        const s: Subscription = this.form.valueChanges.subscribe((val) => {
+        const s: Subscription = this.form.valueChanges
+        .pipe(
+            distinctUntilChanged(),
+            debounceTime(10),
+        )
+        .subscribe((val) => {
             this.updateTotalControlsFilled();
         });
         this.addSubscription(s);
@@ -156,12 +161,23 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
+    updateFormFromParams(form: FormGroup, params: Params) {
+
+        if (!form || !params) return;
+
+        Object.getOwnPropertyNames(form.controls).forEach((control: string) => {
+            form.controls[control].setValue(params[control] ? params[control] : null);
+        });
+        this.updateTotalControlsFilled();
+
+    }
+
     updateFormFromObject<O>(form: FormGroup, object: O) {
 
         if (!form || !object) return;
 
         Object.getOwnPropertyNames(form.controls).forEach((control: string) => {
-            form.controls[control].setValue(object[control]);
+            form.controls[control].setValue(object[control] ? object[control] : null);
         });
         this.updateTotalControlsFilled();
 
