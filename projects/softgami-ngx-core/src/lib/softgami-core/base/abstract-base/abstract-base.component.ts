@@ -177,7 +177,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         if (!form || !object) return;
 
         Object.getOwnPropertyNames(form.controls).forEach((control: string) => {
-            form.controls[control].setValue(object[control] ? object[control] : null);
+            form.controls[control].setValue((object[control] !== null && object[control] !== undefined) ? object[control] : null);
         });
         this.updateTotalControlsFilled();
 
