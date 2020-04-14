@@ -107,7 +107,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
         const subscription: Subscription = this.activatedRoute.queryParams
         .pipe(
-            debounceTime(100),
+            debounceTime(200),
             map((params: Params) => {
                 this.object = this.object ? this.object : this.initMainObject();
                 return params;
