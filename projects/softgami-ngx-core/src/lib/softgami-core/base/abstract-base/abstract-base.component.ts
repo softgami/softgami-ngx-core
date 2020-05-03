@@ -1,8 +1,8 @@
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { concatMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Injector, OnDestroy, OnInit, StaticProvider, Type, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { Thing } from 'softgami-ts-core';
 import { TranslateService} from '@ngx-translate/core';
 
@@ -108,18 +108,21 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         const subscription: Subscription = this.activatedRoute.queryParams
         .pipe(
             debounceTime(200),
-            map((params: Params) => {
+            concatMap((params: Params) => {
                 this.object = this.object ? this.object : this.initMainObject();
-                return params;
+                return of(params);
             }),
-            map((params: Params) => {
-                this.object.updatePropertiesFromParams(params);
+            concatMap((params: Params) => {
+                if (this.object) this.object.updatePropertiesFromParams(params);
+                else {
+                    console.warn('main object not defined');
+                }
                 if (this.shouldUpdateDefaultFormFromParams) {
                     this.updateFormFromParams(this.form, params);
                 } else {
                     this.updateTotalControlsFilled();
                 }
-                return params;
+                return of(params);
             }),
         )
         .subscribe((params: Params) => {
