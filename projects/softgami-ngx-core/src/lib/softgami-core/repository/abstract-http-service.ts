@@ -1,6 +1,6 @@
-import { catchError, finalize, map, tap } from 'rxjs/operators';
+import { catchError, concatMap, finalize, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, of } from 'rxjs';
 
 import { ErrorResponse } from './error/error-response.interface';
 import { ErrorResponseFactory } from './error/error-response-factory';
@@ -9,10 +9,18 @@ export abstract class AbstractHttpService {
 
     constructor(private readonly httpClient: HttpClient) { }
 
-    get<T>(url: string, params?: HttpParams, headers?: HttpHeaders): Observable<T> {
+    get<T>(
+        url: string, params?: HttpParams, headers?: HttpHeaders,
+        responseType?: 'arraybuffer' | 'blob' | 'json' | 'text'): Observable<T> {
 
-        return this.httpClient.get(url, { params, observe: 'response', headers })
+        return of(responseType)
         .pipe(
+            concatMap((r: 'arraybuffer' | 'blob' | 'json' | 'text') => {
+                if (r === 'blob') {
+                    return this.httpClient.get(url, { params, observe: 'response', headers, responseType: 'blob' });
+                }
+                return this.httpClient.get<T>(url, { params, observe: 'response', headers });
+            }),
             tap((res: HttpResponse<T>) => {
                 this.onSuccess(res);
             }, (error: HttpErrorResponse) => {
