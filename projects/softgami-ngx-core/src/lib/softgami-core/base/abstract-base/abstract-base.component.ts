@@ -113,9 +113,9 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
                 return of(params);
             }),
             concatMap((params: Params) => {
-                if (this.object) this.object.updatePropertiesFromParams(params);
+                if (this.object && this.object instanceof Thing) this.object.updatePropertiesFromParams(params);
                 else {
-                    console.warn('main object not defined');
+                    console.warn('main object is not defined or is not a instance of Thing.');
                 }
                 if (this.shouldUpdateDefaultFormFromParams) {
                     this.updateFormFromParams(this.form, params);
