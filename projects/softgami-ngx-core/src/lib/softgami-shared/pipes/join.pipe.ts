@@ -6,8 +6,6 @@ import { SoftgamiTsUtilsService } from 'softgami-ts-core';
 })
 export class JoinPipe implements PipeTransform {
 
-    constructor(private readonly utilsService: SoftgamiTsUtilsService) {}
-
     transform(valuesList: Array<any>, path?: string): string {
 
         if (path === null || path === undefined) return '';
@@ -18,11 +16,11 @@ export class JoinPipe implements PipeTransform {
         if (valuesListCopy && valuesListCopy.length) {
 
             const firstValue: any = valuesListCopy.shift();
-            const firstValueResolved: string = this.utilsService.resolveObjectPath<string>(firstValue, path);
+            const firstValueResolved: string = SoftgamiTsUtilsService.resolveObjectPath<string>(firstValue, path);
             if (firstValueResolved) joinedValues.push(firstValueResolved);
 
             valuesListCopy.forEach((value: any) => {
-                const valueResolved: string = this.utilsService.resolveObjectPath<string>(value, path);
+                const valueResolved: string = SoftgamiTsUtilsService.resolveObjectPath<string>(value, path);
                 if (valueResolved) joinedValues.push(valueResolved);
             });
 

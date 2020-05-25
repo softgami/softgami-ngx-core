@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { SoftgamiTsUtilsService } from 'softgami-ts-core';
 
 import { AutoFocusDirective } from './directives/auto-focus.directive';
 import { FileSizeFormatterPipe } from './pipes/file-size-formatter.pipe';
@@ -31,7 +30,6 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
         IncludesPipe,
         JoinPipe,
         MathPipe,
-        SoftgamiTsUtilsService,
     ],
     exports: [
         AutoFocusDirective,
