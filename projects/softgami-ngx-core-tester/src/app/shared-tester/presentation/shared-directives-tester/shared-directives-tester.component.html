@@ -22,6 +22,24 @@
         numbersOnly
         [asNumber]="true">
     <h3>{{ typeOf(numbersOnlyControl.value) }}</h3>
+    <h3>Decimal and Integers with fraction digits</h3>
+    <input
+        type="text"
+        min="10"
+        max="2019"
+        formControlName="fractionDigitsControl"
+        #fractionDigitsInput
+        numbersOnly
+        [asNumber]="true"
+        style="width: 50px;">
+    <input
+        type="text"
+        min="10"
+        max="2019"
+        formControlName="numbersOnlyWithFractionDigitsControl"
+        numbersOnly
+        [asNumber]="true"
+        [fractionDigits]="fractionDigitsInput?.value">
     <h3>Integers Only</h3>
     <input
         type="text"

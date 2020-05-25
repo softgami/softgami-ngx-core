@@ -1,5 +1,6 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import { NgControl } from '@angular/forms';
+import { SoftgamiTsUtilsService } from 'softgami-ts-core';
 
 @Directive({
     // tslint:disable-next-line: directive-selector
@@ -13,6 +14,7 @@ export class NumbersOnlyDirective {
     private specialKeys: Array<string> = [ 'Backspace', 'Tab', 'End', 'Home', '-', 'Control', 'ArrowRight', 'ArrowLeft', 'Enter'];
     @Input() integerOnly: boolean;
     @Input() asNumber: boolean;
+    @Input() fractionDigits: number;
 
     constructor(private el: ElementRef, private control: NgControl) {}
 
@@ -45,12 +47,18 @@ export class NumbersOnlyDirective {
     @HostListener('input', [ '$event' ])
     onInput(event: KeyboardEvent) {
 
-        const val: number = Number(this.el.nativeElement.value);
+        let val: number = Number(this.el.nativeElement.value);
         if (this.asNumber && this.control && this.integerOnly) {
             this.control.control.setValue(isNaN(val) || this.el.nativeElement.value === '' ? '' : val);
         }
         if (this.asNumber && this.control && !this.integerOnly && this.el.nativeElement.value) {
             if (this.el.nativeElement.value[this.el.nativeElement.value.length - 1] !== '.') {
+                if (this.fractionDigits !== null && this.fractionDigits !== undefined) {
+                    const fractionDigits: number = parseInt(this.fractionDigits.toString(), 10);
+                    if (!isNaN(fractionDigits) && fractionDigits >= 0) {
+                        val = SoftgamiTsUtilsService.truncateDecimals(val, fractionDigits);
+                    }
+                }
                 this.control.control.setValue(isNaN(val) || this.el.nativeElement.value === '' ? '' : val);
             }
         }

@@ -15,8 +15,11 @@ export class SharedDirectivesTesterComponent implements OnInit {
     formNumbersOnly: FormGroup;
     numbersOnlyControl: FormControl;
     numbersOnlyIntegersControl: FormControl;
+    fractionDigitsControl: FormControl;
+    numbersOnlyWithFractionDigitsControl: FormControl;
     numbersOnly;
     numbersOnlyIntegers;
+    fractionDigits: number;
     @ViewChild('fTrimOnBlur', {static: false}) fTrimOnBlur: HTMLFormElement;
     @ViewChild('fNumbersOnly', {static: false}) fNumbersOnly: HTMLFormElement;
 
@@ -28,10 +31,14 @@ export class SharedDirectivesTesterComponent implements OnInit {
         });
         this.numbersOnlyControl = new FormControl(null);
         this.numbersOnlyIntegersControl = new FormControl(null);
+        this.numbersOnlyWithFractionDigitsControl = new FormControl(null);
+        this.fractionDigitsControl = new FormControl(null);
 
         this.formNumbersOnly = new FormGroup({
             numbersOnlyControl: this.numbersOnlyControl,
             numbersOnlyIntegersControl: this.numbersOnlyIntegersControl,
+            fractionDigitsControl: this.fractionDigitsControl,
+            numbersOnlyWithFractionDigitsControl: this.numbersOnlyWithFractionDigitsControl,
         });
 
     }
