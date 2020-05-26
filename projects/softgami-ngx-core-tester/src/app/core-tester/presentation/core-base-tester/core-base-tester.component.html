@@ -21,3 +21,18 @@
     <a [routerLink]="'./'" [queryParams]="{otherId: 1, userId: 1}">User 1, Other 1</a>
 </h4>
 <button (click)="incrementUserId()">Increment UserId</button>
+
+<p>
+    ----------------------------------------------------------------------------------------
+</p>
+<h5>Form reset</h5>
+<form name="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <input type="text" formControlName="name"/>
+    <input type="checkbox" formControlName="isActive"/>
+    <input type="text" formControlName="status"/>
+    <button type="submit">submit</button>
+</form>
+<div>
+    Form valid: {{ form.valid }}
+</div>
+<button (click)="resetFormCall()">Reset form</button>

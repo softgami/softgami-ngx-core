@@ -11,6 +11,7 @@ import {
     Types,
     Unique,
 } from 'softgami-ts-core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AbstractBaseComponent } from 'projects/softgami-ngx-core/src/lib/softgami-core/base/abstract-base/abstract-base.component';
 
@@ -64,6 +65,19 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
     constructor() {
 
         super();
+        this.shouldUpdateDefaultFormFromParams = false;
+        this.form.addControl('status', new FormControl('active', [Validators.required]));
+
+    }
+
+    getInitialForm(): FormGroup {
+
+        return new FormGroup(
+            {
+                name: new FormControl('test', Validators.compose([Validators.required])),
+                isActive: new FormControl(true, [Validators.required]),
+            },
+        );
 
     }
 
@@ -97,6 +111,18 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
     incrementUserId() {
 
         // this.updateRoute({userId: this.queryable.userId + 1});
+
+    }
+
+    onSubmit() {
+
+        console.log(this.form.getRawValue());
+
+    }
+
+    resetFormCall() {
+
+        this.resetForm();
 
     }
 

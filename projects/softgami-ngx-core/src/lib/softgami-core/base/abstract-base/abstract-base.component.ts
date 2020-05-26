@@ -31,6 +31,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
         this.shouldUpdateDefaultFormFromParams = true;
         this.waitForInit();
+        if (this.getInitialForm()) this.form = this.getInitialForm();
 
     }
 
@@ -41,6 +42,12 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
         this.isInitCalled = true;
         this.initializeBase();
+
+    }
+
+    getInitialForm(): FormGroup {
+
+        return null;
 
     }
 
@@ -238,6 +245,17 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
         this.subscription = undefined;
 
+    }
+
+    resetForm() {
+
+        this.form.reset();
+        const formGroup: FormGroup = this.getInitialForm();
+        if (formGroup) {
+            Object.keys(formGroup.controls).forEach((controlName: string) => {
+                this.form.get(controlName).setValue(formGroup.get(controlName).value);
+            });
+        }
     }
 
     ngOnDestroy() {
