@@ -1,5 +1,5 @@
-import { ActivatedRoute, Navigation, Params, Router } from '@angular/router';
-import { concatMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { ActivatedRoute, Navigation, ParamMap, Params, Router } from '@angular/router';
+import { concatMap, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { FormGroup, NgForm } from '@angular/forms';
 import { Injector, OnDestroy, OnInit, StaticProvider, Type, ViewChild } from '@angular/core';
 import { of, Subscription } from 'rxjs';
@@ -73,6 +73,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
         this.initProviders();
         this.initQueryParamsSubscription();
+        this.initParamMapIdSubscription();
 
     }
 
@@ -148,6 +149,22 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         this.addSubscription(subscription);
 
     }
+
+    initParamMapIdSubscription() {
+
+        const s: Subscription = this.activatedRoute.paramMap
+        .pipe(
+            map((paramsAsMap: ParamMap) => paramsAsMap.get('id')),
+        ).subscribe((id: string) => {
+
+            this.handleParamMapId(id);
+
+        });
+        this.addSubscription(s);
+
+    }
+
+    handleParamMapId(id: string) {}
 
     initFormChangesSubscription() {
 
