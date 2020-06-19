@@ -1,4 +1,4 @@
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Navigation, Params, Router } from '@angular/router';
 import { concatMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FormGroup, NgForm } from '@angular/forms';
 import { Injector, OnDestroy, OnInit, StaticProvider, Type, ViewChild } from '@angular/core';
@@ -24,6 +24,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
     form: FormGroup;
     shouldUpdateDefaultFormFromParams: boolean;
     totalControlsFilled = 0;
+    shouldUpdateObjectFromRouterData = true;
 
     @ViewChild('formElement', { static: false }) formElement: NgForm;
 
@@ -32,6 +33,12 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         this.shouldUpdateDefaultFormFromParams = true;
         this.waitForInit();
         if (this.getInitialForm()) this.form = this.getInitialForm();
+        if (this.shouldUpdateObjectFromRouterData && this.router) {
+            const navigation: Navigation = this.router.getCurrentNavigation();
+            if (navigation && navigation.extras && navigation.extras.state && navigation.extras.state.dataObject) {
+                this.object = navigation.extras.state.dataObject;
+            }
+        }
 
     }
 
