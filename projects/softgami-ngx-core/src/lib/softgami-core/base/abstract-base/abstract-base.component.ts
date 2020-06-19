@@ -1,6 +1,6 @@
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { concatMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, NgForm } from '@angular/forms';
 import { Injector, OnDestroy, OnInit, StaticProvider, Type, ViewChild } from '@angular/core';
 import { of, Subscription } from 'rxjs';
 import { Thing } from 'softgami-ts-core';
@@ -25,7 +25,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
     shouldUpdateDefaultFormFromParams: boolean;
     totalControlsFilled = 0;
 
-    @ViewChild('formElement', { static: false }) formElement;
+    @ViewChild('formElement', { static: false }) formElement: NgForm;
 
     constructor() {
 
@@ -122,7 +122,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
             concatMap((params: Params) => {
                 if (this.object && this.object instanceof Thing) this.object.updatePropertiesFromParams(params);
                 else {
-                    console.warn('main object is not defined or is not a instance of Thing.');
+                    console.warn('main object is not defined or is not a instance of Thing.', this.constructor.name);
                 }
                 if (this.shouldUpdateDefaultFormFromParams) {
                     this.updateFormFromParams(this.form, params);
@@ -249,7 +249,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     resetForm() {
 
-        this.form.reset();
+        this.formElement.resetForm();
         const formGroup: FormGroup = this.getInitialForm();
         if (formGroup) {
             Object.keys(formGroup.controls).forEach((controlName: string) => {
