@@ -9,9 +9,9 @@ import { NgModuleSoftgamiCoreModule } from './ng-module-softgami-core.module';
 export class SoftgamiCoreModule {
 
     static forRoot(
-        CoreService: typeof AbstractCoreService,
-        MessageService: typeof AbstractMessageService,
-        HttpService?: typeof AbstractHttpService,
+        CoreService: new () => AbstractCoreService,
+        MessageService: new () => AbstractMessageService,
+        HttpService?: new () => AbstractHttpService,
     ): ModuleWithProviders<NgModuleSoftgamiCoreModule> {
 
         return {
