@@ -1,3 +1,5 @@
+import { Inject } from '@angular/core';
+
 export abstract class AbstractCoreService {
-    constructor(...args: any[]) {}
+    constructor(@Inject([]) ...args: any[]) {}
 }
