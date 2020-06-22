@@ -1,5 +1,7 @@
 export abstract class AbstractFileService {
 
+    constructor(...args: any[]) {}
+
     downloadFile(res: Blob, mimeType: string, fileName: string) {
 
         const blob: Blob = new Blob([res], { type: mimeType });
