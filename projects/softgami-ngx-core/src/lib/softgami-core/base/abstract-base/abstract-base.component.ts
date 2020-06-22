@@ -1,44 +1,50 @@
 import { ActivatedRoute, Navigation, ParamMap, Params, Router } from '@angular/router';
-import { concatMap, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { concatMap, debounceTime, delay, distinctUntilChanged, filter, first, map } from 'rxjs/operators';
 import { FormGroup, NgForm } from '@angular/forms';
 import { Injector, OnDestroy, OnInit, StaticProvider, Type, ViewChild } from '@angular/core';
-import { of, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { Thing } from 'softgami-ts-core';
 import { TranslateService} from '@ngx-translate/core';
 
 import { AbstractCoreService } from '../../services/abstract-core.service';
 import { AbstractHtml5StorageService } from '../../../html5-storage/abstract-html5-storage.service';
+import { AbstractMessageService } from '../../services/abstract-message.service';
 
 export abstract class AbstractBaseComponent<T extends Thing> implements OnDestroy, OnInit {
 
     static providers: StaticProvider[] = [];
     static injector: Injector = null;
     subscription: Subscription;
-    activatedRoute: ActivatedRoute;
-    coreService: AbstractCoreService;
-    router: Router;
-    translateService: TranslateService;
-    html5StorageService: AbstractHtml5StorageService;
     object: T;
     isInitCalled: boolean;
     form: FormGroup;
-    shouldUpdateDefaultFormFromParams: boolean;
     totalControlsFilled = 0;
-    shouldUpdateObjectFromRouterData = true;
+    isLoading = true;
+    defaultSuccessSaveMessage = 'DEFAULT_SUCCESS_SAVE_MESSAGE';
+    defaultErrorSaveMessage: string;
+    defaultSuccessDeleteMessage = 'DEFAULT_SUCCESS_DELETE_MESSAGE';
+    defaultErrorLoadObjectMessage: string;
 
     @ViewChild('formElement', { static: false }) formElement: NgForm;
 
-    constructor() {
+    constructor(
+        public router?: Router,
+        public activatedRoute?: ActivatedRoute,
+        public coreService?: AbstractCoreService,
+        public translateService?: TranslateService,
+        public html5StorageService?: AbstractHtml5StorageService,
+        public messageService?: AbstractMessageService,
+    ) {
 
-        this.shouldUpdateDefaultFormFromParams = true;
-        this.waitForInit();
-        if (this.getInitialForm()) this.form = this.getInitialForm();
-        if (this.shouldUpdateObjectFromRouterData && this.router) {
+        if (this.shouldUpdateObjectFromRouterData() && this.router) {
             const navigation: Navigation = this.router.getCurrentNavigation();
             if (navigation && navigation.extras && navigation.extras.state && navigation.extras.state.dataObject) {
                 this.object = navigation.extras.state.dataObject;
             }
         }
+        this.waitForInit();
+        if (this.getInitialForm()) this.form = this.getInitialForm();
+        this.initParamMapIdSubscription();
 
     }
 
@@ -58,6 +64,24 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
+    shouldUpdateObjectFromRouterData(): boolean {
+
+        return true;
+
+    }
+
+    shouldUpdateDefaultFormFromParams(): boolean {
+
+        return true;
+
+    }
+
+    shouldUpdateObjectFromParamMapId(): boolean {
+
+        return false;
+
+    }
+
     waitForInit() {
 
         setTimeout(() => {
@@ -73,7 +97,6 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
         this.initProviders();
         this.initQueryParamsSubscription();
-        this.initParamMapIdSubscription();
 
     }
 
@@ -99,12 +122,27 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     setInjectedResources(staticInjector: Injector) {
 
-        this.activatedRoute = this.getInjectedResource<ActivatedRoute>(staticInjector, ActivatedRoute);
-        this.coreService = this.getInjectedResource<AbstractCoreService>(staticInjector, AbstractCoreService as Type<AbstractCoreService>);
-        this.router = this.getInjectedResource<Router>(staticInjector, Router);
-        this.translateService = this.getInjectedResource<TranslateService>(staticInjector, TranslateService);
-        this.html5StorageService = this.getInjectedResource<AbstractHtml5StorageService>
+        if (!this.activatedRoute) {
+            this.activatedRoute = this.getInjectedResource<ActivatedRoute>(staticInjector, ActivatedRoute);
+        }
+        if (!this.coreService) {
+            this.coreService =
+                this.getInjectedResource<AbstractCoreService>(staticInjector, AbstractCoreService as Type<AbstractCoreService>);
+        }
+        if (!this.router) {
+            this.router = this.getInjectedResource<Router>(staticInjector, Router);
+        }
+        if (!this.translateService) {
+            this.translateService = this.getInjectedResource<TranslateService>(staticInjector, TranslateService);
+        }
+        if (!this.html5StorageService) {
+            this.html5StorageService = this.getInjectedResource<AbstractHtml5StorageService>
             (staticInjector, AbstractHtml5StorageService as Type<AbstractHtml5StorageService>);
+        }
+        if (!this.messageService) {
+            this.messageService = this.getInjectedResource<AbstractMessageService>
+            (staticInjector, AbstractMessageService as Type<AbstractMessageService>);
+        }
 
     }
 
@@ -132,7 +170,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
                 else {
                     console.warn('main object is not defined or is not a instance of Thing.', this.constructor.name);
                 }
-                if (this.shouldUpdateDefaultFormFromParams) {
+                if (this.shouldUpdateDefaultFormFromParams()) {
                     this.updateFormFromParams(this.form, params);
                 } else {
                     this.updateTotalControlsFilled();
@@ -152,19 +190,52 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     initParamMapIdSubscription() {
 
+        if (!this.activatedRoute) return;
+
         const s: Subscription = this.activatedRoute.paramMap
         .pipe(
             map((paramsAsMap: ParamMap) => paramsAsMap.get('id')),
-        ).subscribe((id: string) => {
+            delay(200),
+            filter((id: string) => {
+                if (!this.shouldUpdateObjectFromParamMapId()) return true;
+                if (id === null || id === undefined) {
+                    this.reset();
+                    return false;
+                }
+                return true;
+            }),
+            concatMap((id: string) => {
+                if (this.shouldUpdateObjectFromParamMapId()) {
+                    if (this.object && (this.object as any)._id) return of(this.object);
+                    return this.defaultFindOneObject(id);
+                } else return of(null);
+            }),
+        ).subscribe((object: T) => {
 
-            this.handleParamMapId(id);
+            if (!object) return;
+            setTimeout(() => {
+                this.isLoading = false;
+                this.object = object;
+                this.updateFormFromObject<T>(this.form, object);
+                this.successDefaultObjectLoaded(object);
+            }, 100);
 
+        }, () => {
+            this.messageService.error(this.defaultErrorLoadObjectMessage);
+            this.changeRoute('');
         });
         this.addSubscription(s);
 
     }
 
-    handleParamMapId(id: string) {}
+    defaultFindOneObject(id: string): Observable<T> {
+
+        console.error('defaultFindOneObject not implemented yet.');
+        throw new Error('defaultFindOneObject not implemented yet.');
+
+    }
+
+    successDefaultObjectLoaded(object: T) {}
 
     initFormChangesSubscription() {
 
@@ -214,6 +285,14 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
             form.controls[control].setValue((object[control] !== null && object[control] !== undefined) ? object[control] : null);
         });
         this.updateTotalControlsFilled();
+
+    }
+
+    changeRoute(urlSuffix: string) {
+
+        const relativeUrl = `../${urlSuffix}`;
+        const url: string = this.router.createUrlTree([relativeUrl], {relativeTo: this.activatedRoute}).toString();
+        this.router.navigate([url], { state: { dataObject: this.object }});
 
     }
 
@@ -271,6 +350,18 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
+    reset() {
+
+        setTimeout(() => {
+            this.isLoading = false;
+        }, 10);
+        if (this.object) {
+            this.resetForm();
+            this.object = undefined;
+        }
+
+    }
+
     resetForm() {
 
         this.formElement.resetForm();
@@ -280,6 +371,91 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
                 this.form.get(controlName).setValue(formGroup.get(controlName).value);
             });
         }
+    }
+
+    onDefaultSubmitSaveObject() {
+
+        if (this.form.invalid) return;
+
+        this.isLoading = true;
+        this.object = Object.assign(this.object || {}, this.form.getRawValue());
+
+        const s: Subscription = this.defaultSaveObject(this.object)
+        .subscribe((o: T) => {
+
+            this.onSuccessSaveObject();
+            this.object = o;
+            this.changeRoute((o as any)._id);
+
+        }, () => {
+            this.isLoading = false;
+            this.onErrorSaveObject();
+        });
+        this.addSubscription(s);
+
+    }
+
+    defaultSaveObject(object: T): Observable<T> {
+
+        this.isLoading = false;
+        console.error('defaultSaveObject not implemented yet.');
+        throw new Error('defaultSaveObject not implemented yet.');
+
+    }
+
+    onSuccessSaveObject() {
+
+        this.messageService.success(this.defaultSuccessSaveMessage);
+
+    }
+
+    onErrorSaveObject() {
+
+        this.messageService.error(this.defaultErrorSaveMessage);
+
+    }
+
+    defaultConfirmAndDeleteObjec() {
+
+        if (!this.object || !(this.object as any)._id) return;
+
+        const s: Subscription = this.showDefaultConfirmDeleteDialog()
+        .pipe(
+            first(),
+            filter((result: boolean) => result === true),
+            concatMap(() => {
+                this.isLoading = true;
+                return this.defaultDeleteObject();
+            }),
+        )
+        .subscribe(() => {
+
+            this.messageService.success(this.defaultSuccessDeleteMessage);
+            this.router.navigate(
+                ['../'],
+                { relativeTo: this.activatedRoute, queryParams: { skip: 0 }, queryParamsHandling: 'merge' },
+            );
+
+        }, () => {
+            this.isLoading = false;
+            this.messageService.error(this.defaultErrorSaveMessage);
+        });
+        this.subscription.add(s);
+
+    }
+
+    defaultDeleteObject(): Observable<void> {
+
+        console.error('defaultDeleteObject not implemented yet.');
+        throw new Error('defaultDeleteObject not implemented yet.');
+
+    }
+
+    showDefaultConfirmDeleteDialog(): Observable<boolean> {
+
+        console.error('showDefaultConfirmDialog not implemented yet.');
+        throw new Error('showDefaultConfirmDialog not implemented yet.');
+
     }
 
     ngOnDestroy() {
