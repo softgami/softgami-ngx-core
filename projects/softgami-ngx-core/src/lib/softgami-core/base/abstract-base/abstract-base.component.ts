@@ -383,8 +383,10 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         const s: Subscription = this.defaultSaveObject(this.object)
         .subscribe((o: T) => {
 
-            this.onSuccessSaveObject();
+            this.isLoading = false;
             this.object = o;
+            this.onSuccessSaveObject();
+            this.successDefaultObjectLoaded(o);
             this.changeRoute((o as any)._id);
 
         }, () => {
