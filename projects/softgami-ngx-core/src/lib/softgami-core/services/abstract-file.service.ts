@@ -1,8 +1,4 @@
-import { Inject } from '@angular/core';
-
 export abstract class AbstractFileService {
-
-    constructor(@Inject([]) ...args: any[]) {}
 
     downloadFile(res: Blob, mimeType: string, fileName: string) {
 
