@@ -9,6 +9,7 @@ import { TranslateService} from '@ngx-translate/core';
 import { AbstractCoreService } from '../../services/abstract-core.service';
 import { AbstractHtml5StorageService } from '../../../html5-storage/abstract-html5-storage.service';
 import { AbstractMessageService } from '../../services/abstract-message.service';
+import { ComponentState } from './component-state.enum';
 
 export abstract class AbstractBaseComponent<T extends Thing> implements OnDestroy, OnInit {
 
@@ -19,11 +20,13 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
     isInitCalled: boolean;
     form: FormGroup;
     totalControlsFilled = 0;
-    isLoading = true;
     defaultSuccessSaveMessage = 'DEFAULT_SUCCESS_SAVE_MESSAGE';
     defaultErrorSaveMessage: string;
     defaultSuccessDeleteMessage = 'DEFAULT_SUCCESS_DELETE_MESSAGE';
     defaultErrorLoadObjectMessage: string;
+    componentState: ComponentState = ComponentState.SUCCESS;
+    paramMapId: string;
+    readonly ComponentStateEnum = ComponentState;
 
     @ViewChild('formElement', { static: false }) formElement: NgForm;
 
@@ -197,6 +200,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
             map((paramsAsMap: ParamMap) => paramsAsMap.get('id')),
             delay(200),
             filter((id: string) => {
+                this.paramMapId = id;
                 if (!this.shouldUpdateObjectFromParamMapId()) return true;
                 if (id === null || id === undefined) {
                     this.reset();
@@ -205,6 +209,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
                 return true;
             }),
             concatMap((id: string) => {
+                setTimeout(() => { this.componentState = ComponentState.LOADING; }, 0);
                 if (this.shouldUpdateObjectFromParamMapId()) {
                     if (this.object && (this.object as any)._id) return of(this.object);
                     return this.defaultFindOneObject(id);
@@ -214,7 +219,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
             if (!object) return;
             setTimeout(() => {
-                this.isLoading = false;
+                this.componentState = ComponentState.SUCCESS;
                 this.object = object;
                 this.updateFormFromObject<T>(this.form, object);
                 this.successDefaultObjectLoaded(object);
@@ -353,7 +358,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
     reset() {
 
         setTimeout(() => {
-            this.isLoading = false;
+            this.componentState = ComponentState.SUCCESS;
         }, 10);
         if (this.object) {
             this.resetForm();
@@ -377,20 +382,20 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
         if (this.form.invalid) return;
 
-        this.isLoading = true;
+        this.componentState = ComponentState.LOADING;
         this.object = Object.assign(this.object || {}, this.form.getRawValue());
 
         const s: Subscription = this.defaultSaveObject(this.object)
         .subscribe((o: T) => {
 
-            this.isLoading = false;
+            this.componentState = ComponentState.SUCCESS;
             this.object = o;
             this.onSuccessSaveObject();
             this.successDefaultObjectLoaded(o);
             this.changeRoute((o as any)._id);
 
         }, () => {
-            this.isLoading = false;
+            this.componentState = ComponentState.ERROR;
             this.onErrorSaveObject();
         });
         this.addSubscription(s);
@@ -399,7 +404,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     defaultSaveObject(object: T): Observable<T> {
 
-        this.isLoading = false;
+        this.componentState = ComponentState.ERROR;
         console.error('defaultSaveObject not implemented yet.');
         throw new Error('defaultSaveObject not implemented yet.');
 
@@ -426,7 +431,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
             first(),
             filter((result: boolean) => result === true),
             concatMap(() => {
-                this.isLoading = true;
+                this.componentState = ComponentState.LOADING;
                 return this.defaultDeleteObject();
             }),
         )
@@ -439,7 +444,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
             );
 
         }, () => {
-            this.isLoading = false;
+            this.componentState = ComponentState.ERROR;
             this.messageService.error(this.defaultErrorSaveMessage);
         });
         this.subscription.add(s);
