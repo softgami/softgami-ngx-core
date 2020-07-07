@@ -29,10 +29,4 @@ export class LocalStorageService extends AbstractHtml5StorageService {
 
     }
 
-    clear() {
-
-        super.clear();
-
-    }
-
 }

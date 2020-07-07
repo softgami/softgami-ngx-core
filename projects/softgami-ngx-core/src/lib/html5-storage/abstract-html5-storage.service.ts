@@ -1,6 +1,6 @@
-import { BehaviorSubject } from 'rxjs';
 import * as CryptoJS from 'crypto-js';
 import { Inject, Injectable, Optional } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -8,24 +8,32 @@ import { Inject, Injectable, Optional } from '@angular/core';
 export abstract class AbstractHtml5StorageService {
 
     privateKey: string;
-    changes: BehaviorSubject<string>;
+    onChangeEvent: Subject<string>;
+    onClearEvent: Subject<void>;
 
     constructor(
         @Inject('shouldEncrypt') @Optional() public shouldEncrypt?: boolean,
-        @Inject('storage') @Optional() public storage?: any,
+        @Inject('storage') @Optional() public storage?: Storage,
     ) {
 
         this.privateKey = '28139f5bfdf08fe0a57cadb9625c28785dad6d46b6a5df0a69c5e0349e79c680ac4cc9a850bd402e15f64403d6' +
             'b48ddeca6f6c4e6e869e05adba0796ef9c728b';
         this.shouldEncrypt = shouldEncrypt;
         this.storage = storage;
-        this.changes = new BehaviorSubject(null);
+        this.onChangeEvent = new Subject();
+        this.onClearEvent = new Subject();
 
     }
 
-    onChanges(): BehaviorSubject<string> {
+    onChanges(): Subject<string> {
 
-        return this.changes;
+        return this.onChangeEvent;
+
+    }
+
+    onClear(): Subject<void> {
+
+        return this.onClearEvent;
 
     }
 
@@ -36,7 +44,7 @@ export abstract class AbstractHtml5StorageService {
         }
         if (!this.shouldEncrypt) {
             this.storage.setItem(key, JSON.stringify(value));
-            this.changes.next(key);
+            this.onChangeEvent.next(key);
             return;
         }
 
@@ -47,7 +55,7 @@ export abstract class AbstractHtml5StorageService {
         ).toString();
 
         this.storage.setItem(hashedKey, encryptedValue);
-        this.changes.next(key);
+        this.onChangeEvent.next(key);
 
     }
 
@@ -78,9 +86,29 @@ export abstract class AbstractHtml5StorageService {
 
     }
 
+    removeItem(key: string): void {
+
+        this.storage.removeItem(key);
+        this.onChangeEvent.next(key);
+
+    }
+
+    getLength(): number {
+
+        return this.storage.length;
+
+    }
+
+    key(index: number): string {
+
+        return this.storage.key(index);
+
+    }
+
     clear() {
 
         this.storage.clear();
+        this.onClearEvent.next();
 
     }
 

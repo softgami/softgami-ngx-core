@@ -29,10 +29,4 @@ export class SessionStorageService extends AbstractHtml5StorageService {
 
     }
 
-    clear() {
-
-        super.clear();
-
-    }
-
 }
