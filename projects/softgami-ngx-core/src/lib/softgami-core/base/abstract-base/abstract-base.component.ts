@@ -209,10 +209,12 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
                 return true;
             }),
             concatMap((id: string) => {
-                setTimeout(() => { this.componentState = ComponentState.LOADING; }, 0);
                 if (this.shouldUpdateObjectFromParamMapId()) {
                     if (this.object && (this.object as any)._id) return of(this.object);
-                    return this.defaultFindOneObject(id);
+                    else {
+                        setTimeout(() => { this.componentState = ComponentState.LOADING; }, 0);
+                        return this.defaultFindOneObject(id);
+                    }
                 } else return of(null);
             }),
         ).subscribe((object: T) => {
