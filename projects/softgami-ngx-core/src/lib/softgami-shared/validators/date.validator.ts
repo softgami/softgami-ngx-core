@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-import { VALID_DATE } from '../regex/valid-date.regex';
+import { VALID_DATE_BR_REGEX } from 'softgami-ts-core';
 
 export function DateValidator(): ValidatorFn {
 
@@ -14,7 +14,7 @@ export function DateValidator(): ValidatorFn {
             return null;
         }
 
-        return VALID_DATE.test(control.value) ? null : error;
+        return VALID_DATE_BR_REGEX.test(control.value) ? null : error;
 
     };
 

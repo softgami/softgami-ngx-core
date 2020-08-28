@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-import { VALID_PHONE_BR } from '../regex/valid-phone-br.regex';
+import { VALID_PHONE_BR_REGEX } from 'softgami-ts-core';
 
 export function PhoneValidator(locale?: string): ValidatorFn {
 
@@ -18,9 +18,9 @@ export function PhoneValidator(locale?: string): ValidatorFn {
         switch (locale) {
             case 'pt':
             case 'pt-br':
-                return VALID_PHONE_BR.test(control.value) ? null : error;
+                return VALID_PHONE_BR_REGEX.test(control.value) ? null : error;
             default:
-                return VALID_PHONE_BR.test(control.value) ? null : error;
+                return VALID_PHONE_BR_REGEX.test(control.value) ? null : error;
         }
 
     };

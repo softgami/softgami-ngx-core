@@ -1,7 +1,7 @@
 import { FormControl } from '@angular/forms';
 
 import { PhoneValidator } from './phone.validator';
-import { VALID_PHONE_BR } from '../regex/valid-phone-br.regex';
+import { VALID_PHONE_BR_REGEX } from 'softgami-ts-core';
 
 describe('Phone Validator', () => {
 
@@ -36,17 +36,17 @@ describe('Phone Validator', () => {
 
     });
 
-    it('should call VALID_PHONE_BR test when no locale was provided', () => {
+    it('should call VALID_PHONE_BR_REGEX test when no locale was provided', () => {
 
-        spyPhoneBR = spyOn(VALID_PHONE_BR, 'test');
+        spyPhoneBR = spyOn(VALID_PHONE_BR_REGEX, 'test');
         control.setValue('12');
         expect(spyPhoneBR).toHaveBeenCalledWith('12');
 
     });
 
-    it('should call VALID_PHONE_BR test when locale is "pt"', () => {
+    it('should call VALID_PHONE_BR_REGEX test when locale is "pt"', () => {
 
-        spyPhoneBR = spyOn(VALID_PHONE_BR, 'test');
+        spyPhoneBR = spyOn(VALID_PHONE_BR_REGEX, 'test');
         control.clearValidators();
         control.setValidators(PhoneValidator('pt'));
         control.setValue('12');
@@ -54,9 +54,9 @@ describe('Phone Validator', () => {
 
     });
 
-    it('should call VALID_PHONE_BR test when locale is "pt-br"', () => {
+    it('should call VALID_PHONE_BR_REGEX test when locale is "pt-br"', () => {
 
-        spyPhoneBR = spyOn(VALID_PHONE_BR, 'test');
+        spyPhoneBR = spyOn(VALID_PHONE_BR_REGEX, 'test');
         control.clearValidators();
         control.setValidators(PhoneValidator('pt-br'));
         control.setValue('12');
@@ -64,9 +64,9 @@ describe('Phone Validator', () => {
 
     });
 
-    it('should call VALID_PHONE_BR test with lowercase when locale is "PT-BR"', () => {
+    it('should call VALID_PHONE_BR_REGEX test with lowercase when locale is "PT-BR"', () => {
 
-        spyPhoneBR = spyOn(VALID_PHONE_BR, 'test');
+        spyPhoneBR = spyOn(VALID_PHONE_BR_REGEX, 'test');
         control.clearValidators();
         control.setValidators(PhoneValidator('PT-BR'));
         control.setValue('12');

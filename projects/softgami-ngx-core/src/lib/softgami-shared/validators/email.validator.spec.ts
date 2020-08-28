@@ -1,7 +1,7 @@
 import { FormControl } from '@angular/forms';
 
 import { EmailValidator } from './email.validator';
-import { VALID_EMAIL } from '../regex/valid-email.regex';
+import { VALID_EMAIL_REGEX } from 'softgami-ts-core';
 
 describe('Email Validator', () => {
 
@@ -22,7 +22,7 @@ describe('Email Validator', () => {
 
     it('should be valid when value is null', () => {
 
-        spyEmail = spyOn(VALID_EMAIL, 'test');
+        spyEmail = spyOn(VALID_EMAIL_REGEX, 'test');
         control.setValue(null);
         expect(control.valid).toBeTruthy();
         expect(control.invalid).toBeFalsy();
@@ -32,7 +32,7 @@ describe('Email Validator', () => {
 
     it('should be valid when value is undefined', () => {
 
-        spyEmail = spyOn(VALID_EMAIL, 'test');
+        spyEmail = spyOn(VALID_EMAIL_REGEX, 'test');
         control.setValue(undefined);
         expect(control.valid).toBeTruthy();
         expect(control.invalid).toBeFalsy();
@@ -42,7 +42,7 @@ describe('Email Validator', () => {
 
     it('should call test with "e" when value is "e"', () => {
 
-        spyEmail = spyOn(VALID_EMAIL, 'test');
+        spyEmail = spyOn(VALID_EMAIL_REGEX, 'test');
         control.clearValidators();
         control.setValidators(EmailValidator());
         control.setValue('e');
@@ -52,7 +52,7 @@ describe('Email Validator', () => {
 
     it('should call test with "e" when value is "e@do.c"', () => {
 
-        spyEmail = spyOn(VALID_EMAIL, 'test');
+        spyEmail = spyOn(VALID_EMAIL_REGEX, 'test');
         control.clearValidators();
         control.setValidators(EmailValidator());
         control.setValue('e@do.c');
@@ -62,7 +62,7 @@ describe('Email Validator', () => {
 
     it('should call test with "e" when value is "e@do.co"', () => {
 
-        spyEmail = spyOn(VALID_EMAIL, 'test');
+        spyEmail = spyOn(VALID_EMAIL_REGEX, 'test');
         control.clearValidators();
         control.setValidators(EmailValidator());
         control.setValue('e@do.co');

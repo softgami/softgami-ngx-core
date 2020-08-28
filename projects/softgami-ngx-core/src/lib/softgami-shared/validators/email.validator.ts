@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
-import { VALID_EMAIL } from '../regex/valid-email.regex';
+import { VALID_EMAIL_REGEX } from 'softgami-ts-core';
 
 export function EmailValidator() {
 
@@ -14,7 +14,7 @@ export function EmailValidator() {
             return null;
         }
 
-        return VALID_EMAIL.test(control.value) ? null : error;
+        return VALID_EMAIL_REGEX.test(control.value) ? null : error;
 
     };
 
