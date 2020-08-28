@@ -65,8 +65,13 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
     constructor() {
 
         super();
-        this.shouldUpdateDefaultFormFromParams = false;
         this.form.addControl('status', new FormControl('active', [Validators.required]));
+
+    }
+
+    shouldUpdateDefaultFormFromParams(): boolean {
+
+        return false;
 
     }
 
