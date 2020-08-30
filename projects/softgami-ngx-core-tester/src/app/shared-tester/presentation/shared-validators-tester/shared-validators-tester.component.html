@@ -32,10 +32,23 @@
         </div>
         <div class="validator-block">
             <h2>Phone Validator</h2>
-            <input type="text" name="phone" formControlName="phone" autocomplete="off">
+            <div>
+                <strong>Reactive:</strong> <input type="text" name="phone" formControlName="phone" autocomplete="off">
+            </div>
             <label for="">required: {{ !form.controls['phone'].hasError('required') }}</label>
             <label for="">valid: {{ form.controls['phone'].valid }}</label>
             <label for="">phone: {{ !form.controls['phone'].hasError('phone') }}</label>
+            <br>
+            <div>
+                <strong>Template driven:</strong> <input type="text" name="phone-template-driven" autocomplete="off"
+                    [(ngModel)]="phoneTemplateDrivenModel"
+                    #phoneTemplateDriven="ngModel"
+                    [ngModelOptions]="{standalone: true}"
+                    phoneValidator>
+            </div>
+            <label for="">required: {{ !phoneTemplateDriven?.errors?.required }}</label>
+            <label for="">valid: {{ phoneTemplateDriven?.valid }}</label>
+            <label for="">phone: {{ !phoneTemplateDriven?.errors?.phone }}</label>
         </div>
         <div class="validator-block">
             <h2>TaxNumber Validator</h2>

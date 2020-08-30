@@ -1,6 +1,7 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { PhoneRegexFactoryService } from 'softgami-ts-core';
 
-import { VALID_PHONE_BR_REGEX } from 'softgami-ts-core';
+import { SoftgamiNgxCoreModule } from '../../softgami-ngx-core.module';
 
 export function PhoneValidator(locale?: string): ValidatorFn {
 
@@ -13,15 +14,19 @@ export function PhoneValidator(locale?: string): ValidatorFn {
         const error: ValidationErrors = {
             phone: true,
         };
-        locale = locale ? locale.toLowerCase() : null;
 
-        switch (locale) {
-            case 'pt':
-            case 'pt-br':
-                return VALID_PHONE_BR_REGEX.test(control.value) ? null : error;
-            default:
-                return VALID_PHONE_BR_REGEX.test(control.value) ? null : error;
+        let regex: RegExp;
+
+        if (locale) {
+            locale = locale.toLowerCase();
+            regex = new PhoneRegexFactoryService().getRegexByLocale(locale);
+        } else if (SoftgamiNgxCoreModule.country) {
+            regex = new PhoneRegexFactoryService().getRegexByCountry(SoftgamiNgxCoreModule.country);
+        } else {
+            return error;
         }
+
+        return regex && regex.test(control.value) ? null : error;
 
     };
 

@@ -8,6 +8,7 @@ import { IncludesPipe } from './pipes/includes.pipe';
 import { JoinPipe } from './pipes/join.pipe';
 import { MathPipe } from './pipes/math.pipe';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
+import { PhoneValidatorDirective } from './directives/phone-validator.directive';
 import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
 
 @NgModule({
@@ -22,6 +23,7 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
         JoinPipe,
         MathPipe,
         NumbersOnlyDirective,
+        PhoneValidatorDirective,
         TrimOnBlurDirective,
     ],
     providers: [
@@ -39,6 +41,7 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
         JoinPipe,
         MathPipe,
         NumbersOnlyDirective,
+        PhoneValidatorDirective,
         TrimOnBlurDirective,
     ],
 })

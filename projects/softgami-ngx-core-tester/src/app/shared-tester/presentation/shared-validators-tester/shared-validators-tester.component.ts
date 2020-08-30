@@ -23,6 +23,7 @@ export class SharedValidatorsTesterComponent implements OnInit {
     whitespace: FormControl;
     phone: FormControl;
     taxNumber: FormControl;
+    phoneTemplateDrivenModel: string;
 
     @ViewChild('f', {static: false}) f: HTMLFormElement;
 
