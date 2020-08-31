@@ -8,6 +8,8 @@ export function MatchOtherValidator(otherControl: AbstractControl): ValidatorFn 
             matchOther: true,
         };
 
+        if (!otherControl) return null;
+
         otherControl.valueChanges.subscribe(() => {
             control.updateValueAndValidity();
         });

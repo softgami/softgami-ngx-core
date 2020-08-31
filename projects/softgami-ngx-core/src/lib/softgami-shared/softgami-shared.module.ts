@@ -8,6 +8,7 @@ import { FileSizeFormatterPipe } from './pipes/file-size-formatter.pipe';
 import { FilterListPipe } from './pipes/filter-list.pipe';
 import { IncludesPipe } from './pipes/includes.pipe';
 import { JoinPipe } from './pipes/join.pipe';
+import { MatchOtherValidatorDirective } from './directives/match-other-validator.directive';
 import { MathPipe } from './pipes/math.pipe';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { PhoneValidatorDirective } from './directives/phone-validator.directive';
@@ -25,6 +26,7 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
         FilterListPipe,
         IncludesPipe,
         JoinPipe,
+        MatchOtherValidatorDirective,
         MathPipe,
         NumbersOnlyDirective,
         PhoneValidatorDirective,
@@ -45,6 +47,7 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
         FilterListPipe,
         IncludesPipe,
         JoinPipe,
+        MatchOtherValidatorDirective,
         MathPipe,
         NumbersOnlyDirective,
         PhoneValidatorDirective,

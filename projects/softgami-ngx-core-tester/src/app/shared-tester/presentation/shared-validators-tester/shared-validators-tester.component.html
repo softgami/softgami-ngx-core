@@ -43,11 +43,30 @@
         </div>
         <div class="validator-block">
             <h2>Match Other Validator</h2>
-            <input type="text" name="firstInput" formControlName="firstInput" autocomplete="off">
+            <div>
+                <strong>Reactive:</strong> <input type="text" name="firstInput" formControlName="firstInput" autocomplete="off">
+            </div>
             <input type="text" name="secondInput" formControlName="secondInput" autocomplete="off">
             <label for="">required: {{ !form.controls['secondInput'].hasError('required') }}</label>
             <label for="">valid: {{ form.controls['secondInput'].valid }}</label>
             <label for="">matchOther: {{ !form.controls['secondInput'].hasError('matchOther') }}</label>
+            <br>
+            <div>
+                <strong>Template driven:</strong>
+                <input type="text" name="first-template-driven" autocomplete="off"
+                    [(ngModel)]="firstTemplateDrivenModel"
+                    #firstTemplateDriven="ngModel"
+                    [ngModelOptions]="{standalone: true}">
+            </div>
+            <input type="text" name="second-template-driven" autocomplete="off"
+                    [(ngModel)]="secondTemplateDrivenModel"
+                    #secondTemplateDriven="ngModel"
+                    [ngModelOptions]="{standalone: true}"
+                    [otherControl]="firstTemplateDriven"
+                    matchOtherValidator>
+            <label for="">required: {{ !secondTemplateDriven?.errors?.required }}</label>
+            <label for="">valid: {{ secondTemplateDriven?.valid }}</label>
+            <label for="">date: {{ !secondTemplateDriven?.errors?.matchOther }}</label>
         </div>
         <div class="validator-block">
             <h2>No WhiteSpace Validator</h2>
