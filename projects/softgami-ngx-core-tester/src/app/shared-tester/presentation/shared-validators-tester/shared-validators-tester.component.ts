@@ -28,6 +28,7 @@ export class SharedValidatorsTesterComponent implements OnInit {
     emailTemplateDrivenModel: string;
     firstTemplateDrivenModel: string;
     secondTemplateDrivenModel: string;
+    whitespaceTemplateDrivenModel: string;
 
     @ViewChild('f', {static: false}) f: HTMLFormElement;
 

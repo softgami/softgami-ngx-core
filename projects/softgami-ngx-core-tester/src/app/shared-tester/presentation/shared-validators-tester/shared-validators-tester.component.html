@@ -66,14 +66,27 @@
                     matchOtherValidator>
             <label for="">required: {{ !secondTemplateDriven?.errors?.required }}</label>
             <label for="">valid: {{ secondTemplateDriven?.valid }}</label>
-            <label for="">date: {{ !secondTemplateDriven?.errors?.matchOther }}</label>
+            <label for="">matchOther: {{ !secondTemplateDriven?.errors?.matchOther }}</label>
         </div>
         <div class="validator-block">
             <h2>No WhiteSpace Validator</h2>
-            <input type="text" name="whitespace" formControlName="whitespace" autocomplete="off">
+            <div>
+                <strong>Reactive:</strong> <input type="text" name="whitespace" formControlName="whitespace" autocomplete="off">
+            </div>
             <label for="">required: {{ !form.controls['whitespace'].hasError('required') }}</label>
             <label for="">valid: {{ form.controls['whitespace'].valid }}</label>
             <label for="">whitespace: {{ !form.controls['whitespace'].hasError('whitespace') }}</label>
+            <br>
+            <div>
+                <strong>Template driven:</strong> <input type="text" name="whitespace-template-driven" autocomplete="off"
+                    [(ngModel)]="whitespaceTemplateDrivenModel"
+                    #whitespaceTemplateDriven="ngModel"
+                    [ngModelOptions]="{standalone: true}"
+                    noWhiteSpaceValidator>
+            </div>
+            <label for="">required: {{ !whitespaceTemplateDriven?.errors?.required }}</label>
+            <label for="">valid: {{ whitespaceTemplateDriven?.valid }}</label>
+            <label for="">whitespace: {{ !whitespaceTemplateDriven?.errors?.whitespace }}</label>
         </div>
         <div class="validator-block">
             <h2>Phone Validator</h2>

@@ -10,6 +10,7 @@ import { IncludesPipe } from './pipes/includes.pipe';
 import { JoinPipe } from './pipes/join.pipe';
 import { MatchOtherValidatorDirective } from './directives/match-other-validator.directive';
 import { MathPipe } from './pipes/math.pipe';
+import { NoWhiteSpaceValidatorDirective } from './directives/no-whitespace-validator.directive';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { PhoneValidatorDirective } from './directives/phone-validator.directive';
 import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
@@ -28,6 +29,7 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
         JoinPipe,
         MatchOtherValidatorDirective,
         MathPipe,
+        NoWhiteSpaceValidatorDirective,
         NumbersOnlyDirective,
         PhoneValidatorDirective,
         TrimOnBlurDirective,
@@ -49,6 +51,7 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
         JoinPipe,
         MatchOtherValidatorDirective,
         MathPipe,
+        NoWhiteSpaceValidatorDirective,
         NumbersOnlyDirective,
         PhoneValidatorDirective,
         TrimOnBlurDirective,
