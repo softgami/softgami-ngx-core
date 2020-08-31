@@ -24,6 +24,7 @@ export class SharedValidatorsTesterComponent implements OnInit {
     phone: FormControl;
     taxNumber: FormControl;
     phoneTemplateDrivenModel: string;
+    dateTemplateDrivenModel: string;
 
     @ViewChild('f', {static: false}) f: HTMLFormElement;
 

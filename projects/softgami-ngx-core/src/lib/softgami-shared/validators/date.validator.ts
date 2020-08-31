@@ -1,8 +1,9 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { DateRegexFactoryService } from 'softgami-ts-core';
 
-import { VALID_DATE_BR_REGEX } from 'softgami-ts-core';
+import { SoftgamiNgxCoreModule } from '../../softgami-ngx-core.module';
 
-export function DateValidator(): ValidatorFn {
+export function DateValidator(locale?: string): ValidatorFn {
 
     return (control: AbstractControl): ValidationErrors | null => {
 
@@ -14,7 +15,18 @@ export function DateValidator(): ValidatorFn {
             return null;
         }
 
-        return VALID_DATE_BR_REGEX.test(control.value) ? null : error;
+        let regex: RegExp;
+
+        if (locale) {
+            locale = locale.toLowerCase();
+            regex = new DateRegexFactoryService().getRegexByLocale(locale);
+        } else if (SoftgamiNgxCoreModule.country) {
+            regex = new DateRegexFactoryService().getRegexByCountry(SoftgamiNgxCoreModule.country);
+        } else {
+            return error;
+        }
+
+        return regex && regex.test(control.value) ? null : error;
 
     };
 

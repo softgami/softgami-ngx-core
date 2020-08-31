@@ -3,10 +3,23 @@
     <form class="form-validators" [formGroup]="form" #f="ngForm">
         <div class="validator-block">
             <h2>Date Validator</h2>
-            <input type="text" name="date" formControlName="date" autocomplete="off">
+            <div>
+                <strong>Reactive:</strong> <input type="text" name="date" formControlName="date" autocomplete="off">
+            </div>
             <label for="">required: {{ !form.controls['date'].hasError('required') }}</label>
             <label for="">valid: {{ form.controls['date'].valid }}</label>
             <label for="">date: {{ !form.controls['date'].hasError('date') }}</label>
+            <br>
+            <div>
+                <strong>Template driven:</strong> <input type="text" name="date-template-driven" autocomplete="off"
+                    [(ngModel)]="dateTemplateDrivenModel"
+                    #dateTemplateDriven="ngModel"
+                    [ngModelOptions]="{standalone: true}"
+                    dateValidator>
+            </div>
+            <label for="">required: {{ !dateTemplateDriven?.errors?.required }}</label>
+            <label for="">valid: {{ dateTemplateDriven?.valid }}</label>
+            <label for="">date: {{ !dateTemplateDriven?.errors?.date }}</label>
         </div>
         <div class="validator-block">
             <h2>Email Validator</h2>

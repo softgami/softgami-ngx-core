@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import { AutoFocusDirective } from './directives/auto-focus.directive';
+import { DateValidatorDirective } from './directives/date-validator.directive';
 import { FileSizeFormatterPipe } from './pipes/file-size-formatter.pipe';
 import { FilterListPipe } from './pipes/filter-list.pipe';
 import { IncludesPipe } from './pipes/includes.pipe';
@@ -17,6 +18,7 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
     ],
     declarations: [
         AutoFocusDirective,
+        DateValidatorDirective,
         FileSizeFormatterPipe,
         FilterListPipe,
         IncludesPipe,
@@ -35,6 +37,7 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
     ],
     exports: [
         AutoFocusDirective,
+        DateValidatorDirective,
         FileSizeFormatterPipe,
         FilterListPipe,
         IncludesPipe,
