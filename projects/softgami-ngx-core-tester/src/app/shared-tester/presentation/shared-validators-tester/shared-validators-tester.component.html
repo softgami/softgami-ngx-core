@@ -23,10 +23,23 @@
         </div>
         <div class="validator-block">
             <h2>Email Validator</h2>
-            <input type="text" name="email" formControlName="email" autocomplete="off">
+            <div>
+                <strong>Reactive:</strong> <input type="text" name="email" formControlName="email" autocomplete="off">
+            </div>
             <label for="">required: {{ !form.controls['email'].hasError('required') }}</label>
             <label for="">valid: {{ form.controls['email'].valid }}</label>
             <label for="">email: {{ !form.controls['email'].hasError('email') }}</label>
+            <br>
+            <div>
+                <strong>Template driven:</strong> <input type="text" name="email-template-driven" autocomplete="off"
+                    [(ngModel)]="emailTemplateDrivenModel"
+                    #emailTemplateDriven="ngModel"
+                    [ngModelOptions]="{standalone: true}"
+                    emailValidator>
+            </div>
+            <label for="">required: {{ !emailTemplateDriven?.errors?.required }}</label>
+            <label for="">valid: {{ emailTemplateDriven?.valid }}</label>
+            <label for="">date: {{ !emailTemplateDriven?.errors?.email }}</label>
         </div>
         <div class="validator-block">
             <h2>Match Other Validator</h2>
