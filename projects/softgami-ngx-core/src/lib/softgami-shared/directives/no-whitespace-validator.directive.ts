@@ -1,5 +1,6 @@
 import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 import { Directive } from '@angular/core';
+
 import { NoWhitespaceValidator } from '../validators/no-whitespace.validator';
 
 @Directive({

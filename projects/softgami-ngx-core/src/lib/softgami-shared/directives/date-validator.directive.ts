@@ -1,6 +1,7 @@
 import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
-import { DateValidator } from '../validators/date.validator';
 import { Directive, Input } from '@angular/core';
+
+import { DateValidator } from '../validators/date.validator';
 
 @Directive({
     // tslint:disable-next-line: directive-selector

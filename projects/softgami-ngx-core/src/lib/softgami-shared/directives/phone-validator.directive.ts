@@ -1,5 +1,6 @@
 import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 import { Directive, Input } from '@angular/core';
+
 import { PhoneValidator } from '../validators/phone.validator';
 
 @Directive({
