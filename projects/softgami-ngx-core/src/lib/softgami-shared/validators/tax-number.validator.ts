@@ -1,7 +1,9 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import isValidCpf from '@brazilian-utils/is-valid-cpf';
+import { AbstractTaxNumberUtilsService, TaxNumberUtilsFactoryService } from 'softgami-ts-core';
 
-export function TaxNumberValidator(locale?: string): ValidatorFn {
+import { SoftgamiNgxCoreModule } from '../../softgami-ngx-core.module';
+
+export function TaxNumberValidator(countryCode?: string, isIndividual?: boolean): ValidatorFn {
 
     return (control: AbstractControl): ValidationErrors | null => {
 
@@ -12,15 +14,20 @@ export function TaxNumberValidator(locale?: string): ValidatorFn {
         const error: ValidationErrors = {
             taxNumber: true,
         };
-        locale = locale ? locale.toLowerCase() : null;
 
-        switch (locale) {
-            case 'pt':
-            case 'pt-br':
-                return isValidCpf(control.value) ? null : error;
-            default:
-                return isValidCpf(control.value) ? null : error;
+        let taxNumberUtilsService: AbstractTaxNumberUtilsService;
+
+        if (countryCode) {
+            countryCode = countryCode.toLowerCase();
+            taxNumberUtilsService = new TaxNumberUtilsFactoryService().getUtilsServiceByCountryCode(countryCode, isIndividual);
+        } else if (SoftgamiNgxCoreModule.country) {
+            taxNumberUtilsService =
+                new TaxNumberUtilsFactoryService().getUtilsServiceByCountry(SoftgamiNgxCoreModule.country, isIndividual);
+        } else {
+            return error;
         }
+
+        return taxNumberUtilsService && taxNumberUtilsService.validate(control.value) ? null : error;
 
     };
 

@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Country } from 'softgami-ts-core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { NgxMaskModule } from 'ngx-mask';
 
 import { SoftgamiNgxCoreModule } from 'projects/softgami-ngx-core/src/lib/softgami-ngx-core.module';
 import { SoftgamiSharedModule } from 'projects/softgami-ngx-core/src/lib/softgami-shared/softgami-shared.module';
@@ -21,7 +20,6 @@ import { SharedValidatorsTesterComponent } from './presentation/shared-validator
     imports: [
         CommonModule,
         FormsModule,
-        NgxMaskModule.forRoot(),
         ReactiveFormsModule,
         SharedTesterRoutingModule,
         SoftgamiSharedModule,

@@ -27,7 +27,6 @@
         "@angular/platform-browser": "~8.0.0",
         "@angular/platform-browser-dynamic": "~8.0.0",
         "@angular/router": "~8.0.0",
-        "@brazilian-utils/is-valid-cpf": "^0.1.11",
         "@ngx-translate/core": "^11.0.1",
         "@ngx-translate/http-loader": "^4.0.0",
         "crypto-js": "^3.1.9-1",

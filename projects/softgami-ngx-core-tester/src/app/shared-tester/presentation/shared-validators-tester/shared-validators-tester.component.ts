@@ -29,6 +29,7 @@ export class SharedValidatorsTesterComponent implements OnInit {
     firstTemplateDrivenModel: string;
     secondTemplateDrivenModel: string;
     whitespaceTemplateDrivenModel: string;
+    taxNumberTemplateDrivenModel: string;
 
     @ViewChild('f', {static: false}) f: HTMLFormElement;
 
@@ -72,7 +73,7 @@ export class SharedValidatorsTesterComponent implements OnInit {
         this.taxNumber = new FormControl(null,
             [
                 Validators.required,
-                TaxNumberValidator(),
+                TaxNumberValidator(null, true),
             ],
         );
 

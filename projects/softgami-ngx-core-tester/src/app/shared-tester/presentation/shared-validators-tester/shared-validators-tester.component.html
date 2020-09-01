@@ -110,10 +110,24 @@
         </div>
         <div class="validator-block">
             <h2>TaxNumber Validator</h2>
-            <input type="text" name="taxNumber" formControlName="taxNumber" autocomplete="off">
+            <div>
+                <strong>Reactive:</strong> <input type="text" name="taxNumber" formControlName="taxNumber" autocomplete="off">
+            </div>
             <label for="">required: {{ !form.controls['taxNumber'].hasError('required') }}</label>
             <label for="">valid: {{ form.controls['taxNumber'].valid }}</label>
             <label for="">taxNumber: {{ !form.controls['taxNumber'].hasError('taxNumber') }}</label>
+            <br>
+            <div>
+                <strong>Template driven:</strong> <input type="text" name="tax-number-template-driven" autocomplete="off"
+                    [(ngModel)]="taxNumberTemplateDrivenModel"
+                    #taxNumberTemplateDriven="ngModel"
+                    [ngModelOptions]="{standalone: true}"
+                    [taxNumberValidatorIsIndividual]="true"
+                    taxNumberValidator>
+            </div>
+            <label for="">required: {{ !taxNumberTemplateDriven?.errors?.required }}</label>
+            <label for="">valid: {{ taxNumberTemplateDriven?.valid }}</label>
+            <label for="">taxNumber: {{ !taxNumberTemplateDriven?.errors?.taxNumber }}</label>
         </div>
     </form>
 </div>

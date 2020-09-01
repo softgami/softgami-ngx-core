@@ -13,6 +13,7 @@ import { MathPipe } from './pipes/math.pipe';
 import { NoWhiteSpaceValidatorDirective } from './directives/no-whitespace-validator.directive';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { PhoneValidatorDirective } from './directives/phone-validator.directive';
+import { TaxNumberValidatorDirective } from './directives/tax-number-validator.directive';
 import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
 
 @NgModule({
@@ -32,6 +33,7 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
         NoWhiteSpaceValidatorDirective,
         NumbersOnlyDirective,
         PhoneValidatorDirective,
+        TaxNumberValidatorDirective,
         TrimOnBlurDirective,
     ],
     providers: [
@@ -54,6 +56,7 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
         NoWhiteSpaceValidatorDirective,
         NumbersOnlyDirective,
         PhoneValidatorDirective,
+        TaxNumberValidatorDirective,
         TrimOnBlurDirective,
     ],
 })
