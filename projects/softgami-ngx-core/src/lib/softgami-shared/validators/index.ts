@@ -1,4 +1,5 @@
 export { DateValidator } from './date.validator';
+export { DuplicatedValidator } from './duplicated.validator';
 export { EmailValidator } from './email.validator';
 export { MatchOtherValidator } from './match-other.validator';
 export { NoWhitespaceValidator } from './no-whitespace.validator';

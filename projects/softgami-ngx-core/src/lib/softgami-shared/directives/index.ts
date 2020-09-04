@@ -1,5 +1,6 @@
 export { AutoFocusDirective } from './auto-focus.directive';
 export { DateValidatorDirective } from './date-validator.directive';
+export { DuplicatedValidatorDirective } from './duplicated-validator.directive';
 export { EmailValidatorDirective } from './email-validator.directive';
 export { MatchOtherValidatorDirective } from './match-other-validator.directive';
 export { NoWhiteSpaceValidatorDirective } from './no-whitespace-validator.directive';

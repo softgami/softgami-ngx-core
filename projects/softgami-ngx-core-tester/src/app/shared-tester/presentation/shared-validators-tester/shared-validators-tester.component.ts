@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { DateValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/date.validator';
+import { DuplicatedValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/duplicated.validator';
 import { EmailValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/email.validator';
 import { MatchOtherValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/match-other.validator';
 import { NoWhitespaceValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/no-whitespace.validator';
@@ -23,6 +24,7 @@ export class SharedValidatorsTesterComponent implements OnInit {
     whitespace: FormControl;
     phone: FormControl;
     taxNumber: FormControl;
+    duplicated: FormControl;
     phoneTemplateDrivenModel: string;
     dateTemplateDrivenModel: string;
     emailTemplateDrivenModel: string;
@@ -30,6 +32,14 @@ export class SharedValidatorsTesterComponent implements OnInit {
     secondTemplateDrivenModel: string;
     whitespaceTemplateDrivenModel: string;
     taxNumberTemplateDrivenModel: string;
+    duplicatedTemplateDrivenModels: any[] = [
+        {
+            number: null,
+        },
+        {
+            number: null,
+        },
+    ];
 
     @ViewChild('f', {static: false}) f: HTMLFormElement;
 
@@ -76,6 +86,12 @@ export class SharedValidatorsTesterComponent implements OnInit {
                 TaxNumberValidator(null, true),
             ],
         );
+        this.duplicated = new FormControl(null,
+            [
+                Validators.required,
+                DuplicatedValidator(0, ['123', '1234']),
+            ],
+        );
 
         this.form = new FormGroup({
             date: this.date,
@@ -85,6 +101,7 @@ export class SharedValidatorsTesterComponent implements OnInit {
             whitespace: this.whitespace,
             phone: this.phone,
             taxNumber: this.taxNumber,
+            duplicated: this.duplicated,
         });
 
     }

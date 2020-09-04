@@ -129,5 +129,40 @@
             <label for="">valid: {{ taxNumberTemplateDriven?.valid }}</label>
             <label for="">taxNumber: {{ !taxNumberTemplateDriven?.errors?.taxNumber }}</label>
         </div>
+        <div class="validator-block">
+            <h2>Duplicated Validator</h2>
+            <div>
+                <strong>Reactive:</strong> <input type="text" name="duplicated" formControlName="duplicated" autocomplete="off">
+            </div>
+            <label for="">required: {{ !form.controls['duplicated'].hasError('required') }}</label>
+            <label for="">valid: {{ form.controls['duplicated'].valid }}</label>
+            <label for="">duplicated: {{ !form.controls['duplicated'].hasError('duplicated') }}</label>
+            <br>
+            <div>
+                <strong>Template driven:</strong> <input type="text" name="tax-number-template-driven" autocomplete="off"
+                    [(ngModel)]="duplicatedTemplateDrivenModels[0].number"
+                    #duplicatedTemplateDriven1="ngModel"
+                    [ngModelOptions]="{standalone: true}"
+                    [duplicatedValidatorIndex]="0"
+                    [duplicatedValidatorValues]="duplicatedTemplateDrivenModels"
+                    [duplicatedValidatorKey]="'number'"
+                    duplicatedValidator>
+                    <input type="text" name="tax-number-template-driven" autocomplete="off"
+                        [(ngModel)]="duplicatedTemplateDrivenModels[1].number"
+                        #duplicatedTemplateDriven2="ngModel"
+                        [ngModelOptions]="{standalone: true}"
+                        [duplicatedValidatorIndex]="1"
+                        [duplicatedValidatorValues]="duplicatedTemplateDrivenModels"
+                        [duplicatedValidatorKey]="'number'"
+                        duplicatedValidator>
+            </div>
+            <label for="">required1: {{ !duplicatedTemplateDriven1?.errors?.required }}</label>
+            <label for="">valid1: {{ duplicatedTemplateDriven1?.valid }}</label>
+            <label for="">duplicated1: {{ !duplicatedTemplateDriven1?.errors?.duplicated }}</label>
+
+            <label for="">required2: {{ !duplicatedTemplateDriven2?.errors?.required }}</label>
+            <label for="">valid2: {{ duplicatedTemplateDriven2?.valid }}</label>
+            <label for="">duplicated2: {{ !duplicatedTemplateDriven2?.errors?.duplicated }}</label>
+        </div>
     </form>
 </div>
