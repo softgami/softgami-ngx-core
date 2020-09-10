@@ -17,6 +17,7 @@ import { PasswordValidatorDirective } from './directives/password-validator.dire
 import { PhoneValidatorDirective } from './directives/phone-validator.directive';
 import { TaxNumberValidatorDirective } from './directives/tax-number-validator.directive';
 import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
+import { ZipCodeValidatorDirective } from './directives/zip-code-validator.directive';
 
 @NgModule({
     imports: [
@@ -39,6 +40,7 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
         PhoneValidatorDirective,
         TaxNumberValidatorDirective,
         TrimOnBlurDirective,
+        ZipCodeValidatorDirective,
     ],
     providers: [
         FileSizeFormatterPipe,
@@ -64,6 +66,7 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
         PhoneValidatorDirective,
         TaxNumberValidatorDirective,
         TrimOnBlurDirective,
+        ZipCodeValidatorDirective,
     ],
 })
 export class SoftgamiSharedModule {

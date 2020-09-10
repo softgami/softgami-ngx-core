@@ -6,3 +6,4 @@ export { NoWhitespaceValidator } from './no-whitespace.validator';
 export { PasswordValidator } from './password.validator';
 export { PhoneValidator } from './phone.validator';
 export { TaxNumberValidator } from './tax-number.validator';
+export { ZipCodeValidator } from './zip-code.validator';

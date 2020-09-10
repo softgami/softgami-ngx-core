@@ -9,3 +9,4 @@ export { PasswordValidatorDirective } from './password-validator.directive';
 export { PhoneValidatorDirective } from './phone-validator.directive';
 export { TaxNumberValidatorDirective } from './tax-number-validator.directive';
 export { TrimOnBlurDirective } from './trim-on-blur.directive';
+export { ZipCodeValidatorDirective } from './zip-code-validator.directive';

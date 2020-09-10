@@ -9,6 +9,7 @@ import { NoWhitespaceValidator } from 'projects/softgami-ngx-core/src/lib/softga
 import { PasswordValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/password.validator';
 import { PhoneValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/phone.validator';
 import { TaxNumberValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/tax-number.validator';
+import { ZipCodeValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/zip-code.validator';
 
 @Component({
     selector: 'app-shared-validators-tester',
@@ -27,6 +28,8 @@ export class SharedValidatorsTesterComponent implements OnInit {
     taxNumber: FormControl;
     duplicated: FormControl;
     password: FormControl;
+    zipCode: FormControl;
+
     phoneTemplateDrivenModel: string;
     dateTemplateDrivenModel: string;
     emailTemplateDrivenModel: string;
@@ -43,6 +46,7 @@ export class SharedValidatorsTesterComponent implements OnInit {
         },
     ];
     passwordTemplateDrivenModel: string;
+    zipCodeTemplateDrivenModel: string;
 
     @ViewChild('f', {static: false}) f: HTMLFormElement;
 
@@ -101,6 +105,12 @@ export class SharedValidatorsTesterComponent implements OnInit {
                 PasswordValidator(),
             ],
         );
+        this.zipCode = new FormControl(null,
+            [
+                Validators.required,
+                ZipCodeValidator(),
+            ],
+        );
 
         this.form = new FormGroup({
             date: this.date,
@@ -112,6 +122,7 @@ export class SharedValidatorsTesterComponent implements OnInit {
             taxNumber: this.taxNumber,
             duplicated: this.duplicated,
             password: this.password,
+            zipCode: this.zipCode,
         });
 
     }

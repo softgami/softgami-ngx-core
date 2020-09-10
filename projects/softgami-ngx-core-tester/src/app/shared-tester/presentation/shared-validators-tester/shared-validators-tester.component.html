@@ -202,5 +202,25 @@
             <label for="">error passwordSequentialChars: {{ passwordTemplateDriven?.errors?.passwordSequentialChars }}</label>
             <label for="">error passwordRepeatedChars: {{ passwordTemplateDriven?.errors?.passwordRepeatedChars }}</label>
         </div>
+        <div class="validator-block">
+            <h2>ZipCode Validator</h2>
+            <div>
+                <strong>Reactive:</strong> <input type="text" name="zipCode" formControlName="zipCode" autocomplete="off">
+            </div>
+            <label for="">required: {{ !form.controls['zipCode'].hasError('required') }}</label>
+            <label for="">valid: {{ form.controls['zipCode'].valid }}</label>
+            <label for="">error zipCode: {{ form.controls['zipCode'].hasError('zipCode') }}</label>
+            <br>
+            <div>
+                <strong>Template driven:</strong> <input type="text" name="zip-code-template-driven" autocomplete="off"
+                    [(ngModel)]="zipCodeTemplateDrivenModel"
+                    #zipCodeTemplateDriven="ngModel"
+                    [ngModelOptions]="{standalone: true}"
+                    zipCodeValidator>
+            </div>
+            <label for="">required: {{ !zipCodeTemplateDriven?.errors?.required }}</label>
+            <label for="">valid: {{ zipCodeTemplateDriven?.valid }}</label>
+            <label for="">error zipCode: {{ zipCodeTemplateDriven?.errors?.zipCode }}</label>
+        </div>
     </form>
 </div>
