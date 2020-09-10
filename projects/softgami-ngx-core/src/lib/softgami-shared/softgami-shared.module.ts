@@ -13,6 +13,7 @@ import { MatchOtherValidatorDirective } from './directives/match-other-validator
 import { MathPipe } from './pipes/math.pipe';
 import { NoWhiteSpaceValidatorDirective } from './directives/no-whitespace-validator.directive';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
+import { PasswordValidatorDirective } from './directives/password-validator.directive';
 import { PhoneValidatorDirective } from './directives/phone-validator.directive';
 import { TaxNumberValidatorDirective } from './directives/tax-number-validator.directive';
 import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
@@ -34,6 +35,7 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
         MathPipe,
         NoWhiteSpaceValidatorDirective,
         NumbersOnlyDirective,
+        PasswordValidatorDirective,
         PhoneValidatorDirective,
         TaxNumberValidatorDirective,
         TrimOnBlurDirective,
@@ -58,6 +60,7 @@ import { TrimOnBlurDirective } from './directives/trim-on-blur.directive';
         MathPipe,
         NoWhiteSpaceValidatorDirective,
         NumbersOnlyDirective,
+        PasswordValidatorDirective,
         PhoneValidatorDirective,
         TaxNumberValidatorDirective,
         TrimOnBlurDirective,

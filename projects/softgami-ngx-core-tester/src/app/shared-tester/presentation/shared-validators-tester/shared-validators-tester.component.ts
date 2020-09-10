@@ -6,6 +6,7 @@ import { DuplicatedValidator } from 'projects/softgami-ngx-core/src/lib/softgami
 import { EmailValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/email.validator';
 import { MatchOtherValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/match-other.validator';
 import { NoWhitespaceValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/no-whitespace.validator';
+import { PasswordValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/password.validator';
 import { PhoneValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/phone.validator';
 import { TaxNumberValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/tax-number.validator';
 
@@ -25,6 +26,7 @@ export class SharedValidatorsTesterComponent implements OnInit {
     phone: FormControl;
     taxNumber: FormControl;
     duplicated: FormControl;
+    password: FormControl;
     phoneTemplateDrivenModel: string;
     dateTemplateDrivenModel: string;
     emailTemplateDrivenModel: string;
@@ -40,6 +42,7 @@ export class SharedValidatorsTesterComponent implements OnInit {
             number: null,
         },
     ];
+    passwordTemplateDrivenModel: string;
 
     @ViewChild('f', {static: false}) f: HTMLFormElement;
 
@@ -92,6 +95,12 @@ export class SharedValidatorsTesterComponent implements OnInit {
                 DuplicatedValidator(0, ['123', '1234']),
             ],
         );
+        this.password = new FormControl(null,
+            [
+                Validators.required,
+                PasswordValidator(),
+            ],
+        );
 
         this.form = new FormGroup({
             date: this.date,
@@ -102,6 +111,7 @@ export class SharedValidatorsTesterComponent implements OnInit {
             phone: this.phone,
             taxNumber: this.taxNumber,
             duplicated: this.duplicated,
+            password: this.password,
         });
 
     }

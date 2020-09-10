@@ -8,7 +8,7 @@
             </div>
             <label for="">required: {{ !form.controls['date'].hasError('required') }}</label>
             <label for="">valid: {{ form.controls['date'].valid }}</label>
-            <label for="">date: {{ !form.controls['date'].hasError('date') }}</label>
+            <label for="">error date: {{ form.controls['date'].hasError('date') }}</label>
             <br>
             <div>
                 <strong>Template driven:</strong> <input type="text" name="date-template-driven" autocomplete="off"
@@ -19,7 +19,7 @@
             </div>
             <label for="">required: {{ !dateTemplateDriven?.errors?.required }}</label>
             <label for="">valid: {{ dateTemplateDriven?.valid }}</label>
-            <label for="">date: {{ !dateTemplateDriven?.errors?.date }}</label>
+            <label for="">error date: {{ dateTemplateDriven?.errors?.date }}</label>
         </div>
         <div class="validator-block">
             <h2>Email Validator</h2>
@@ -28,7 +28,7 @@
             </div>
             <label for="">required: {{ !form.controls['email'].hasError('required') }}</label>
             <label for="">valid: {{ form.controls['email'].valid }}</label>
-            <label for="">email: {{ !form.controls['email'].hasError('email') }}</label>
+            <label for="">error email: {{ form.controls['email'].hasError('email') }}</label>
             <br>
             <div>
                 <strong>Template driven:</strong> <input type="text" name="email-template-driven" autocomplete="off"
@@ -39,7 +39,7 @@
             </div>
             <label for="">required: {{ !emailTemplateDriven?.errors?.required }}</label>
             <label for="">valid: {{ emailTemplateDriven?.valid }}</label>
-            <label for="">date: {{ !emailTemplateDriven?.errors?.email }}</label>
+            <label for="">error email: {{ emailTemplateDriven?.errors?.email }}</label>
         </div>
         <div class="validator-block">
             <h2>Match Other Validator</h2>
@@ -49,7 +49,7 @@
             <input type="text" name="secondInput" formControlName="secondInput" autocomplete="off">
             <label for="">required: {{ !form.controls['secondInput'].hasError('required') }}</label>
             <label for="">valid: {{ form.controls['secondInput'].valid }}</label>
-            <label for="">matchOther: {{ !form.controls['secondInput'].hasError('matchOther') }}</label>
+            <label for="">error matchOther: {{ form.controls['secondInput'].hasError('matchOther') }}</label>
             <br>
             <div>
                 <strong>Template driven:</strong>
@@ -66,7 +66,7 @@
                     matchOtherValidator>
             <label for="">required: {{ !secondTemplateDriven?.errors?.required }}</label>
             <label for="">valid: {{ secondTemplateDriven?.valid }}</label>
-            <label for="">matchOther: {{ !secondTemplateDriven?.errors?.matchOther }}</label>
+            <label for="">error matchOther: {{ secondTemplateDriven?.errors?.matchOther }}</label>
         </div>
         <div class="validator-block">
             <h2>No WhiteSpace Validator</h2>
@@ -75,7 +75,7 @@
             </div>
             <label for="">required: {{ !form.controls['whitespace'].hasError('required') }}</label>
             <label for="">valid: {{ form.controls['whitespace'].valid }}</label>
-            <label for="">whitespace: {{ !form.controls['whitespace'].hasError('whitespace') }}</label>
+            <label for="">error whitespace: {{ form.controls['whitespace'].hasError('whitespace') }}</label>
             <br>
             <div>
                 <strong>Template driven:</strong> <input type="text" name="whitespace-template-driven" autocomplete="off"
@@ -86,7 +86,7 @@
             </div>
             <label for="">required: {{ !whitespaceTemplateDriven?.errors?.required }}</label>
             <label for="">valid: {{ whitespaceTemplateDriven?.valid }}</label>
-            <label for="">whitespace: {{ !whitespaceTemplateDriven?.errors?.whitespace }}</label>
+            <label for="">error whitespace: {{ whitespaceTemplateDriven?.errors?.whitespace }}</label>
         </div>
         <div class="validator-block">
             <h2>Phone Validator</h2>
@@ -95,7 +95,7 @@
             </div>
             <label for="">required: {{ !form.controls['phone'].hasError('required') }}</label>
             <label for="">valid: {{ form.controls['phone'].valid }}</label>
-            <label for="">phone: {{ !form.controls['phone'].hasError('phone') }}</label>
+            <label for="">error phone: {{ form.controls['phone'].hasError('phone') }}</label>
             <br>
             <div>
                 <strong>Template driven:</strong> <input type="text" name="phone-template-driven" autocomplete="off"
@@ -106,7 +106,7 @@
             </div>
             <label for="">required: {{ !phoneTemplateDriven?.errors?.required }}</label>
             <label for="">valid: {{ phoneTemplateDriven?.valid }}</label>
-            <label for="">phone: {{ !phoneTemplateDriven?.errors?.phone }}</label>
+            <label for="">error phone: {{ phoneTemplateDriven?.errors?.phone }}</label>
         </div>
         <div class="validator-block">
             <h2>TaxNumber Validator</h2>
@@ -115,7 +115,7 @@
             </div>
             <label for="">required: {{ !form.controls['taxNumber'].hasError('required') }}</label>
             <label for="">valid: {{ form.controls['taxNumber'].valid }}</label>
-            <label for="">taxNumber: {{ !form.controls['taxNumber'].hasError('taxNumber') }}</label>
+            <label for="">error taxNumber: {{ form.controls['taxNumber'].hasError('taxNumber') }}</label>
             <br>
             <div>
                 <strong>Template driven:</strong> <input type="text" name="tax-number-template-driven" autocomplete="off"
@@ -127,7 +127,7 @@
             </div>
             <label for="">required: {{ !taxNumberTemplateDriven?.errors?.required }}</label>
             <label for="">valid: {{ taxNumberTemplateDriven?.valid }}</label>
-            <label for="">taxNumber: {{ !taxNumberTemplateDriven?.errors?.taxNumber }}</label>
+            <label for="">error taxNumber: {{ taxNumberTemplateDriven?.errors?.taxNumber }}</label>
         </div>
         <div class="validator-block">
             <h2>Duplicated Validator</h2>
@@ -136,7 +136,7 @@
             </div>
             <label for="">required: {{ !form.controls['duplicated'].hasError('required') }}</label>
             <label for="">valid: {{ form.controls['duplicated'].valid }}</label>
-            <label for="">duplicated: {{ !form.controls['duplicated'].hasError('duplicated') }}</label>
+            <label for="">error duplicated: {{ form.controls['duplicated'].hasError('duplicated') }}</label>
             <br>
             <div>
                 <strong>Template driven:</strong> <input type="text" name="tax-number-template-driven" autocomplete="off"
@@ -158,11 +158,49 @@
             </div>
             <label for="">required1: {{ !duplicatedTemplateDriven1?.errors?.required }}</label>
             <label for="">valid1: {{ duplicatedTemplateDriven1?.valid }}</label>
-            <label for="">duplicated1: {{ !duplicatedTemplateDriven1?.errors?.duplicated }}</label>
+            <label for="">error duplicated1: {{ duplicatedTemplateDriven1?.errors?.duplicated }}</label>
 
             <label for="">required2: {{ !duplicatedTemplateDriven2?.errors?.required }}</label>
             <label for="">valid2: {{ duplicatedTemplateDriven2?.valid }}</label>
-            <label for="">duplicated2: {{ !duplicatedTemplateDriven2?.errors?.duplicated }}</label>
+            <label for="">error duplicated2: {{ duplicatedTemplateDriven2?.errors?.duplicated }}</label>
+        </div>
+        <div class="validator-block">
+            <h2>Password Validator</h2>
+            <div>
+                <strong>Reactive:</strong> <input type="text" name="password" formControlName="password" autocomplete="off">
+            </div>
+            <label for="">required: {{ !form.controls['password'].hasError('required') }}</label>
+            <label for="">valid: {{ form.controls['password'].valid }}</label>
+            <label for="">error password: {{ form.controls['password'].hasError('password') }}</label>
+            <label for="">error passwordMinLength: {{ form.controls['password'].hasError('passwordMinLength') }}</label>
+            <label for="">error passwordMaxLength: {{ form.controls['password'].hasError('passwordMaxLength') }}</label>
+            <label for="">error passwordAtLeastOneLowercaseLetter: {{ form.controls['password'].hasError('passwordAtLeastOneLowercaseLetter') }}</label>
+            <label for="">error passwordAtLeastOneUppercaseLetter: {{ form.controls['password'].hasError('passwordAtLeastOneUppercaseLetter') }}</label>
+            <label for="">error passwordAtLeastOneNumber: {{ form.controls['password'].hasError('passwordAtLeastOneNumber') }}</label>
+            <label for="">error passwordAtLeastOneSpecialChar: {{ form.controls['password'].hasError('passwordAtLeastOneSpecialChar') }}</label>
+            <label for="">error passwordInvalidChars: {{ form.controls['password'].hasError('passwordInvalidChars') }}</label>
+            <label for="">error passwordSequentialChars: {{ form.controls['password'].hasError('passwordSequentialChars') }}</label>
+            <label for="">error passwordRepeatedChars: {{ form.controls['password'].hasError('passwordRepeatedChars') }}</label>
+            <br>
+            <div>
+                <strong>Template driven:</strong> <input type="text" name="password-template-driven" autocomplete="off"
+                    [(ngModel)]="passwordTemplateDrivenModel"
+                    #passwordTemplateDriven="ngModel"
+                    [ngModelOptions]="{standalone: true}"
+                    passwordValidator>
+            </div>
+            <label for="">required: {{ !passwordTemplateDriven?.errors?.required }}</label>
+            <label for="">valid: {{ passwordTemplateDriven?.valid }}</label>
+            <label for="">error password: {{ passwordTemplateDriven?.errors?.password }}</label>
+            <label for="">error passwordMinLength: {{ passwordTemplateDriven?.errors?.passwordMinLength }}</label>
+            <label for="">error passwordMaxLength: {{ passwordTemplateDriven?.errors?.passwordMaxLength }}</label>
+            <label for="">error passwordAtLeastOneLowercaseLetter: {{ passwordTemplateDriven?.errors?.passwordAtLeastOneLowercaseLetter }}</label>
+            <label for="">error passwordAtLeastOneUppercaseLetter: {{ passwordTemplateDriven?.errors?.passwordAtLeastOneUppercaseLetter }}</label>
+            <label for="">error passwordAtLeastOneNumber: {{ passwordTemplateDriven?.errors?.passwordAtLeastOneNumber }}</label>
+            <label for="">error passwordAtLeastOneSpecialChar: {{ passwordTemplateDriven?.errors?.passwordAtLeastOneSpecialChar }}</label>
+            <label for="">error passwordInvalidChars: {{ passwordTemplateDriven?.errors?.passwordInvalidChars }}</label>
+            <label for="">error passwordSequentialChars: {{ passwordTemplateDriven?.errors?.passwordSequentialChars }}</label>
+            <label for="">error passwordRepeatedChars: {{ passwordTemplateDriven?.errors?.passwordRepeatedChars }}</label>
         </div>
     </form>
 </div>
