@@ -13,7 +13,7 @@ export class InterceptorHttpParams extends HttpParams {
         private readonly options?: InterceptorOptions,
     ) {
 
-        super({ fromObject: t.toQueryParamsObject() });
+        super(t ? { fromObject: t.toQueryParamsObject() } : null);
         this.thing = t;
         this.interceptorOptions = options;
 
