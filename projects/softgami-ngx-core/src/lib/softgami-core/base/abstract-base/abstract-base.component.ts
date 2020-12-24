@@ -393,7 +393,6 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
             this.componentState = ComponentState.SUCCESS;
             this.object = o;
             this.onSuccessSaveObject();
-            this.successDefaultObjectLoaded(o);
             this.changeRoute((o as any)._id);
 
         }, () => {
