@@ -180,8 +180,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
                 }
                 return of(params);
             }),
-        )
-        .subscribe((params: Params) => {
+        ).subscribe((params: Params) => {
 
             this.handleQueryParams(params as T);
             this.initFormChangesSubscription();
@@ -353,6 +352,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     cleanSubscriptions() {
 
+        if (this.subscription) this.subscription.unsubscribe();
         this.subscription = undefined;
 
     }
@@ -423,7 +423,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    defaultConfirmAndDeleteObjec() {
+    defaultConfirmAndDeleteObject() {
 
         if (!this.object || !(this.object as any)._id) return;
 
@@ -461,8 +461,8 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     showDefaultConfirmDeleteDialog(): Observable<boolean> {
 
-        console.error('showDefaultConfirmDialog not implemented yet.');
-        throw new Error('showDefaultConfirmDialog not implemented yet.');
+        console.error('showDefaultConfirmDeleteDialog not implemented yet.');
+        throw new Error('showDefaultConfirmDeleteDialog not implemented yet.');
 
     }
 
