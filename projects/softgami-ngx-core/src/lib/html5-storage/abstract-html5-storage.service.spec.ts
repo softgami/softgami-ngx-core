@@ -9,11 +9,13 @@ describe('AbstractHtml5StorageService', () => {
     let service: AbstractHtml5StorageService;
 
     beforeEach(() => {
+
         TestBed.configureTestingModule({
             providers: [
                 AbstractHtml5StorageService,
             ],
         });
+
     });
 
     beforeEach(() => {

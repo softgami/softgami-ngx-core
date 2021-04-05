@@ -19,7 +19,7 @@ describe('FileSizeFormatterPipe', () => {
                 {
                     provide: SoftgamiTsUtilsService,
                     useValue: JasmineExtension.createServiceSpy(SoftgamiTsUtilsService),
-                }
+                },
             ],
         });
 
@@ -59,7 +59,7 @@ describe('FileSizeFormatterPipe', () => {
         it('transform should call resolveObjectPath 1 time when list has 1 element', () => {
 
             utilsServiceSpy.resolveObjectPath.and.returnValue('Jules Verne');
-            const result: string = pipe.transform(['Jules Verne'], '');
+            const result: string = pipe.transform([ 'Jules Verne' ], '');
 
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledTimes(1);
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('Jules Verne', '');
@@ -69,7 +69,7 @@ describe('FileSizeFormatterPipe', () => {
         it('transform should call resolveObjectPath 2 times when list has 2 elements', () => {
 
             utilsServiceSpy.resolveObjectPath.and.returnValues('Jules Verne', 'Arthur Conan Doyle');
-            const result: string = pipe.transform(['Jules Verne', 'Arthur Conan Doyle'], '');
+            const result: string = pipe.transform([ 'Jules Verne', 'Arthur Conan Doyle' ], '');
 
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledTimes(2);
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('Jules Verne', '');
@@ -80,7 +80,7 @@ describe('FileSizeFormatterPipe', () => {
         it('transform should call resolveObjectPath 3 times when list has 3 elements', () => {
 
             utilsServiceSpy.resolveObjectPath.and.returnValues('Jules Verne', 'Arthur Conan Doyle', 'J. R. R. Tolkien');
-            const result: string = pipe.transform(['Jules Verne', 'Arthur Conan Doyle', 'J. R. R. Tolkien'], '');
+            const result: string = pipe.transform([ 'Jules Verne', 'Arthur Conan Doyle', 'J. R. R. Tolkien' ], '');
 
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledTimes(3);
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('Jules Verne', '');
@@ -92,7 +92,7 @@ describe('FileSizeFormatterPipe', () => {
         it('transform should return "Jules Verne" when path is "" and list is basic strings list', () => {
 
             utilsServiceSpy.resolveObjectPath.and.returnValue('Jules Verne');
-            const result: string = pipe.transform(['Jules Verne'], '');
+            const result: string = pipe.transform([ 'Jules Verne' ], '');
 
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('Jules Verne', '');
             expect(result).toEqual('Jules Verne');
@@ -111,9 +111,9 @@ describe('FileSizeFormatterPipe', () => {
 
             utilsServiceSpy.resolveObjectPath.and.returnValue('Jules Verne');
 
-            const result: string = pipe.transform([{name: 'Jules Verne'}], 'name');
+            const result: string = pipe.transform([ { name: 'Jules Verne' } ], 'name');
 
-            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith({name: 'Jules Verne'}, 'name');
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith({ name: 'Jules Verne' }, 'name');
             expect(result).toEqual('Jules Verne');
 
         });
@@ -123,31 +123,31 @@ describe('FileSizeFormatterPipe', () => {
 
             utilsServiceSpy.resolveObjectPath.and.returnValue('J. R. R. Tolkien');
 
-            const result: string = pipe.transform([{name: 'J. R. R. Tolkien'}], 'name');
+            const result: string = pipe.transform([ { name: 'J. R. R. Tolkien' } ], 'name');
 
-            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith({name: 'J. R. R. Tolkien'}, 'name');
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith({ name: 'J. R. R. Tolkien' }, 'name');
             expect(result).toEqual('J. R. R. Tolkien');
 
         });
 
-        it(`transform should return "" when resolveObjectPath returns null`, () => {
+        it('transform should return "" when resolveObjectPath returns null', () => {
 
             utilsServiceSpy.resolveObjectPath.and.returnValue(null);
 
-            const result: string = pipe.transform([{name: 'J. R. R. Tolkien'}], 'invalid.path');
+            const result: string = pipe.transform([ { name: 'J. R. R. Tolkien' } ], 'invalid.path');
 
-            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith({name: 'J. R. R. Tolkien'}, 'invalid.path');
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith({ name: 'J. R. R. Tolkien' }, 'invalid.path');
             expect(result).toEqual('');
 
         });
 
-        it(`transform should return "" when resolveObjectPath returns undefined`, () => {
+        it('transform should return "" when resolveObjectPath returns undefined', () => {
 
             utilsServiceSpy.resolveObjectPath.and.returnValue(undefined);
 
-            const result: string = pipe.transform([{name: 'J. R. R. Tolkien'}], 'invalid.path');
+            const result: string = pipe.transform([ { name: 'J. R. R. Tolkien' } ], 'invalid.path');
 
-            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith({name: 'J. R. R. Tolkien'}, 'invalid.path');
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith({ name: 'J. R. R. Tolkien' }, 'invalid.path');
             expect(result).toEqual('');
 
         });
@@ -191,7 +191,7 @@ describe('FileSizeFormatterPipe', () => {
                 },
                 {
                     name: 'Arthur Conan Doyle',
-                }
+                },
             ];
 
             const result: string = pipe.transform(valuesList, 'some path');
@@ -223,7 +223,7 @@ describe('FileSizeFormatterPipe', () => {
                 },
                 {
                     name: 'Arthur Conan Doyle',
-                }
+                },
             ];
 
             const result: string = pipe.transform(valuesList, 'some path');
@@ -255,7 +255,7 @@ describe('FileSizeFormatterPipe', () => {
                 },
                 {
                     name: 'Arthur Conan Doyle',
-                }
+                },
             ];
 
             const result: string = pipe.transform(valuesList, 'some path');
@@ -287,7 +287,7 @@ describe('FileSizeFormatterPipe', () => {
                 },
                 {
                     name: 'Arthur Conan Doyle',
-                }
+                },
             ];
 
             const result: string = pipe.transform(valuesList, 'some path');

@@ -4,9 +4,8 @@ import { Directive } from '@angular/core';
 import { NoWhitespaceValidator } from '../validators/no-whitespace.validator';
 
 @Directive({
-    // tslint:disable-next-line: directive-selector
     selector: '[noWhiteSpaceValidator]',
-    providers: [{provide: NG_VALIDATORS, useExisting: NoWhiteSpaceValidatorDirective, multi: true}],
+    providers: [ { provide: NG_VALIDATORS, useExisting: NoWhiteSpaceValidatorDirective, multi: true } ],
 })
 export class NoWhiteSpaceValidatorDirective implements Validator {
 

@@ -10,7 +10,9 @@ export function NoWhitespaceValidator(): ValidatorFn {
         let value: string;
 
         if (control.value === null || control.value === undefined) {
+
             return null;
+
         }
 
         value = control.value.toString();

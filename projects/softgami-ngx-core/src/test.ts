@@ -10,7 +10,7 @@ import {
 
 import { JasmineExtension } from './lib/testing/jasmine-extension';
 
-declare const require: any;
+declare const require;
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(

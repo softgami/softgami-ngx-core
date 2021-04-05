@@ -11,13 +11,21 @@ export function DuplicatedValidator(index: number, values: any[], key?: string):
         if (!control.value) return null;
 
         values.forEach((v: any, i: number) => {
+
             if (i !== index) {
+
                 if (key) {
+
                     if (v[key] === control.value) returnValue = error;
+
                 } else {
+
                     if (v === control.value) returnValue = error;
+
                 }
+
             }
+
         });
 
         return returnValue;

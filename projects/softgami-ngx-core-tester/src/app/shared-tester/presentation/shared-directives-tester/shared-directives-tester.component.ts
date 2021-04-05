@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'app-shared-directives-tester',
     templateUrl: './shared-directives-tester.component.html',
-    styleUrls: ['./shared-directives-tester.component.scss'],
+    styleUrls: [ './shared-directives-tester.component.scss' ],
 })
-export class SharedDirectivesTesterComponent implements OnInit {
+export class SharedDirectivesTesterComponent {
 
     showFocusableElement = false;
     trimOnBlur = '';
@@ -20,8 +20,8 @@ export class SharedDirectivesTesterComponent implements OnInit {
     numbersOnly;
     numbersOnlyIntegers;
     fractionDigits: number;
-    @ViewChild('fTrimOnBlur', {static: false}) fTrimOnBlur: HTMLFormElement;
-    @ViewChild('fNumbersOnly', {static: false}) fNumbersOnly: HTMLFormElement;
+    @ViewChild('fTrimOnBlur', { static: false }) fTrimOnBlur: HTMLFormElement;
+    @ViewChild('fNumbersOnly', { static: false }) fNumbersOnly: HTMLFormElement;
 
     constructor() {
 
@@ -43,11 +43,10 @@ export class SharedDirectivesTesterComponent implements OnInit {
 
     }
 
-    ngOnInit() {
-    }
+    typeOf(val: unknown): string {
 
-    typeOf(val: any) {
         return typeof val;
+
     }
 
 }

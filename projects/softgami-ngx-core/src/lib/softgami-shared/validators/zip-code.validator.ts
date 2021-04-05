@@ -8,7 +8,9 @@ export function ZipCodeValidator(locale?: string): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
 
         if (control.value === null || control.value === undefined) {
+
             return null;
+
         }
 
         const error: ValidationErrors = {
@@ -18,12 +20,18 @@ export function ZipCodeValidator(locale?: string): ValidatorFn {
         let regex: RegExp;
 
         if (locale) {
+
             locale = locale.toLowerCase();
             regex = new ZipCodeRegexFactoryService().getRegexByLocale(locale);
+
         } else if (SoftgamiNgxCoreModule.country) {
+
             regex = new ZipCodeRegexFactoryService().getRegexByCountry(SoftgamiNgxCoreModule.country);
+
         } else {
+
             return error;
+
         }
 
         return regex && regex.test(control.value) ? null : error;

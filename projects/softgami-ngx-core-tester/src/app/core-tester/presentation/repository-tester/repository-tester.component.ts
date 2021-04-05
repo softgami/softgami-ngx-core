@@ -8,7 +8,7 @@ import { GetAllCatsUseCaseService } from '../../../../domain/core-tester/reposit
 @Component({
     selector: 'app-repository-tester',
     templateUrl: './repository-tester.component.html',
-    styleUrls: ['./repository-tester.component.scss'],
+    styleUrls: [ './repository-tester.component.scss' ],
 })
 export class RepositoryTesterComponent implements OnInit {
 
@@ -21,26 +21,28 @@ export class RepositoryTesterComponent implements OnInit {
 
     constructor(private readonly getAllCatsUseCaseService: GetAllCatsUseCaseService) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
 
         this.sortOptions = new Cat().toSortOptions();
         this.form = new FormGroup({
-            name: new FormControl('', [Validators.required]),
+            name: new FormControl('', [ Validators.required ]),
             description: new FormControl(''),
-            q: new FormControl('', [Validators.required]),
+            q: new FormControl('', [ Validators.required ]),
             parentCollection: new FormGroup({
-                name: new FormControl('', [Validators.required]),
+                name: new FormControl('', [ Validators.required ]),
             }),
-            language: new FormControl(null, [Validators.required]),
+            language: new FormControl(null, [ Validators.required ]),
         });
 
     }
 
-    onSubmit() {
+    onSubmit(): void {
+
+        return null;
 
     }
 
-    callApi() {
+    callApi(): void {
 
         this.form.get('language').setValue({
             id: '12345',
@@ -50,9 +52,11 @@ export class RepositoryTesterComponent implements OnInit {
         cat.q = this.searchText;
 
         this.getAllCatsUseCaseService.execute(cat)
-        .subscribe((cats: Cat[]) => {
-            this.cats = cats;
-        });
+            .subscribe((cats: Cat[]) => {
+
+                this.cats = cats;
+
+            });
 
     }
 

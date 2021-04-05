@@ -20,8 +20,10 @@ export class JoinPipe implements PipeTransform {
             if (firstValueResolved) joinedValues.push(firstValueResolved);
 
             valuesListCopy.forEach((value: any) => {
+
                 const valueResolved: string = SoftgamiTsUtilsService.resolveObjectPath<string>(value, path);
                 if (valueResolved) joinedValues.push(valueResolved);
+
             });
 
         }

@@ -23,6 +23,6 @@ import { SharedTesterModule } from './shared-tester/shared-tester.module';
     ],
     providers: [
     ],
-    bootstrap: [AppComponent],
+    bootstrap: [ AppComponent ],
 })
 export class AppModule {}

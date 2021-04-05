@@ -15,14 +15,22 @@ export class IncludesPipe implements PipeTransform {
         const resultList: Array<any> = [];
 
         valuesList.forEach((value: any) => {
+
             const valueResolved: string = SoftgamiTsUtilsService.resolveObjectPath<string>(value, path);
             if (valueResolved) {
+
                 if (isCaseSensitive && valueResolved.includes(searchText)) {
+
                     resultList.push(value);
-                } else if (!isCaseSensitive &&  valueResolved.toLowerCase().includes(searchText.toLowerCase())) {
+
+                } else if (!isCaseSensitive && valueResolved.toLowerCase().includes(searchText.toLowerCase())) {
+
                     resultList.push(value);
+
                 }
+
             }
+
         });
 
         return resultList;

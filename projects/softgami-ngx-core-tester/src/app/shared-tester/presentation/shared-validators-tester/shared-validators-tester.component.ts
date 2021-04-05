@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { DateValidator } from 'projects/softgami-ngx-core/src/lib/softgami-shared/validators/date.validator';
@@ -14,9 +14,9 @@ import { ZipCodeValidator } from 'projects/softgami-ngx-core/src/lib/softgami-sh
 @Component({
     selector: 'app-shared-validators-tester',
     templateUrl: './shared-validators-tester.component.html',
-    styleUrls: ['./shared-validators-tester.component.scss'],
+    styleUrls: [ './shared-validators-tester.component.scss' ],
 })
-export class SharedValidatorsTesterComponent implements OnInit {
+export class SharedValidatorsTesterComponent {
 
     form: FormGroup;
     date: FormControl;
@@ -37,7 +37,9 @@ export class SharedValidatorsTesterComponent implements OnInit {
     secondTemplateDrivenModel: string;
     whitespaceTemplateDrivenModel: string;
     taxNumberTemplateDrivenModel: string;
-    duplicatedTemplateDrivenModels: any[] = [
+    duplicatedTemplateDrivenModels: {
+        number: number;
+    }[] = [
         {
             number: null,
         },
@@ -45,10 +47,11 @@ export class SharedValidatorsTesterComponent implements OnInit {
             number: null,
         },
     ];
+
     passwordTemplateDrivenModel: string;
     zipCodeTemplateDrivenModel: string;
 
-    @ViewChild('f', {static: false}) f: HTMLFormElement;
+    @ViewChild('f', { static: false }) f: HTMLFormElement;
 
     constructor() {
 
@@ -96,7 +99,7 @@ export class SharedValidatorsTesterComponent implements OnInit {
         this.duplicated = new FormControl(null,
             [
                 Validators.required,
-                DuplicatedValidator(0, ['123', '1234']),
+                DuplicatedValidator(0, [ '123', '1234' ]),
             ],
         );
         this.password = new FormControl(null,
@@ -126,7 +129,5 @@ export class SharedValidatorsTesterComponent implements OnInit {
         });
 
     }
-
-    ngOnInit() { }
 
 }

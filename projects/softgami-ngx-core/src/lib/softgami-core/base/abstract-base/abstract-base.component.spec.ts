@@ -20,15 +20,29 @@ class TestObject extends Thing {}
 })
 export class BaseComponent extends AbstractBaseComponent<TestObject> {
 
+    initMainObject(): TestObject {
+
+        throw TestObject();
+
+    }
+
     initQueryParams(): Thing {
 
         return new TestObject();
 
     }
 
-    updateParams(params: any) { }
+    updateParams(params: TestObject): void {
 
-    handleQueryParams(params?: any) { }
+        return null;
+
+    }
+
+    handleQueryParams(params?: TestObject): void {
+
+        return null;
+
+    }
 
 }
 
@@ -54,9 +68,9 @@ describe('AbstractBaseComponent', () => {
             declarations: [ BaseComponent ],
             providers: [
                 Injector,
-            ]
+            ],
         })
-        .compileComponents();
+            .compileComponents();
 
     }));
 
@@ -99,7 +113,11 @@ describe('AbstractBaseComponent', () => {
         fixture = TestBed.createComponent(BaseComponent);
         component = fixture.componentInstance;
         componentSpy = JasmineExtension.createComponentSpy(component);
-        componentSpy.initializeBase.and.callFake(() => {});
+        componentSpy.initializeBase.and.callFake(() => {
+
+            return null;
+
+        });
         fixture.detectChanges();
         rootElement = fixture.debugElement;
 
@@ -158,8 +176,8 @@ describe('AbstractBaseComponent', () => {
             componentSpy.setInjectedResources.and.returnValue();
 
             expect(() => component.initProviders())
-            .toThrow(
-                new Error('AbstractBaseComponent.injector not defined. Should Call SoftgamiCoreModule.setInjector(injector: Injector)' +
+                .toThrow(
+                    new Error('AbstractBaseComponent.injector not defined. Should Call SoftgamiCoreModule.setInjector(injector: Injector)' +
             'on AppModule initialization.'));
 
         });
@@ -171,8 +189,8 @@ describe('AbstractBaseComponent', () => {
             componentSpy.setInjectedResources.and.returnValue();
 
             expect(() => component.initProviders())
-            .toThrow(
-                new Error('AbstractBaseComponent.injector not defined. Should Call SoftgamiCoreModule.setInjector(injector: Injector)' +
+                .toThrow(
+                    new Error('AbstractBaseComponent.injector not defined. Should Call SoftgamiCoreModule.setInjector(injector: Injector)' +
             'on AppModule initialization.'));
 
         });
@@ -183,8 +201,8 @@ describe('AbstractBaseComponent', () => {
             componentSpy.setInjectedResources.and.returnValue();
 
             expect(() => component.initProviders())
-            .not.toThrow(
-                new Error('AbstractBaseComponent.injector not defined. Should Call SoftgamiCoreModule.setInjector(injector: Injector)' +
+                .not.toThrow(
+                    new Error('AbstractBaseComponent.injector not defined. Should Call SoftgamiCoreModule.setInjector(injector: Injector)' +
             'on AppModule initialization.'));
 
         });
@@ -354,7 +372,7 @@ describe('AbstractBaseComponent', () => {
             componentSpy.getInjectedResource.and.callThrough();
             const spyInjector: jasmine.Spy = spyOn(AbstractBaseComponent.injector, 'get');
 
-            const result: ActivatedRoute = component.getInjectedResource<ActivatedRoute>(null, ActivatedRoute);
+            component.getInjectedResource<ActivatedRoute>(null, ActivatedRoute);
 
             expect(spyInjector).toHaveBeenCalledWith(ActivatedRoute);
 
@@ -365,7 +383,7 @@ describe('AbstractBaseComponent', () => {
             componentSpy.getInjectedResource.and.callThrough();
             const spyInjector: jasmine.Spy = spyOn(AbstractBaseComponent.injector, 'get');
 
-            const result: ActivatedRoute = component.getInjectedResource<ActivatedRoute>(undefined, ActivatedRoute);
+            component.getInjectedResource<ActivatedRoute>(undefined, ActivatedRoute);
 
             expect(spyInjector).toHaveBeenCalledWith(ActivatedRoute);
 
@@ -376,7 +394,7 @@ describe('AbstractBaseComponent', () => {
             componentSpy.getInjectedResource.and.callThrough();
             const spyInjector: jasmine.Spy = spyOn(AbstractBaseComponent.injector, 'get');
 
-            const result: ActivatedRoute = component.getInjectedResource<ActivatedRoute>(AbstractBaseComponent.injector, ActivatedRoute);
+            component.getInjectedResource<ActivatedRoute>(AbstractBaseComponent.injector, ActivatedRoute);
 
             expect(spyInjector).toHaveBeenCalledWith(ActivatedRoute);
 
@@ -400,8 +418,7 @@ describe('AbstractBaseComponent', () => {
             const spyInjector: jasmine.Spy = spyOn(AbstractBaseComponent.injector, 'get').and.returnValue(coreServiceSpy);
 
             const result: AbstractCoreService =
-                component.getInjectedResource<AbstractCoreService>
-                (AbstractBaseComponent.injector, AbstractCoreService as Type<AbstractCoreService>);
+                component.getInjectedResource<AbstractCoreService>(AbstractBaseComponent.injector, AbstractCoreService as Type<AbstractCoreService>);
 
             expect(spyInjector).toHaveBeenCalledWith(AbstractCoreService);
             expect(result).toEqual(coreServiceSpy);
@@ -439,8 +456,7 @@ describe('AbstractBaseComponent', () => {
             const spyInjector: jasmine.Spy = spyOn(AbstractBaseComponent.injector, 'get').and.returnValue(html5StorageServiceSpy);
 
             const result: AbstractHtml5StorageService =
-                component.getInjectedResource<AbstractHtml5StorageService>
-                (AbstractBaseComponent.injector, AbstractHtml5StorageService as Type<AbstractHtml5StorageService>);
+                component.getInjectedResource<AbstractHtml5StorageService>(AbstractBaseComponent.injector, AbstractHtml5StorageService as Type<AbstractHtml5StorageService>);
 
             expect(spyInjector).toHaveBeenCalledWith(AbstractHtml5StorageService);
             expect(result).toEqual(html5StorageServiceSpy);
@@ -491,7 +507,7 @@ describe('AbstractBaseComponent', () => {
         it('initQueryParamsSubscription should set params when subscription fired', () => {
 
             componentSpy.initQueryParamsSubscription.and.callThrough();
-            componentSpy.initQueryParams.and.returnValue({userId: 1} as any);
+            componentSpy.initQueryParams.and.returnValue({ userId: 1 } as any);
             componentSpy.updateParams.and.returnValue(null);
             componentSpy.handleQueryParams.and.returnValue(null);
             componentSpy.addSubscription.and.returnValue(null);
@@ -512,18 +528,18 @@ describe('AbstractBaseComponent', () => {
             when hasParamsChanged returns true and subscription fired with "{arg: 2}"`, () => {
 
             componentSpy.initQueryParamsSubscription.and.callThrough();
-            componentSpy.initQueryParams.and.returnValue({arg: 1} as any);
+            componentSpy.initQueryParams.and.returnValue({ arg: 1 } as any);
             componentSpy.updateParams.and.returnValue(null);
             componentSpy.handleQueryParams.and.returnValue(null);
             componentSpy.addSubscription.and.returnValue(null);
             const mockActiveRoute = {
-                queryParams: of({arg: 2} as any),
+                queryParams: of({ arg: 2 } as any),
             };
             component.activatedRoute = mockActiveRoute as ActivatedRoute;
 
             component.initQueryParamsSubscription();
 
-            expect(componentSpy.updateParams).toHaveBeenCalledWith({arg: 2});
+            expect(componentSpy.updateParams).toHaveBeenCalledWith({ arg: 2 });
 
         });
 
@@ -538,17 +554,17 @@ describe('AbstractBaseComponent', () => {
             routerSpy.navigate.and.returnValue(null);
             component.router = routerSpy;
 
-            component.updateRoute({arg: 1}, null);
+            component.updateRoute({ arg: 1 }, null);
 
             expect(routerSpy.createUrlTree.calls.count()).toEqual(1);
-            expect(routerSpy.createUrlTree.calls.allArgs()).toEqual([[[]]]);
+            expect(routerSpy.createUrlTree.calls.allArgs()).toEqual([ [ [] ] ]);
 
             routerSpy.createUrlTree.calls.reset();
 
-            component.updateRoute({arg: 1}, undefined);
+            component.updateRoute({ arg: 1 }, undefined);
 
             expect(routerSpy.createUrlTree.calls.count()).toEqual(1);
-            expect(routerSpy.createUrlTree.calls.allArgs()).toEqual([[[]]]);
+            expect(routerSpy.createUrlTree.calls.allArgs()).toEqual([ [ [] ] ]);
 
         });
 
@@ -559,17 +575,17 @@ describe('AbstractBaseComponent', () => {
             routerSpy.navigate.and.returnValue(null);
             component.router = routerSpy;
 
-            component.updateRoute({arg: 1}, activatedRouteSpy, null);
+            component.updateRoute({ arg: 1 }, activatedRouteSpy, null);
 
             expect(routerSpy.createUrlTree.calls.count()).toEqual(1);
-            expect(routerSpy.createUrlTree.calls.allArgs()).toEqual([[[]]]);
+            expect(routerSpy.createUrlTree.calls.allArgs()).toEqual([ [ [] ] ]);
 
             routerSpy.createUrlTree.calls.reset();
 
-            component.updateRoute({arg: 1}, activatedRouteSpy, undefined);
+            component.updateRoute({ arg: 1 }, activatedRouteSpy, undefined);
 
             expect(routerSpy.createUrlTree.calls.count()).toEqual(1);
-            expect(routerSpy.createUrlTree.calls.allArgs()).toEqual([[[]]]);
+            expect(routerSpy.createUrlTree.calls.allArgs()).toEqual([ [ [] ] ]);
 
         });
 
@@ -580,7 +596,7 @@ describe('AbstractBaseComponent', () => {
             routerSpy.navigate.and.returnValue(null);
             component.router = routerSpy;
 
-            component.updateRoute({arg: 1}, activatedRouteSpy, []);
+            component.updateRoute({ arg: 1 }, activatedRouteSpy, []);
 
             expect(routerSpy.createUrlTree.calls.count()).toEqual(2);
 
@@ -593,15 +609,15 @@ describe('AbstractBaseComponent', () => {
             routerSpy.navigate.and.returnValue(null);
             component.router = routerSpy;
 
-            component.updateRoute({arg: 1}, activatedRouteSpy, [], null);
+            component.updateRoute({ arg: 1 }, activatedRouteSpy, [], null);
 
-            expect(routerSpy.navigate).toHaveBeenCalledWith(['/some-location'],
+            expect(routerSpy.navigate).toHaveBeenCalledWith([ '/some-location' ],
                 Object({ queryParams: Object({ arg: 1 }), queryParamsHandling: 'merge' }));
 
             routerSpy.navigate.calls.reset();
-            component.updateRoute({arg: 2}, activatedRouteSpy, [], undefined);
+            component.updateRoute({ arg: 2 }, activatedRouteSpy, [], undefined);
 
-            expect(routerSpy.navigate).toHaveBeenCalledWith(['/some-location'],
+            expect(routerSpy.navigate).toHaveBeenCalledWith([ '/some-location' ],
                 Object({ queryParams: Object({ arg: 2 }), queryParamsHandling: 'merge' }));
 
         });
@@ -613,9 +629,9 @@ describe('AbstractBaseComponent', () => {
             routerSpy.navigate.and.returnValue(null);
             component.router = routerSpy;
 
-            component.updateRoute({arg: 3}, activatedRouteSpy, [], 'merge');
+            component.updateRoute({ arg: 3 }, activatedRouteSpy, [], 'merge');
 
-            expect(routerSpy.navigate).toHaveBeenCalledWith(['/some-location'],
+            expect(routerSpy.navigate).toHaveBeenCalledWith([ '/some-location' ],
                 Object({ queryParams: Object({ arg: 3 }), queryParamsHandling: 'merge' }));
 
         });
@@ -627,9 +643,9 @@ describe('AbstractBaseComponent', () => {
             routerSpy.navigate.and.returnValue(null);
             component.router = routerSpy;
 
-            component.updateRoute({arg: 4}, activatedRouteSpy, [], 'preserve');
+            component.updateRoute({ arg: 4 }, activatedRouteSpy, [], 'preserve');
 
-            expect(routerSpy.navigate).toHaveBeenCalledWith(['/some-location'],
+            expect(routerSpy.navigate).toHaveBeenCalledWith([ '/some-location' ],
                 Object({ queryParams: Object({ arg: 4 }), queryParamsHandling: 'preserve' }));
 
         });
@@ -641,9 +657,9 @@ describe('AbstractBaseComponent', () => {
             routerSpy.navigate.and.returnValue(null);
             component.router = routerSpy;
 
-            component.updateRoute({arg: 5}, activatedRouteSpy, [], '');
+            component.updateRoute({ arg: 5 }, activatedRouteSpy, [], '');
 
-            expect(routerSpy.navigate).toHaveBeenCalledWith(['/some-location'],
+            expect(routerSpy.navigate).toHaveBeenCalledWith([ '/some-location' ],
                 Object({ queryParams: Object({ arg: 5 }), queryParamsHandling: '' }));
 
         });
@@ -748,4 +764,5 @@ describe('AbstractBaseComponent', () => {
         html5StorageServiceSpy = null;
 
     });
+
 });

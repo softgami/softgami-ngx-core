@@ -6,12 +6,11 @@ import { ServerErrorResponse } from './server-error-response.service';
 
 export class ErrorResponseFactory {
 
-    constructor() { }
-
     public static getErrorResponse(status: number): ErrorResponse {
 
         let response: ErrorResponse;
         switch (status) {
+
             case HttpStatus.BAD_REQUEST:
             case HttpStatus.CONFLICT:
             case HttpStatus.FORBIDDEN:
@@ -35,6 +34,7 @@ export class ErrorResponseFactory {
             default:
                 response = new ServerErrorResponse();
                 break;
+
         }
 
         return response;

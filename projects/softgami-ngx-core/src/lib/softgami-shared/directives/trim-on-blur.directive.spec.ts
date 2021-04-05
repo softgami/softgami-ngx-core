@@ -1,8 +1,8 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, DebugElement } from '@angular/core';
 
 import { TrimOnBlurDirective } from './trim-on-blur.directive';
-import { FormControl, NgControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
     template: `
@@ -55,7 +55,7 @@ describe('TrimOnBlurDirective', () => {
 
     describe('blur', () => {
 
-        it('blur should keep value of element when value is null', async () => {
+        it('blur should keep value of element when value is null', async() => {
 
             const inputElement: DebugElement = rootElement.children[0];
             component.trimOnBlur = null;
@@ -70,7 +70,7 @@ describe('TrimOnBlurDirective', () => {
 
         });
 
-        it('blur should keep value of element when no trim is needed', async () => {
+        it('blur should keep value of element when no trim is needed', async() => {
 
             const inputElement: DebugElement = rootElement.children[0];
             component.trimOnBlur = 'hello world';
@@ -85,7 +85,7 @@ describe('TrimOnBlurDirective', () => {
 
         });
 
-        it('blur should remove spaces before or after of value when value has spaces before or after', async () => {
+        it('blur should remove spaces before or after of value when value has spaces before or after', async() => {
 
             const inputElement: HTMLInputElement = rootElement.children[0].nativeElement as HTMLInputElement;
 
@@ -100,7 +100,7 @@ describe('TrimOnBlurDirective', () => {
 
         });
 
-        it('blur should keep value of element when value is null and element is FormControl', async () => {
+        it('blur should keep value of element when value is null and element is FormControl', async() => {
 
             const inputElement: DebugElement = rootElement.children[1];
             component.inputControl.setValue(null);
@@ -117,7 +117,7 @@ describe('TrimOnBlurDirective', () => {
 
         });
 
-        it('blur should keep value of element when no trim is needed and element is FormControl', async () => {
+        it('blur should keep value of element when no trim is needed and element is FormControl', async() => {
 
             const inputElement: DebugElement = rootElement.children[1];
             component.inputControl.setValue('hello world form control');
@@ -139,7 +139,7 @@ describe('TrimOnBlurDirective', () => {
         });
 
         it(`blur should remove spaces before or after of value when value has spaces before or after
-            and element is FormControl`, async () => {
+            and element is FormControl`, async() => {
 
             const inputElement: HTMLInputElement = rootElement.children[1].nativeElement as HTMLInputElement;
             component.inputControl.setValue(' hello world form control with spaces ');

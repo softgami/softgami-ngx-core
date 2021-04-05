@@ -14,8 +14,10 @@ export class FilterListPipe implements PipeTransform {
         const resultList: Array<any> = [];
 
         valuesList.forEach((value: any) => {
+
             const valueResolved: string = SoftgamiTsUtilsService.resolveObjectPath<string>(value, path);
             if (valueResolved === filter) resultList.push(value);
+
         });
 
         return resultList;

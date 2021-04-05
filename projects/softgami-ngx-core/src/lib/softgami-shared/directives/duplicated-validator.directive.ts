@@ -4,9 +4,8 @@ import { Directive, Input } from '@angular/core';
 import { DuplicatedValidator } from '../validators/duplicated.validator';
 
 @Directive({
-    // tslint:disable-next-line: directive-selector
     selector: '[duplicatedValidator]',
-    providers: [{provide: NG_VALIDATORS, useExisting: DuplicatedValidatorDirective, multi: true}],
+    providers: [ { provide: NG_VALIDATORS, useExisting: DuplicatedValidatorDirective, multi: true } ],
 })
 export class DuplicatedValidatorDirective implements Validator {
 
@@ -16,9 +15,11 @@ export class DuplicatedValidatorDirective implements Validator {
 
     validate(control: AbstractControl): {[key: string]: any} | null {
 
-        if (this.duplicatedValidatorIndex >= 0 && this.duplicatedValidatorValues
-            && Array.isArray(this.duplicatedValidatorValues) && this.duplicatedValidatorKey) {
+        if (this.duplicatedValidatorIndex >= 0 && this.duplicatedValidatorValues &&
+            Array.isArray(this.duplicatedValidatorValues) && this.duplicatedValidatorKey) {
+
             return DuplicatedValidator(this.duplicatedValidatorIndex, this.duplicatedValidatorValues, this.duplicatedValidatorKey)(control);
+
         }
         return null;
 

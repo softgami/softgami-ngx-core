@@ -10,7 +10,9 @@ export function PasswordValidator() {
         };
 
         if (control.value === null || control.value === undefined) {
+
             return null;
+
         }
 
         const result: boolean | PasswordValidationErrors = PasswordUtilsService.validatePassword(control.value);
@@ -18,6 +20,7 @@ export function PasswordValidator() {
         if (result === true) return null;
 
         switch (result) {
+
             case PasswordValidationErrors.MIN_LENGHT_8:
                 error = {
                     passwordMinLength: true,
@@ -63,6 +66,7 @@ export function PasswordValidator() {
                     passwordRepeatedChars: true,
                 };
                 break;
+
         }
 
         return error;

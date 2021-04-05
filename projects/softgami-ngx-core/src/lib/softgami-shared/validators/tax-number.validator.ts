@@ -8,7 +8,9 @@ export function TaxNumberValidator(countryCode?: string, isIndividual?: boolean)
     return (control: AbstractControl): ValidationErrors | null => {
 
         if (control.value === null || control.value === undefined) {
+
             return null;
+
         }
 
         const error: ValidationErrors = {
@@ -18,13 +20,19 @@ export function TaxNumberValidator(countryCode?: string, isIndividual?: boolean)
         let taxNumberUtilsService: AbstractTaxNumberUtilsService;
 
         if (countryCode) {
+
             countryCode = countryCode.toLowerCase();
             taxNumberUtilsService = new TaxNumberUtilsFactoryService().getUtilsServiceByCountryCode(countryCode, isIndividual);
+
         } else if (SoftgamiNgxCoreModule.country) {
+
             taxNumberUtilsService =
                 new TaxNumberUtilsFactoryService().getUtilsServiceByCountry(SoftgamiNgxCoreModule.country, isIndividual);
+
         } else {
+
             return error;
+
         }
 
         return taxNumberUtilsService && taxNumberUtilsService.validate(control.value) ? null : error;

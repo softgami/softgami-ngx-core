@@ -4,9 +4,8 @@ import { Directive, Input } from '@angular/core';
 import { MatchOtherValidator } from '../validators/match-other.validator';
 
 @Directive({
-    // tslint:disable-next-line: directive-selector
     selector: '[matchOtherValidator]',
-    providers: [{provide: NG_VALIDATORS, useExisting: MatchOtherValidatorDirective, multi: true}],
+    providers: [ { provide: NG_VALIDATORS, useExisting: MatchOtherValidatorDirective, multi: true } ],
 })
 export class MatchOtherValidatorDirective implements Validator {
 

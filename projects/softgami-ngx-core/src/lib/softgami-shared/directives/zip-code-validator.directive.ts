@@ -4,9 +4,8 @@ import { Directive, Input } from '@angular/core';
 import { ZipCodeValidator } from '../validators/zip-code.validator';
 
 @Directive({
-    // tslint:disable-next-line: directive-selector
     selector: '[zipCodeValidator]',
-    providers: [{provide: NG_VALIDATORS, useExisting: ZipCodeValidatorDirective, multi: true}],
+    providers: [ { provide: NG_VALIDATORS, useExisting: ZipCodeValidatorDirective, multi: true } ],
 })
 export class ZipCodeValidatorDirective implements Validator {
 

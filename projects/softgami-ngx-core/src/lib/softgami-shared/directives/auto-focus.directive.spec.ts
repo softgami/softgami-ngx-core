@@ -40,6 +40,7 @@ describe('AutoFocusDirective', () => {
     it('should create an instance', () => {
 
         expect(fixture).toBeTruthy();
+        expect(component).toBeTruthy();
 
     });
 
@@ -53,8 +54,8 @@ describe('AutoFocusDirective', () => {
             const h3Element: HTMLElement = rootElement.children[0].nativeElement as HTMLElement;
             h3Element.removeAttribute('tabindex');
             expect(() => fixture.detectChanges())
-            .toThrow(
-                new Error('Elements with directive autoFocus should have a tabindex equal or greater than 0.'));
+                .toThrow(
+                    new Error('Elements with directive autoFocus should have a tabindex equal or greater than 0.'));
 
         });
 
@@ -69,8 +70,8 @@ describe('AutoFocusDirective', () => {
             const spy: jasmine.Spy = spyOn(h3Element, 'focus');
 
             expect(() => fixture.detectChanges())
-            .toThrow(
-                new Error('Elements with directive autoFocus should have a tabindex equal or greater than 0.'));
+                .toThrow(
+                    new Error('Elements with directive autoFocus should have a tabindex equal or greater than 0.'));
             expect(spy).not.toHaveBeenCalled();
 
         });
@@ -83,8 +84,8 @@ describe('AutoFocusDirective', () => {
             const h3Element: HTMLElement = rootElement.children[0].nativeElement as HTMLElement;
             h3Element.setAttribute('tabindex', '-1');
             expect(() => fixture.detectChanges())
-            .toThrow(
-                new Error('Elements with directive autoFocus should have a tabindex equal or greater than 0.'));
+                .toThrow(
+                    new Error('Elements with directive autoFocus should have a tabindex equal or greater than 0.'));
 
         });
 
@@ -99,8 +100,8 @@ describe('AutoFocusDirective', () => {
             const spy: jasmine.Spy = spyOn(h3Element, 'focus');
 
             expect(() => fixture.detectChanges())
-            .toThrow(
-                new Error('Elements with directive autoFocus should have a tabindex equal or greater than 0.'));
+                .toThrow(
+                    new Error('Elements with directive autoFocus should have a tabindex equal or greater than 0.'));
             expect(spy).not.toHaveBeenCalled();
 
         });

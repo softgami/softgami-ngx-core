@@ -4,9 +4,8 @@ import { Directive, Input } from '@angular/core';
 import { DateValidator } from '../validators/date.validator';
 
 @Directive({
-    // tslint:disable-next-line: directive-selector
     selector: '[dateValidator]',
-    providers: [{provide: NG_VALIDATORS, useExisting: DateValidatorDirective, multi: true}],
+    providers: [ { provide: NG_VALIDATORS, useExisting: DateValidatorDirective, multi: true } ],
 })
 export class DateValidatorDirective implements Validator {
 

@@ -10,7 +10,9 @@ export function EmailValidator() {
         };
 
         if (control.value === null || control.value === undefined) {
+
             return null;
+
         }
 
         return VALID_EMAIL_REGEX.test(control.value) ? null : error;

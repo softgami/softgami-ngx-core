@@ -3,11 +3,17 @@ import { Component } from '@angular/core';
 @Component({
     selector: 'app-shared-pipes-tester',
     templateUrl: './shared-pipes-tester.component.html',
-    styleUrls: ['./shared-pipes-tester.component.scss'],
+    styleUrls: [ './shared-pipes-tester.component.scss' ],
 })
 export class SharedPipesTesterComponent {
 
-    elementsList: any[] = [
+    elementsList: {
+        user: {
+            name: string;
+            age: number;
+            valid: boolean;
+        }
+    }[] = [
         {
             user: {
                 name: 'Jules Verne',
@@ -28,10 +34,11 @@ export class SharedPipesTesterComponent {
                 age: 12,
                 valid: true,
             },
-        }
+        },
     ];
-    basicStringElementsList: string[] = ['Jules Verne', 'Edgar Allan Poe', 'Arthur Conan Doyle'];
-    basicBooleanElementsList: boolean[] = [true, false, true];
+
+    basicStringElementsList: string[] = [ 'Jules Verne', 'Edgar Allan Poe', 'Arthur Conan Doyle' ];
+    basicBooleanElementsList: boolean[] = [ true, false, true ];
     searchText = '';
     searchTextBasicStrings = '';
 

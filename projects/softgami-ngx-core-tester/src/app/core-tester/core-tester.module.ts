@@ -59,4 +59,5 @@ export class CoreTesterModule {
         SoftgamiCoreModule.setInjector(injector);
 
     }
+
 }

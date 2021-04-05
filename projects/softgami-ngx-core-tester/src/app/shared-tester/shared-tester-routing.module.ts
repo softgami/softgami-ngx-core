@@ -24,6 +24,6 @@ const appRoutes: Routes = [
     imports: [
         RouterModule.forChild(appRoutes),
     ],
-    exports: [RouterModule],
+    exports: [ RouterModule ],
 })
 export class SharedTesterRoutingModule { }

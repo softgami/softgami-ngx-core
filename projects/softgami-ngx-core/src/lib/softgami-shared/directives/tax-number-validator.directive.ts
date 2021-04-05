@@ -4,9 +4,8 @@ import { Directive, Input } from '@angular/core';
 import { TaxNumberValidator } from '../validators/tax-number.validator';
 
 @Directive({
-    // tslint:disable-next-line: directive-selector
     selector: '[taxNumberValidator]',
-    providers: [{provide: NG_VALIDATORS, useExisting: TaxNumberValidatorDirective, multi: true}],
+    providers: [ { provide: NG_VALIDATORS, useExisting: TaxNumberValidatorDirective, multi: true } ],
 })
 export class TaxNumberValidatorDirective implements Validator {
 

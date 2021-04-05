@@ -74,9 +74,6 @@ describe('Tax Number Validator', () => {
 
     });
 
-
-
-
     it('should be invalid when locale is "pt" and value is empty string', () => {
 
         control.clearValidators();
@@ -192,7 +189,6 @@ describe('Tax Number Validator', () => {
         expect(control.invalid).toBeFalsy();
 
     });
-
 
     afterEach(() => {
 

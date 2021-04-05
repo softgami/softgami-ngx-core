@@ -49,7 +49,7 @@ export class TObject extends Thing {
     @Schemable()
     @Sortable({ label: 'LANGUAGE', field: 'language.name' })
     @Required()
-    @Type({ type: Types.OBJECT, class: Language})
+    @Type({ type: Types.OBJECT, class: Language })
     @ExcludeIndexes()
     language: Language = null;
 
@@ -58,14 +58,14 @@ export class TObject extends Thing {
 @Component({
     selector: 'app-core-base-tester',
     templateUrl: './core-base-tester.component.html',
-    styleUrls: ['./core-base-tester.component.scss'],
+    styleUrls: [ './core-base-tester.component.scss' ],
 })
 export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
 
     constructor() {
 
         super();
-        this.form.addControl('status', new FormControl('active', [Validators.required]));
+        this.form.addControl('status', new FormControl('active', [ Validators.required ]));
 
     }
 
@@ -79,8 +79,8 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
 
         return new FormGroup(
             {
-                name: new FormControl('test', Validators.compose([Validators.required])),
-                isActive: new FormControl(true, [Validators.required]),
+                name: new FormControl('test', Validators.compose([ Validators.required ])),
+                isActive: new FormControl(true, [ Validators.required ]),
             },
         );
 
@@ -92,11 +92,15 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
 
     }
 
-    updateParams(params: AppParams) {}
+    updateParams(params: AppParams): void {
 
-    handleQueryParams(params: TObject) {
+        return null;
 
-        /*this.object.name = 'tempname';
+    }
+
+    handleQueryParams(params: TObject): void {
+
+        /* this.object.name = 'tempname';
         this.object.language = new Language();
         this.object.language.code = 1234;
         this.object.language.name = 'languageName';
@@ -105,7 +109,7 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
         this.object.language.idioma.code = 12345;
         this.object.language.idioma.idioma = new Language();
         this.object.language.idioma.idioma.name = 'languageName3';
-        this.object.language.idioma.idioma.code = 123456;*/
+        this.object.language.idioma.idioma.code = 123456; */
 
         // console.log(this.object);
         console.log('----------------------');
@@ -113,19 +117,19 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
 
     }
 
-    incrementUserId() {
+    incrementUserId(): void {
 
         // this.updateRoute({userId: this.queryable.userId + 1});
 
     }
 
-    onSubmit() {
+    onSubmit(): void {
 
         console.log(this.form.getRawValue());
 
     }
 
-    resetFormCall() {
+    resetFormCall(): void {
 
         this.resetForm();
 

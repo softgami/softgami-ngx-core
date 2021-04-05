@@ -4,9 +4,8 @@ import { Directive } from '@angular/core';
 import { EmailValidator } from '../validators/email.validator';
 
 @Directive({
-    // tslint:disable-next-line: directive-selector
     selector: '[emailValidator]',
-    providers: [{provide: NG_VALIDATORS, useExisting: EmailValidatorDirective, multi: true}],
+    providers: [ { provide: NG_VALIDATORS, useExisting: EmailValidatorDirective, multi: true } ],
 })
 export class EmailValidatorDirective implements Validator {
 

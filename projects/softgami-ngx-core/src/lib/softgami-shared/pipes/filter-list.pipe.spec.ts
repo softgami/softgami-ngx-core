@@ -19,7 +19,7 @@ describe('FilterListPipe', () => {
                 {
                     provide: SoftgamiTsUtilsService,
                     useValue: JasmineExtension.createServiceSpy(SoftgamiTsUtilsService),
-                }
+                },
             ],
         });
 
@@ -66,7 +66,7 @@ describe('FilterListPipe', () => {
 
         it('transform should return empty list when path is null', () => {
 
-            const result: Array<any> = pipe.transform([''], null, null);
+            const result: Array<any> = pipe.transform([ '' ], null, null);
 
             expect(result).toEqual([]);
 
@@ -74,7 +74,7 @@ describe('FilterListPipe', () => {
 
         it('transform should return empty list when path is undefined', () => {
 
-            const result: Array<any> = pipe.transform([''], undefined, null);
+            const result: Array<any> = pipe.transform([ '' ], undefined, null);
 
             expect(result).toEqual([]);
 
@@ -84,7 +84,7 @@ describe('FilterListPipe', () => {
 
             utilsServiceSpy.resolveObjectPath.and.returnValue('Jules Verne');
 
-            const result: Array<any> = pipe.transform(['Jules Verne'], '', 'Jules Verne');
+            const result: Array<any> = pipe.transform([ 'Jules Verne' ], '', 'Jules Verne');
 
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledTimes(1);
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('Jules Verne', '');
@@ -95,7 +95,7 @@ describe('FilterListPipe', () => {
 
             utilsServiceSpy.resolveObjectPath.and.returnValues('Jules Verne', 'Arthur Conan Doyle');
 
-            const result: Array<any> = pipe.transform(['Jules Verne', 'Arthur Conan Doyle'], '', 'Jules Verne');
+            const result: Array<any> = pipe.transform([ 'Jules Verne', 'Arthur Conan Doyle' ], '', 'Jules Verne');
 
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledTimes(2);
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('Jules Verne', '');
@@ -107,7 +107,7 @@ describe('FilterListPipe', () => {
 
             utilsServiceSpy.resolveObjectPath.and.returnValues('Jules Verne', 'Arthur Conan Doyle', 'J. R. R. Tolkien');
 
-            const result: Array<any> = pipe.transform(['Jules Verne', 'Arthur Conan Doyle', 'J. R. R. Tolkien'], '', 'Jules Verne');
+            const result: Array<any> = pipe.transform([ 'Jules Verne', 'Arthur Conan Doyle', 'J. R. R. Tolkien' ], '', 'Jules Verne');
 
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledTimes(3);
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('Jules Verne', '');
@@ -120,16 +120,16 @@ describe('FilterListPipe', () => {
 
             utilsServiceSpy.resolveObjectPath.and.returnValue('Jules Verne');
 
-            const result: Array<any> = pipe.transform(['Jules Verne'], '', 'Jules Verne');
+            const result: Array<any> = pipe.transform([ 'Jules Verne' ], '', 'Jules Verne');
 
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('Jules Verne', '');
-            expect(result).toEqual(['Jules Verne']);
+            expect(result).toEqual([ 'Jules Verne' ]);
 
         });
 
         it('transform should return empty list when filter is null', () => {
 
-            const result: Array<any> = pipe.transform([''], 'some.path', null);
+            const result: Array<any> = pipe.transform([ '' ], 'some.path', null);
 
             expect(result).toEqual([]);
 
@@ -137,7 +137,7 @@ describe('FilterListPipe', () => {
 
         it('transform should return empty list when filter is undefined', () => {
 
-            const result: Array<any> = pipe.transform([''], 'some.path', undefined);
+            const result: Array<any> = pipe.transform([ '' ], 'some.path', undefined);
 
             expect(result).toEqual([]);
 
@@ -145,7 +145,7 @@ describe('FilterListPipe', () => {
 
         it('transform should return empty list when filter is ""', () => {
 
-            const result: Array<any> = pipe.transform([''], 'some.path', '');
+            const result: Array<any> = pipe.transform([ '' ], 'some.path', '');
 
             expect(result).toEqual([]);
 
@@ -155,7 +155,7 @@ describe('FilterListPipe', () => {
 
             utilsServiceSpy.resolveObjectPath.and.returnValue(null);
 
-            const result: Array<any> = pipe.transform([''], 'some.path', 'some filter');
+            const result: Array<any> = pipe.transform([ '' ], 'some.path', 'some filter');
 
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('', 'some.path');
             expect(result).toEqual([]);
@@ -166,10 +166,10 @@ describe('FilterListPipe', () => {
 
             utilsServiceSpy.resolveObjectPath.and.returnValue('some filter');
 
-            const result: Array<any> = pipe.transform(['some value'], 'some.path', 'some filter');
+            const result: Array<any> = pipe.transform([ 'some value' ], 'some.path', 'some filter');
 
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('some value', 'some.path');
-            expect(result).toEqual(['some value']);
+            expect(result).toEqual([ 'some value' ]);
 
         });
 
@@ -178,12 +178,12 @@ describe('FilterListPipe', () => {
 
             utilsServiceSpy.resolveObjectPath.and.returnValues('some value', undefined);
 
-            const result: Array<any> = pipe.transform(['some value', 'another value'], 'some.path', 'some value');
+            const result: Array<any> = pipe.transform([ 'some value', 'another value' ], 'some.path', 'some value');
 
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledTimes(2);
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('some value', 'some.path');
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('another value', 'some.path');
-            expect(result).toEqual(['some value']);
+            expect(result).toEqual([ 'some value' ]);
 
         });
 
@@ -192,12 +192,12 @@ describe('FilterListPipe', () => {
 
             utilsServiceSpy.resolveObjectPath.and.returnValues('some value', 'other value');
 
-            const result: Array<any> = pipe.transform(['some value', 'another value'], 'some.path', 'some value');
+            const result: Array<any> = pipe.transform([ 'some value', 'another value' ], 'some.path', 'some value');
 
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledTimes(2);
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('some value', 'some.path');
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('another value', 'some.path');
-            expect(result).toEqual(['some value']);
+            expect(result).toEqual([ 'some value' ]);
 
         });
 
@@ -210,20 +210,20 @@ describe('FilterListPipe', () => {
                 true,
             );
             const valuesList: any[] = [
-                {name: 'some', valid: true},
-                {name: 'another', valid: false},
-                {name: 'more one', valid: true},
+                { name: 'some', valid: true },
+                { name: 'another', valid: false },
+                { name: 'more one', valid: true },
             ];
 
             const result: Array<any> = pipe.transform(valuesList, 'valid', true);
 
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledTimes(3);
-            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith({name: 'some', valid: true}, 'valid');
-            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith({name: 'another', valid: false}, 'valid');
-            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith({name: 'more one', valid: true}, 'valid');
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith({ name: 'some', valid: true }, 'valid');
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith({ name: 'another', valid: false }, 'valid');
+            expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith({ name: 'more one', valid: true }, 'valid');
             expect(result).toEqual([
-                {name: 'some', valid: true},
-                {name: 'more one', valid: true},
+                { name: 'some', valid: true },
+                { name: 'more one', valid: true },
             ]);
 
         });

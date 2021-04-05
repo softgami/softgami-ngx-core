@@ -36,4 +36,5 @@ export class CatsHttpRepositoryService extends AbstractCatsRepositoryService {
         return this.httpService.get<Cat[]>(url, params, headers);
 
     }
+
 }

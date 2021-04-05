@@ -40,18 +40,22 @@ export abstract class AbstractHtml5StorageService {
     set(key: string, value: object | number | string | boolean): void {
 
         if (value === undefined || value === null) {
+
             return;
+
         }
         if (!this.shouldEncrypt) {
+
             this.storage.setItem(key, JSON.stringify(value));
             this.onChangeEvent.next(key);
             return;
+
         }
 
         const hashedKey = CryptoJS.SHA512(key).toString();
         const encryptedValue = CryptoJS.AES.encrypt(
             JSON.stringify(value),
-            this.privateKey
+            this.privateKey,
         ).toString();
 
         this.storage.setItem(hashedKey, encryptedValue);
@@ -62,25 +66,31 @@ export abstract class AbstractHtml5StorageService {
     get<T>(key: string): T {
 
         if (!this.shouldEncrypt) {
-          const value: string = this.storage.getItem(key);
-          return value ? JSON.parse(value) as T : undefined;
+
+            const value: string = this.storage.getItem(key);
+            return value ? JSON.parse(value) as T : undefined;
+
         }
 
         const hashedKey = CryptoJS.SHA512(key).toString();
         const encryptedValue = this.storage.getItem(hashedKey);
         if (!encryptedValue) {
+
             return undefined;
+
         }
 
         const encryptedBytes = CryptoJS.AES.decrypt(
-          encryptedValue,
-          this.privateKey
+            encryptedValue,
+            this.privateKey,
         );
         const encryptedString = encryptedBytes.toString(CryptoJS.enc.Utf8);
 
         let decryptedValue;
         try {
+
             decryptedValue = JSON.parse(encryptedString);
+
         } catch (e) {}
         return decryptedValue as T;
 

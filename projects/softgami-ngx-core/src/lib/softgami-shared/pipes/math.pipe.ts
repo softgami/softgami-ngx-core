@@ -8,10 +8,12 @@ export class MathPipe implements PipeTransform {
     transform(input: number, args?: string): number {
 
         switch (args) {
+
             case 'floor':
                 return Math.floor(input);
             default:
                 return input;
+
         }
 
     }

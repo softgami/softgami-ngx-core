@@ -13,7 +13,7 @@ export class SoftgamiCoreModule {
 
     }
 
-    static setInjector(injector: Injector) {
+    static setInjector(injector: Injector): void {
 
         AbstractBaseComponent.injector = injector;
 

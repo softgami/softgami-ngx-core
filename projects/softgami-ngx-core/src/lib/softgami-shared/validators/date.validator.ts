@@ -12,18 +12,26 @@ export function DateValidator(locale?: string): ValidatorFn {
         };
 
         if (control.value === null || control.value === undefined) {
+
             return null;
+
         }
 
         let regex: RegExp;
 
         if (locale) {
+
             locale = locale.toLowerCase();
             regex = new DateRegexFactoryService().getRegexByLocale(locale);
+
         } else if (SoftgamiNgxCoreModule.country) {
+
             regex = new DateRegexFactoryService().getRegexByCountry(SoftgamiNgxCoreModule.country);
+
         } else {
+
             return error;
+
         }
 
         return regex && regex.test(control.value) ? null : error;
@@ -31,4 +39,3 @@ export function DateValidator(locale?: string): ValidatorFn {
     };
 
 }
-

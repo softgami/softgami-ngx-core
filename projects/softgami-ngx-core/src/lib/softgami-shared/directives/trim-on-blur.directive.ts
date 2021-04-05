@@ -2,14 +2,13 @@ import { Directive, HostListener } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 @Directive({
-    // tslint:disable-next-line: directive-selector
     selector: '[trimOnBlur]',
 })
 export class TrimOnBlurDirective {
 
     constructor(private readonly control: NgControl) { }
 
-    @HostListener('blur') blur() {
+    @HostListener('blur') blur(): void {
 
         if (this.control.value) {
 

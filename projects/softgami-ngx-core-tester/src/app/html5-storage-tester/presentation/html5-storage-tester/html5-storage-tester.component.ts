@@ -3,12 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractHtml5StorageService } from 'projects/softgami-ngx-core/src/lib/html5-storage/abstract-html5-storage.service';
 import { LocalStorageService } from 'projects/softgami-ngx-core/src/lib/html5-storage/local-storage/local-storage.service';
 import { SessionStorageService } from 'projects/softgami-ngx-core/src/lib/html5-storage/session-storage/session-storage.service';
-import { fromEvent } from 'rxjs';
 
 @Component({
     selector: 'app-html5-storage-tester',
     templateUrl: './html5-storage-tester.component.html',
-    styleUrls: ['./html5-storage-tester.component.scss'],
+    styleUrls: [ './html5-storage-tester.component.scss' ],
 })
 export class Html5StorageTesterComponent implements OnInit {
 
@@ -22,45 +21,50 @@ export class Html5StorageTesterComponent implements OnInit {
         private readonly sessionStorageService: SessionStorageService,
     ) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
 
         this.defaultStorageValue = this.html5StorageService.get<string>('default-key');
         this.localStorageValue = this.localStorageService.get<string>('local-storage-key');
         this.sessionStorageValue = this.sessionStorageService.get<string>('session-storage-key');
 
         this.html5StorageService.onChanges()
-        .subscribe((result: string) => {
-            console.log(result);
-        });
+            .subscribe((result: string) => {
+
+                console.log(result);
+
+            });
 
         this.localStorageService.onChanges()
-        .subscribe((result: string) => {
-            console.log(result);
-        });
+            .subscribe((result: string) => {
+
+                console.log(result);
+
+            });
 
         this.sessionStorageService.onChanges()
-        .subscribe((result: string) => {
-            console.log(result);
-        });
+            .subscribe((result: string) => {
 
+                console.log(result);
+
+            });
 
     }
 
-    changeDefaultStorageValue(value) {
+    changeDefaultStorageValue(value: string | number | boolean | object): void {
 
         this.html5StorageService.set('default-key', value);
         this.defaultStorageValue = this.html5StorageService.get<string>('default-key');
 
     }
 
-    changeLocalStorageValue(value) {
+    changeLocalStorageValue(value: string | number | boolean | object): void {
 
         this.localStorageService.set('local-storage-key', value);
         this.localStorageValue = this.localStorageService.get<string>('local-storage-key');
 
     }
 
-    changeSessionStorageValue(value) {
+    changeSessionStorageValue(value: string | number | boolean | object): void {
 
         this.sessionStorageService.set('session-storage-key', value);
         this.sessionStorageValue = this.sessionStorageService.get<string>('session-storage-key');

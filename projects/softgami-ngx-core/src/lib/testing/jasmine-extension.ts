@@ -4,7 +4,7 @@ export abstract class JasmineExtension {
     public static spyOn: (arg1: any, arg2: any) => any = null;
     public static createSpyObj: (arg1: any, arg2: any) => any = null;
 
-    public static init(spyOn: (arg1: any, arg2: any) => any, createSpyObj: (arg1: any, arg2: any) => any) {
+    public static init(spyOn: (arg1: any, arg2: any) => any, createSpyObj: (arg1: any, arg2: any) => any): void {
 
         JasmineExtension.spyOn = spyOn;
         JasmineExtension.createSpyObj = createSpyObj;
@@ -39,10 +39,12 @@ export abstract class JasmineExtension {
 
         JasmineExtension.getInstanceMethodNames(object)
         // .filter((property: string) => skipMethodsList.includes(property) === false)
-        .forEach((property: string) => {
-            componentSpy[property] = JasmineExtension.spyOn(object, property);
-            componentSpy[property].and.callThrough();
-        });
+            .forEach((property: string) => {
+
+                componentSpy[property] = JasmineExtension.spyOn(object, property);
+                componentSpy[property].and.callThrough();
+
+            });
 
         return componentSpy as T;
 
@@ -57,17 +59,23 @@ export abstract class JasmineExtension {
         while (proto) {
 
             Object.getOwnPropertyNames(proto).forEach((name: string) => {
+
                 if (name !== 'constructor') {
+
                     if (JasmineExtension.hasMethod(proto, name)) {
+
                         methodNames.push(name);
+
                     }
+
                 }
+
             });
             proto = Object.getPrototypeOf(proto);
 
         }
 
-        const uniqueArrayMethodNames = [... new Set(methodNames)];
+        const uniqueArrayMethodNames = [ ...new Set(methodNames) ];
 
         return uniqueArrayMethodNames;
 

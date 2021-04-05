@@ -40,7 +40,7 @@ describe('FileSizeFormatterPipe', () => {
 
         it('transform should return "" when sizeInBytes is not a number', () => {
 
-            const sizeInBytes: any  = '';
+            const sizeInBytes: any = '';
 
             const result: string = pipe.transform(sizeInBytes);
 
@@ -50,7 +50,7 @@ describe('FileSizeFormatterPipe', () => {
 
         it('transform should return "" when sizeInBytes is NaN', () => {
 
-            const sizeInBytes  = NaN;
+            const sizeInBytes = NaN;
 
             const result: string = pipe.transform(sizeInBytes);
 
@@ -63,7 +63,7 @@ describe('FileSizeFormatterPipe', () => {
             const spyKB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToKB');
             const spyMB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToMB');
             const spyAuto: jasmine.SpyObj<any> = spyOn(pipe, 'formatAuto');
-            const sizeInBytes  = 54300;
+            const sizeInBytes = 54300;
 
             const result: string = pipe.transform(sizeInBytes, 'KB');
 
@@ -78,7 +78,7 @@ describe('FileSizeFormatterPipe', () => {
             const spyKB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToKB');
             const spyMB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToMB');
             const spyAuto: jasmine.SpyObj<any> = spyOn(pipe, 'formatAuto');
-            const sizeInBytes  = 54300;
+            const sizeInBytes = 54300;
 
             const result: string = pipe.transform(sizeInBytes, 'kb');
 
@@ -93,7 +93,7 @@ describe('FileSizeFormatterPipe', () => {
             const spyKB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToKB');
             const spyMB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToMB');
             const spyAuto: jasmine.SpyObj<any> = spyOn(pipe, 'formatAuto');
-            const sizeInBytes  = 54300;
+            const sizeInBytes = 54300;
 
             const result: string = pipe.transform(sizeInBytes, 'MB');
 
@@ -108,7 +108,7 @@ describe('FileSizeFormatterPipe', () => {
             const spyKB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToKB');
             const spyMB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToMB');
             const spyAuto: jasmine.SpyObj<any> = spyOn(pipe, 'formatAuto');
-            const sizeInBytes  = 54300;
+            const sizeInBytes = 54300;
 
             const result: string = pipe.transform(sizeInBytes, 'mb');
 
@@ -123,7 +123,7 @@ describe('FileSizeFormatterPipe', () => {
             const spyKB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToKB');
             const spyMB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToMB');
             const spyAuto: jasmine.SpyObj<any> = spyOn(pipe, 'formatAuto');
-            const sizeInBytes  = 54300;
+            const sizeInBytes = 54300;
 
             const result: string = pipe.transform(sizeInBytes, 'AUTO');
 
@@ -138,7 +138,7 @@ describe('FileSizeFormatterPipe', () => {
             const spyKB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToKB');
             const spyMB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToMB');
             const spyAuto: jasmine.SpyObj<any> = spyOn(pipe, 'formatAuto');
-            const sizeInBytes  = 54300;
+            const sizeInBytes = 54300;
 
             const result: string = pipe.transform(sizeInBytes, 'auto');
 
@@ -153,7 +153,7 @@ describe('FileSizeFormatterPipe', () => {
             const spyKB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToKB');
             const spyMB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToMB');
             const spyAuto: jasmine.SpyObj<any> = spyOn(pipe, 'formatAuto');
-            const sizeInBytes  = 54300;
+            const sizeInBytes = 54300;
 
             const result: string = pipe.transform(sizeInBytes, 'Auto');
 
@@ -168,7 +168,7 @@ describe('FileSizeFormatterPipe', () => {
             const spyKB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToKB');
             const spyMB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToMB');
             const spyAuto: jasmine.SpyObj<any> = spyOn(pipe, 'formatAuto');
-            const sizeInBytes  = 54300;
+            const sizeInBytes = 54300;
 
             const result: string = pipe.transform(sizeInBytes);
 
@@ -183,7 +183,7 @@ describe('FileSizeFormatterPipe', () => {
             const spyKB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToKB');
             const spyMB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToMB');
             const spyAuto: jasmine.SpyObj<any> = spyOn(pipe, 'formatAuto');
-            const sizeInBytes  = 54300;
+            const sizeInBytes = 54300;
             const arg: any = 10;
 
             const result: string = pipe.transform(sizeInBytes, arg);
@@ -282,7 +282,7 @@ describe('FileSizeFormatterPipe', () => {
             const spyMB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToMB');
 
             let limitSize = 1024 * 1024;
-            limitSize =  1048576;
+            limitSize = 1048576;
             let sizeInBytes = 1048575;
 
             let result: string = pipe.formatAuto(sizeInBytes);
@@ -307,7 +307,7 @@ describe('FileSizeFormatterPipe', () => {
             const spyMB: jasmine.SpyObj<any> = spyOn(pipe, 'formatToMB');
 
             let limitSize = 1024 * 1024;
-            limitSize =  1048576;
+            limitSize = 1048576;
             let sizeInBytes = limitSize;
 
             let result: string = pipe.formatAuto(sizeInBytes);

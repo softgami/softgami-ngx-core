@@ -5,9 +5,13 @@ export function MatchOtherValidator(otherControl: AbstractControl): ValidatorFn 
     let mainControl: AbstractControl;
 
     otherControl.valueChanges.subscribe(() => {
+
         if (mainControl) {
+
             mainControl.updateValueAndValidity();
+
         }
+
     });
 
     return (control: AbstractControl): ValidationErrors | null => {
@@ -20,7 +24,9 @@ export function MatchOtherValidator(otherControl: AbstractControl): ValidatorFn 
         if (!otherControl) return null;
 
         if (otherControl.value === control.value) {
+
             return null;
+
         }
 
         return error;
