@@ -99,7 +99,7 @@ export class SharedValidatorsTesterComponent {
         this.duplicated = new FormControl(null,
             [
                 Validators.required,
-                DuplicatedValidator(0, [ '123', '1234' ]),
+                DuplicatedValidator<string>(0, [ '123', '1234' ]),
             ],
         );
         this.password = new FormControl(null,

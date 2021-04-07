@@ -6,15 +6,15 @@ import { SoftgamiTsUtilsService } from 'softgami-ts-core';
 })
 export class IncludesPipe implements PipeTransform {
 
-    transform(valuesList: Array<any>, path: string, searchText: string, isCaseSensitive = false): any[] {
+    transform<T>(valuesList: T[], path: string, searchText: string, isCaseSensitive = false): T[] {
 
         if (valuesList === null || valuesList === undefined || !valuesList.length) return [];
         if (path === null || path === undefined) return [];
         if (searchText === null || searchText === undefined) return [];
         if (searchText === '') return valuesList;
-        const resultList: Array<any> = [];
+        const resultList: T[] = [];
 
-        valuesList.forEach((value: any) => {
+        valuesList.forEach((value: T) => {
 
             const valueResolved: string = SoftgamiTsUtilsService.resolveObjectPath<string>(value, path);
             if (valueResolved) {

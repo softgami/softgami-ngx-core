@@ -41,6 +41,10 @@ export class Language extends Thing {
 export class TObject extends Thing {
 
     @QueryParam()
+    @Type({ type: Types.MONGO_OBJECT_ID })
+    _id: string = null;
+
+    @QueryParam()
     @Sortable({ label: 'TYPE' })
     @Type({ type: Types.ARRAY, arrayItemType: Types.NUMBER })
     types: number[] = null;
@@ -66,6 +70,12 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
 
         super();
         this.form.addControl('status', new FormControl('active', [ Validators.required ]));
+
+    }
+
+    getParamId(): string {
+
+        return this.object && this.object._id ? this.object._id : '';
 
     }
 

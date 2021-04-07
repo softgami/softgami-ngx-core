@@ -17,7 +17,7 @@ export class LocalStorageService extends AbstractHtml5StorageService {
 
     }
 
-    set(key: string, value: object | number | string | boolean): void {
+    set<T>(key: string, value: T): void {
 
         super.set(key, value);
 

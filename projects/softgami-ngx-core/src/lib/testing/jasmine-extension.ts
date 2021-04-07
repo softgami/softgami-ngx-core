@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export abstract class JasmineExtension {
 
@@ -13,7 +15,7 @@ export abstract class JasmineExtension {
 
     public static createComponentSpy<T>(object: any): T {
 
-        const skipMethodsList: string[] = [
+        /* const skipMethodsList: string[] = [
             'constructor',
             'ngOnChanges',
             'ngOnInit',
@@ -33,9 +35,9 @@ export abstract class JasmineExtension {
             'toString',
             'valueOf',
             'toLocaleString',
-        ];
+        ]; */
 
-        const componentSpy: any = {};
+        const componentSpy = {};
 
         JasmineExtension.getInstanceMethodNames(object)
         // .filter((property: string) => skipMethodsList.includes(property) === false)
@@ -50,11 +52,11 @@ export abstract class JasmineExtension {
 
     }
 
-    public static getInstanceMethodNames(obj: any): string[] {
+    public static getInstanceMethodNames(obj: unknown): string[] {
 
         const methodNames: string[] = [];
 
-        let proto: any = Object.getPrototypeOf(obj);
+        let proto = Object.getPrototypeOf(obj);
 
         while (proto) {
 
@@ -81,16 +83,16 @@ export abstract class JasmineExtension {
 
     }
 
-    public static hasMethod(obj: any, name: string) {
+    public static hasMethod(obj: unknown, name: string): boolean {
 
         const desc: PropertyDescriptor = Object.getOwnPropertyDescriptor(obj, name);
         return !!desc && typeof desc.value === 'function';
 
     }
 
-    public static createServiceSpy<T>(type: any): T {
+    public static createServiceSpy<T>(type: { name; prototype }): T {
 
-        return JasmineExtension.createSpyObj(type.name as string, Object.getOwnPropertyNames(type.prototype) as any);
+        return JasmineExtension.createSpyObj(type.name as string, Object.getOwnPropertyNames(type.prototype));
 
     }
 

@@ -34,7 +34,7 @@ describe('AbstractHtml5StorageService', () => {
 
         it('onChanges should return changes property', () => {
 
-            expect(service.onChanges()).toBe(service.changes);
+            expect(service.onChanges()).toBe(service.onChangeEvent);
 
         });
 
@@ -68,7 +68,7 @@ describe('AbstractHtml5StorageService', () => {
             const spy: jasmine.Spy = spyOn(window.sessionStorage, 'setItem').and.returnValue(null);
             const spyCryptoJsSHA512: jasmine.Spy = spyOn(CryptoJS, 'SHA512').and.returnValue('encryptedKey');
             const spyCryptoJsEncrypt: jasmine.Spy = spyOn(CryptoJS.AES, 'encrypt').and.returnValue('encryptedValue');
-            const spyChange: jasmine.Spy = spyOn(service.changes, 'next').and.returnValue(null);
+            const spyChange: jasmine.Spy = spyOn(service.onChangeEvent, 'next').and.returnValue(null);
             service.shouldEncrypt = false;
 
             service.set('key', 'value');
@@ -86,7 +86,7 @@ describe('AbstractHtml5StorageService', () => {
             const spySession: jasmine.Spy = spyOn(window.sessionStorage, 'setItem').and.returnValue(null);
             const spyCryptoJsSHA512: jasmine.Spy = spyOn(CryptoJS, 'SHA512').and.returnValue('encryptedKey');
             const spyCryptoJsEncrypt: jasmine.Spy = spyOn(CryptoJS.AES, 'encrypt').and.returnValue('encryptedValue');
-            const spyChange: jasmine.Spy = spyOn(service.changes, 'next').and.returnValue(null);
+            const spyChange: jasmine.Spy = spyOn(service.onChangeEvent, 'next').and.returnValue(null);
             service.shouldEncrypt = true;
 
             service.set('key', 'value');

@@ -9,7 +9,7 @@ describe('FilterListPipe', () => {
 
     let pipe: FilterListPipe;
 
-    let utilsServiceSpy: jasmine.SpyObj<SoftgamiTsUtilsService>;
+    // let utilsServiceSpy: jasmine.SpyObj<SoftgamiTsUtilsService>;
 
     beforeEach(() => {
 
@@ -27,7 +27,7 @@ describe('FilterListPipe', () => {
 
     beforeEach(() => {
 
-        utilsServiceSpy = TestBed.get<SoftgamiTsUtilsService>(SoftgamiTsUtilsService as Type<SoftgamiTsUtilsService>);
+        // utilsServiceSpy = TestBed.get<SoftgamiTsUtilsService>(SoftgamiTsUtilsService as Type<SoftgamiTsUtilsService>);
         pipe = TestBed.get<FilterListPipe>(FilterListPipe as Type<FilterListPipe>);
 
     });
@@ -40,7 +40,7 @@ describe('FilterListPipe', () => {
 
     describe('transform', () => {
 
-        it('transform should return empty list when valuesList is null', () => {
+        /* it('transform should return empty list when valuesList is null', () => {
 
             const result: Array<any> = pipe.transform(null, null, null);
 
@@ -226,7 +226,7 @@ describe('FilterListPipe', () => {
                 { name: 'more one', valid: true },
             ]);
 
-        });
+        }); */
 
     });
 

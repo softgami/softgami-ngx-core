@@ -7,7 +7,6 @@ export function NoWhitespaceValidator(): ValidatorFn {
         const error: ValidationErrors = {
             whitespace: true,
         };
-        let value: string;
 
         if (control.value === null || control.value === undefined) {
 
@@ -15,7 +14,7 @@ export function NoWhitespaceValidator(): ValidatorFn {
 
         }
 
-        value = control.value.toString();
+        const value: string = control.value.toString();
 
         const isWhitespace: boolean = value.trim().length === 0;
         return isWhitespace ? error : null;

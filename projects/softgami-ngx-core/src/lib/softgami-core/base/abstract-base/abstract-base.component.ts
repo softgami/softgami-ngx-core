@@ -56,9 +56,10 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
     }
 
     abstract initMainObject(): T;
-    abstract handleQueryParams(params: T);
+    abstract handleQueryParams(params: T): void;
+    abstract getParamId(): string;
 
-    ngOnInit() {
+    ngOnInit(): void {
 
         this.isInitCalled = true;
         this.initializeBase();
@@ -89,7 +90,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    waitForInit() {
+    waitForInit(): void {
 
         setTimeout(() => {
 
@@ -104,14 +105,14 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    initializeBase() {
+    initializeBase(): void {
 
         this.initProviders();
         this.initQueryParamsSubscription();
 
     }
 
-    initProviders() {
+    initProviders(): void {
 
         if (!AbstractBaseComponent.injector) {
 
@@ -135,7 +136,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    setInjectedResources(staticInjector: Injector) {
+    setInjectedResources(staticInjector: Injector): void {
 
         if (!this.activatedRoute) {
 
@@ -160,14 +161,14 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         }
         if (!this.html5StorageService) {
 
-            this.html5StorageService = this.getInjectedResource<AbstractHtml5StorageService>
-            (staticInjector, AbstractHtml5StorageService as Type<AbstractHtml5StorageService>);
+            this.html5StorageService =
+                this.getInjectedResource<AbstractHtml5StorageService>(staticInjector, AbstractHtml5StorageService as Type<AbstractHtml5StorageService>);
 
         }
         if (!this.messageService) {
 
-            this.messageService = this.getInjectedResource<AbstractMessageService>
-            (staticInjector, AbstractMessageService as Type<AbstractMessageService>);
+            this.messageService =
+                this.getInjectedResource<AbstractMessageService>(staticInjector, AbstractMessageService as Type<AbstractMessageService>);
 
         }
 
@@ -187,7 +188,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    initQueryParamsSubscription() {
+    initQueryParamsSubscription(): void {
 
         const subscription: Subscription = this.activatedRoute.queryParams
             .pipe(
@@ -228,7 +229,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    initParamMapIdSubscription() {
+    initParamMapIdSubscription(): void {
 
         if (!this.activatedRoute) return;
 
@@ -253,7 +254,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
                     if (this.shouldUpdateObjectFromParamMapId()) {
 
-                        if (this.object && (this.object as any)._id) return of(this.object);
+                        if (this.object && this.getParamId()) return of(this.object);
                         else {
 
                             setTimeout(() => {
@@ -297,9 +298,13 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    successDefaultObjectLoaded(object: T) {}
+    successDefaultObjectLoaded(object: T): void {
 
-    initFormChangesSubscription() {
+        return null;
+
+    }
+
+    initFormChangesSubscription(): void {
 
         if (!this.form) return;
 
@@ -317,7 +322,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    updateFormFromThing(form: FormGroup, thing: T) {
+    updateFormFromThing(form: FormGroup, thing: T): void {
 
         if (!form || !thing) return;
 
@@ -334,7 +339,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    updateFormFromParams(form: FormGroup, params: Params) {
+    updateFormFromParams(form: FormGroup, params: Params): void {
 
         if (!form || !params) return;
 
@@ -347,7 +352,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    updateFormFromObject<O>(form: FormGroup, object: O) {
+    updateFormFromObject<O>(form: FormGroup, object: O): void {
 
         if (!form || !object) return;
 
@@ -360,7 +365,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    changeRoute(urlSuffix: string) {
+    changeRoute(urlSuffix: string): void {
 
         const relativeUrl = `../${urlSuffix}`;
         const url: string = this.router.createUrlTree([ relativeUrl ], { relativeTo: this.activatedRoute }).toString();
@@ -368,7 +373,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    updateRoute(queryParams: Params, activatedRoute?: ActivatedRoute, commands?: any[], queryParamsHandling?: 'merge' | 'preserve' | '') {
+    updateRoute(queryParams: Params, activatedRoute?: ActivatedRoute, commands?: unknown[], queryParamsHandling?: 'merge' | 'preserve' | ''): void {
 
         let url: string = this.router.createUrlTree([]).toString();
         if (activatedRoute && commands) {
@@ -386,7 +391,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    updateTotalControlsFilled() {
+    updateTotalControlsFilled(): void {
 
         if (!this.form) return;
 
@@ -422,20 +427,20 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    addSubscription(subscrition: Subscription) {
+    addSubscription(subscrition: Subscription): void {
 
         this.subscription ? this.subscription.add(subscrition) : this.subscription = subscrition;
 
     }
 
-    cleanSubscriptions() {
+    cleanSubscriptions(): void {
 
         if (this.subscription) this.subscription.unsubscribe();
         this.subscription = undefined;
 
     }
 
-    reset() {
+    reset(): void {
 
         setTimeout(() => {
 
@@ -451,7 +456,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    resetForm() {
+    resetForm(): void {
 
         this.formElement.resetForm();
         const formGroup: FormGroup = this.getInitialForm();
@@ -467,7 +472,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    onDefaultSubmitSaveObject() {
+    onDefaultSubmitSaveObject(): void {
 
         if (this.form.invalid) return;
 
@@ -480,7 +485,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
                 this.componentState = ComponentState.SUCCESS;
                 this.object = o;
                 this.onSuccessSaveObject();
-                this.changeRoute((o as any)._id);
+                this.changeRoute(this.getParamId());
 
             }, () => {
 
@@ -500,21 +505,21 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    onSuccessSaveObject() {
+    onSuccessSaveObject(): void {
 
         this.messageService.success(this.defaultSuccessSaveMessage);
 
     }
 
-    onErrorSaveObject() {
+    onErrorSaveObject(): void {
 
         this.messageService.error(this.defaultErrorSaveMessage);
 
     }
 
-    defaultConfirmAndDeleteObject() {
+    defaultConfirmAndDeleteObject(): void {
 
-        if (!this.object || !(this.object as any)._id) return;
+        if (!this.object || !this.getParamId()) return;
 
         const s: Subscription = this.showDefaultConfirmDeleteDialog()
             .pipe(
@@ -559,7 +564,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
 
         if (this.subscription) this.subscription.unsubscribe();
 

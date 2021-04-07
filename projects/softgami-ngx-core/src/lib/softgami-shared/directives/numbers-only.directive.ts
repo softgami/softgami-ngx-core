@@ -3,7 +3,6 @@ import { NgControl } from '@angular/forms';
 import { SoftgamiTsUtilsService } from 'softgami-ts-core';
 
 @Directive({
-    // tslint:disable-next-line: directive-selector
     selector: '[numbersOnly]',
 })
 export class NumbersOnlyDirective {

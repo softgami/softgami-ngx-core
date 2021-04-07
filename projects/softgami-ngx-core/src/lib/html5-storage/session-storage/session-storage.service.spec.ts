@@ -65,7 +65,7 @@ describe('SessionStorageService', () => {
 
             spySuper = spyOn(AbstractHtml5StorageService.prototype, 'get').and.returnValue('value');
 
-            const result: string = service.get<string>('key');
+            service.get<string>('key');
 
             expect(spySuper).toHaveBeenCalledWith('key');
 
@@ -75,7 +75,7 @@ describe('SessionStorageService', () => {
 
             spySuper = spyOn(AbstractHtml5StorageService.prototype, 'get').and.returnValue('value');
 
-            const result: string = service.get<string>('key2');
+            service.get<string>('key2');
 
             expect(spySuper).toHaveBeenCalledWith('key2');
 

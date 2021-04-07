@@ -29,7 +29,7 @@ describe('Html5StorageModule', () => {
 
             expect(html5StorageModule).toBeTruthy();
 
-            const result: ModuleWithProviders<any> = Html5StorageModule.forRoot(true, true, SessionStorageService);
+            const result: ModuleWithProviders = Html5StorageModule.forRoot(true, true, SessionStorageService);
 
             expect(JSON.stringify(result)).toEqual(JSON.stringify({
                 ngModule: Html5StorageModule,
@@ -57,7 +57,7 @@ describe('Html5StorageModule', () => {
 
             expect(html5StorageModule).toBeTruthy();
 
-            const result: ModuleWithProviders<any> = Html5StorageModule.forRoot(true, false, SessionStorageService);
+            const result: ModuleWithProviders = Html5StorageModule.forRoot(true, false, SessionStorageService);
 
             expect(JSON.stringify(result)).toEqual(JSON.stringify({
                 ngModule: Html5StorageModule,
@@ -85,7 +85,7 @@ describe('Html5StorageModule', () => {
 
             expect(html5StorageModule).toBeTruthy();
 
-            const result: ModuleWithProviders<any> = Html5StorageModule.forRoot(false, true, SessionStorageService);
+            const result: ModuleWithProviders = Html5StorageModule.forRoot(false, true, SessionStorageService);
 
             expect(JSON.stringify(result)).toEqual(JSON.stringify({
                 ngModule: Html5StorageModule,
@@ -113,7 +113,7 @@ describe('Html5StorageModule', () => {
 
             expect(html5StorageModule).toBeTruthy();
 
-            const result: ModuleWithProviders<any> = Html5StorageModule.forRoot(false, false, SessionStorageService);
+            const result: ModuleWithProviders = Html5StorageModule.forRoot(false, false, SessionStorageService);
 
             expect(JSON.stringify(result)).toEqual(JSON.stringify({
                 ngModule: Html5StorageModule,

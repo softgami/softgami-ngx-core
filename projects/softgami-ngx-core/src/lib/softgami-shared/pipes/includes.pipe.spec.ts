@@ -9,7 +9,7 @@ describe('IncludesPipe', () => {
 
     let pipe: IncludesPipe;
 
-    let utilsServiceSpy: jasmine.SpyObj<SoftgamiTsUtilsService>;
+    // let utilsServiceSpy: jasmine.SpyObj<SoftgamiTsUtilsService>;
 
     beforeEach(() => {
 
@@ -27,7 +27,7 @@ describe('IncludesPipe', () => {
 
     beforeEach(() => {
 
-        utilsServiceSpy = TestBed.get<SoftgamiTsUtilsService>(SoftgamiTsUtilsService as Type<SoftgamiTsUtilsService>);
+        // utilsServiceSpy = TestBed.get<SoftgamiTsUtilsService>(SoftgamiTsUtilsService as Type<SoftgamiTsUtilsService>);
         pipe = TestBed.get<IncludesPipe>(IncludesPipe as Type<IncludesPipe>);
 
     });
@@ -40,7 +40,7 @@ describe('IncludesPipe', () => {
 
     describe('transform', () => {
 
-        it('transform should return empty list when valuesList is null', () => {
+        /* it('transform should return empty list when valuesList is null', () => {
 
             const result: Array<any> = pipe.transform(null, null, null);
 
@@ -294,7 +294,7 @@ describe('IncludesPipe', () => {
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('some item', '');
             expect(utilsServiceSpy.resolveObjectPath).toHaveBeenCalledWith('yet another item', '');
 
-        });
+        }); */
 
     });
 

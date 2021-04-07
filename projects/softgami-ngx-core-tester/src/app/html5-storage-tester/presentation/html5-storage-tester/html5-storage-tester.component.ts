@@ -50,21 +50,21 @@ export class Html5StorageTesterComponent implements OnInit {
 
     }
 
-    changeDefaultStorageValue(value: string | number | boolean | object): void {
+    changeDefaultStorageValue(value: string | number | boolean): void {
 
         this.html5StorageService.set('default-key', value);
         this.defaultStorageValue = this.html5StorageService.get<string>('default-key');
 
     }
 
-    changeLocalStorageValue(value: string | number | boolean | object): void {
+    changeLocalStorageValue(value: string | number | boolean): void {
 
         this.localStorageService.set('local-storage-key', value);
         this.localStorageValue = this.localStorageService.get<string>('local-storage-key');
 
     }
 
-    changeSessionStorageValue(value: string | number | boolean | object): void {
+    changeSessionStorageValue(value: string | number | boolean): void {
 
         this.sessionStorageService.set('session-storage-key', value);
         this.sessionStorageValue = this.sessionStorageService.get<string>('session-storage-key');

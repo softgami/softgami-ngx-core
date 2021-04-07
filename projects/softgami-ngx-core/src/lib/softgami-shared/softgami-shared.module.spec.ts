@@ -24,7 +24,7 @@ describe('SoftgamiSharedModule', () => {
 
             expect(sharedModule).toBeTruthy();
 
-            const result: ModuleWithProviders<any> = SoftgamiSharedModule.forRoot();
+            const result: ModuleWithProviders = SoftgamiSharedModule.forRoot();
 
             expect(result).toEqual({
                 ngModule: SoftgamiSharedModule,

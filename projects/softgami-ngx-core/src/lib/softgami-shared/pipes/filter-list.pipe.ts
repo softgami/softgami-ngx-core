@@ -6,14 +6,14 @@ import { SoftgamiTsUtilsService } from 'softgami-ts-core';
 })
 export class FilterListPipe implements PipeTransform {
 
-    transform(valuesList: Array<any>, path: string, filter: string | boolean | number): Array<any> {
+    transform<T>(valuesList: T[], path: string, filter: string | boolean | number): T[] {
 
         if (valuesList === null || valuesList === undefined || !valuesList.length) return [];
         if (path === null || path === undefined) return [];
         if (filter === null || filter === undefined || filter === '') return [];
-        const resultList: Array<any> = [];
+        const resultList: T[] = [];
 
-        valuesList.forEach((value: any) => {
+        valuesList.forEach((value: T) => {
 
             const valueResolved: string = SoftgamiTsUtilsService.resolveObjectPath<string>(value, path);
             if (valueResolved === filter) resultList.push(value);

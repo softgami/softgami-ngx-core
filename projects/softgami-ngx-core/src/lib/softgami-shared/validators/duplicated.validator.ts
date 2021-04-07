@@ -1,8 +1,8 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export function DuplicatedValidator(index: number, values: any[], key?: string): ValidatorFn {
+export function DuplicatedValidator<T>(index: number, values: T[], key?: string): ValidatorFn {
 
-    return (control: AbstractControl): {[key: string]: any} | null => {
+    return (control: AbstractControl): ValidationErrors | null => {
 
         const error: ValidationErrors = {
             duplicated: true,
@@ -10,7 +10,7 @@ export function DuplicatedValidator(index: number, values: any[], key?: string):
         let returnValue: ValidationErrors = null;
         if (!control.value) return null;
 
-        values.forEach((v: any, i: number) => {
+        values.forEach((v: T, i: number) => {
 
             if (i !== index) {
 

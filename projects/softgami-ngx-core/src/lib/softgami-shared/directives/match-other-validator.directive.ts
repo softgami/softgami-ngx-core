@@ -1,17 +1,17 @@
-import { AbstractControl, FormControl, NG_VALIDATORS, Validator } from '@angular/forms';
-import { Directive, Input } from '@angular/core';
+import { AbstractControl, FormControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
+import { Directive, forwardRef, Input } from '@angular/core';
 
 import { MatchOtherValidator } from '../validators/match-other.validator';
 
 @Directive({
     selector: '[matchOtherValidator]',
-    providers: [ { provide: NG_VALIDATORS, useExisting: MatchOtherValidatorDirective, multi: true } ],
+    providers: [ { provide: NG_VALIDATORS, useExisting: forwardRef(() => MatchOtherValidatorDirective), multi: true } ],
 })
 export class MatchOtherValidatorDirective implements Validator {
 
     @Input() otherControl: FormControl;
 
-    validate(control: AbstractControl): {[key: string]: any} | null {
+    validate(control: AbstractControl): ValidationErrors | null {
 
         return MatchOtherValidator(this.otherControl)(control);
 
