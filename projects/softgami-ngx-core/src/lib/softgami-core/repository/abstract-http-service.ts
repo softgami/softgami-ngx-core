@@ -1,6 +1,6 @@
-import { catchError, concatMap, finalize, map, tap } from 'rxjs/operators';
+import { catchError, finalize, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable, throwError, of } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 import { ErrorResponse } from './error/error-response.interface';
 import { ErrorResponseFactory } from './error/error-response-factory';
@@ -157,7 +157,7 @@ export abstract class AbstractHttpService {
                 }),
                 map((res: HttpResponse<void>) => {
 
-                    return;
+                    return res.body as void;
 
                 }),
                 catchError((error: HttpErrorResponse) => {

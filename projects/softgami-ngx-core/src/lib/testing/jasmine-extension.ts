@@ -39,14 +39,15 @@ export abstract class JasmineExtension {
 
         const componentSpy = {};
 
-        
         JasmineExtension.getInstanceMethodNames(object)
         // .filter((property: string) => skipMethodsList.includes(property) === false)
             .forEach((property: string) => {
 
                 if (JasmineExtension && JasmineExtension.spyOn) {
+
                     (componentSpy as any)[property] = JasmineExtension.spyOn(object, property);
                     (componentSpy as any)[property].and.callThrough();
+
                 }
 
             });
@@ -96,7 +97,9 @@ export abstract class JasmineExtension {
     public static createServiceSpy<T>(type: { name: string; prototype: any }): T | null {
 
         if (JasmineExtension && JasmineExtension.createSpyObj) {
+
             return JasmineExtension.createSpyObj(type.name, Object.getOwnPropertyNames(type.prototype));
+
         }
         return null;
 

@@ -14,11 +14,13 @@ export class TrimOnBlurDirective {
 
             const value: string = this.control.value.toString();
             if (this.control && this.control.control) {
+
                 this.control.control.setValue(value.trim(), {
                     emitEvent: true,
                     emitModelToViewChange: true,
                     emitViewToModelChange: true,
                 });
+
             }
 
         }

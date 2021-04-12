@@ -55,7 +55,9 @@ export class NumbersOnlyDirective {
         if (this.asNumber && this.control && this.integerOnly) {
 
             if (this.control && this.control.control) {
+
                 this.control.control.setValue(isNaN(val) || this.el.nativeElement.value === '' ? '' : val);
+
             }
 
         }
@@ -74,7 +76,9 @@ export class NumbersOnlyDirective {
 
                 }
                 if (this.control && this.control.control) {
+
                     this.control.control.setValue(isNaN(val) || this.el.nativeElement.value === '' ? '' : val);
+
                 }
 
             }

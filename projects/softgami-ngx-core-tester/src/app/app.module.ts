@@ -9,19 +9,19 @@ import { Html5StorageTesterModule } from './html5-storage-tester/html5-storage-t
 import { SharedTesterModule } from './shared-tester/shared-tester.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    CoreTesterModule,
-    FormsModule,
-    Html5StorageTesterModule,
-    ReactiveFormsModule,
-    SharedTesterModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        CoreTesterModule,
+        FormsModule,
+        Html5StorageTesterModule,
+        ReactiveFormsModule,
+        SharedTesterModule,
+    ],
+    providers: [],
+    bootstrap: [ AppComponent ],
 })
 export class AppModule { }

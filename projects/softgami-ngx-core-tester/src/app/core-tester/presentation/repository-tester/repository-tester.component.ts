@@ -38,22 +38,26 @@ export class RepositoryTesterComponent implements OnInit {
 
     onSubmit(): void {
 
-        return;
+        console.log(this.form.getRawValue());
 
     }
 
     callApi(): void {
 
         if (this.form) {
+
             const languageControl: AbstractControl | null = this.form.get('language');
             if (languageControl) {
+
                 languageControl.setValue({
                     id: '12345',
                     name: 'name of the language',
                 });
+
             }
+
         }
-        
+
         const cat: Cat = new Cat();
         cat.q = this.searchText;
 
@@ -61,7 +65,9 @@ export class RepositoryTesterComponent implements OnInit {
             .subscribe((cats: Cat[] | null) => {
 
                 if (cats) {
+
                     this.cats = cats;
+
                 }
 
             });

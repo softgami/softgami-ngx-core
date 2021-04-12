@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ActivatedRoute, Navigation, ParamMap, Params, Router } from '@angular/router';
 import { Component, Injector, OnDestroy, OnInit, StaticProvider, Type, ViewChild } from '@angular/core';
 import { concatMap, debounceTime, delay, distinctUntilChanged, filter, first, map } from 'rxjs/operators';
@@ -20,7 +21,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
     static injector: Injector | null = null;
     subscription: Subscription = new Subscription();
     object: T | null = null;
-    isInitCalled: boolean = false;
+    isInitCalled = false;
     form: FormGroup = new FormGroup({});
     totalControlsFilled = 0;
     defaultSuccessSaveMessage = 'DEFAULT_SUCCESS_SAVE_MESSAGE';
@@ -55,7 +56,9 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         this.waitForInit();
         const initialForm: FormGroup | null = this.getInitialForm();
         if (initialForm !== null) {
+
             this.form = initialForm;
+
         }
         this.initParamMapIdSubscription();
 
@@ -197,7 +200,9 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
     initQueryParamsSubscription(): void {
 
         if (!this.activatedRoute) {
+
             return;
+
         }
 
         const subscription: Subscription = this.activatedRoute.queryParams
@@ -411,7 +416,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         this.totalControlsFilled = Object.keys(this.form.controls)
             .filter((key: string) => {
 
-                const control = this.form ? this.form.controls[key]: null;
+                const control = this.form ? this.form.controls[key] : null;
                 if (!control || control.value === null || control.value === undefined) {
 
                     return false;
@@ -477,11 +482,15 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
             Object.keys(initialFormGroup.controls).forEach((controlName: string) => {
 
                 if (this.form) {
+
                     const initialControl = initialFormGroup.get(controlName);
                     const control = this.form.get(controlName);
                     if (initialControl && control) {
+
                         control.setValue(initialControl.value);
+
                     }
+
                 }
 
             });
@@ -498,21 +507,23 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         this.object = Object.assign(this.object || {}, this.form.getRawValue());
 
         if (this.object) {
+
             const s: Subscription = this.defaultSaveObject(this.object)
-            .subscribe((o: T) => {
+                .subscribe((o: T) => {
 
-                this.componentState = ComponentState.SUCCESS;
-                this.object = o;
-                this.onSuccessSaveObject();
-                this.changeRoute(this.getParamId());
+                    this.componentState = ComponentState.SUCCESS;
+                    this.object = o;
+                    this.onSuccessSaveObject();
+                    this.changeRoute(this.getParamId());
 
-            }, () => {
+                }, () => {
 
-                this.componentState = ComponentState.ERROR;
-                this.onErrorSaveObject();
+                    this.componentState = ComponentState.ERROR;
+                    this.onErrorSaveObject();
 
-            });
+                });
             this.addSubscription(s);
+
         }
 
     }
@@ -555,10 +566,14 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
             .subscribe(() => {
 
                 if (this.messageService) this.messageService.success(this.defaultSuccessDeleteMessage);
-                if (this.router) this.router.navigate(
-                    [ '../' ],
-                    { relativeTo: this.activatedRoute, queryParams: { skip: 0 }, queryParamsHandling: 'merge' },
-                );
+                if (this.router) {
+
+                    this.router.navigate(
+                        [ '../' ],
+                        { relativeTo: this.activatedRoute, queryParams: { skip: 0 }, queryParamsHandling: 'merge' },
+                    );
+
+                }
 
             }, () => {
 

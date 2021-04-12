@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export function DuplicatedValidator<T>(index: number, values: T[], key?: string): ValidatorFn {

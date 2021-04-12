@@ -15,8 +15,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AbstractBaseComponent } from 'projects/softgami-ngx-core/src/lib/softgami-core/base/abstract-base/abstract-base.component';
 
-import { AppParams } from './app-params.interface';
-
 export class Language extends Thing {
 
     @QueryParam()
@@ -69,7 +67,9 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
 
         super();
         if (this.form) {
+
             this.form.addControl('status', new FormControl('active', [ Validators.required ]));
+
         }
 
     }
@@ -100,12 +100,6 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
     initMainObject(): TObject {
 
         return new TObject();
-
-    }
-
-    updateParams(params: AppParams): void {
-
-        return;
 
     }
 
