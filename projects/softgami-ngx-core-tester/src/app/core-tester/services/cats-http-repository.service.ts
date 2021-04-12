@@ -24,7 +24,7 @@ export class CatsHttpRepositoryService extends AbstractCatsRepositoryService {
 
     }
 
-    getAll(cat: Cat): Observable<Cat[]> {
+    getAll(cat: Cat): Observable<Cat[] | null> {
 
         let url = 'https://api.thecatapi.com/v1/breeds';
         if (cat.q) url = url + '/search';
@@ -33,7 +33,7 @@ export class CatsHttpRepositoryService extends AbstractCatsRepositoryService {
 
         headers = headers.set('Authorization', 'token');
 
-        return this.httpService.get<Cat[]>(url, params, headers);
+        return this.httpService.get<Cat[] | null>(url, params, headers);
 
     }
 

@@ -71,7 +71,7 @@ import { ZipCodeValidatorDirective } from './directives/zip-code-validator.direc
 })
 export class SoftgamiSharedModule {
 
-    static forRoot(): ModuleWithProviders {
+    static forRoot(): ModuleWithProviders<SoftgamiSharedModule> {
 
         return {
             ngModule: SoftgamiSharedModule,

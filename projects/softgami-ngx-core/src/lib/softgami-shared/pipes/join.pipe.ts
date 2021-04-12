@@ -15,13 +15,13 @@ export class JoinPipe implements PipeTransform {
         const joinedValues: string[] = [];
         if (valuesListCopy && valuesListCopy.length) {
 
-            const firstValue: T = valuesListCopy.shift();
-            const firstValueResolved: string = SoftgamiTsUtilsService.resolveObjectPath<string>(firstValue, path);
+            const firstValue: T | undefined = valuesListCopy.shift();
+            const firstValueResolved: string | undefined = SoftgamiTsUtilsService.resolveObjectPath<string>(firstValue, path);
             if (firstValueResolved) joinedValues.push(firstValueResolved);
 
             valuesListCopy.forEach((value: T) => {
 
-                const valueResolved: string = SoftgamiTsUtilsService.resolveObjectPath<string>(value, path);
+                const valueResolved: string | undefined = SoftgamiTsUtilsService.resolveObjectPath<string>(value, path);
                 if (valueResolved) joinedValues.push(valueResolved);
 
             });

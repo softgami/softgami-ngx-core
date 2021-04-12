@@ -1,7 +1,7 @@
 <div class="wrapper">
     <h1>Default Storage</h1>
     <div>
-        <input type="text" (input)="changeDefaultStorageValue($event.target.value)">
+        <input type="text" (input)="changeDefaultStorageValue($event.target)">
         <br>
         <label for="">{{ defaultStorageValue }}</label>
     </div>
@@ -9,7 +9,7 @@
 <div class="wrapper">
         <h1>Local Storage</h1>
         <div>
-            <input type="text" (input)="changeLocalStorageValue($event.target.value)">
+            <input type="text" (input)="changeLocalStorageValue($event.target)">
             <br>
             <label for="">{{ localStorageValue }}</label>
         </div>
@@ -17,7 +17,7 @@
 <div class="wrapper">
     <h1>Session Storage</h1>
     <div>
-        <input type="text" (input)="changeSessionStorageValue($event.target.value)">
+        <input type="text" (input)="changeSessionStorageValue($event.target)">
         <br>
         <label for="">{{ sessionStorageValue }}</label>
     </div>

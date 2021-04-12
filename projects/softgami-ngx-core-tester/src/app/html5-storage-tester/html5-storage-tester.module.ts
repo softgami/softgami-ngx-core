@@ -11,7 +11,7 @@ import { Html5StorageTesterRoutingModule } from './html5-storage-tester-routing.
         Html5StorageTesterComponent,
     ],
     imports: [
-        Html5StorageModule.forRoot(false, false, LocalStorageService),
+        Html5StorageModule.forRoot(true, true, LocalStorageService),
         Html5StorageTesterRoutingModule,
     ],
     providers: [

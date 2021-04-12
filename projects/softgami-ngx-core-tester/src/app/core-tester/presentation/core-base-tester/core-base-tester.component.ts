@@ -26,7 +26,7 @@ export class Language extends Thing {
     @Trim()
     @Unique()
     @Type({ type: Types.NUMBER })
-    code: number = null;
+    code: number | null = null;
 
     @QueryParam()
     @Schemable()
@@ -34,7 +34,7 @@ export class Language extends Thing {
     @Required()
     @Type({ type: Types.OBJECT, class: Language })
     @ExcludeIndexes()
-    idioma: Language = null;
+    idioma: Language | null = null;
 
 }
 
@@ -42,12 +42,12 @@ export class TObject extends Thing {
 
     @QueryParam()
     @Type({ type: Types.MONGO_OBJECT_ID })
-    _id: string = null;
+    _id: string | null = null;
 
     @QueryParam()
     @Sortable({ label: 'TYPE' })
     @Type({ type: Types.ARRAY, arrayItemType: Types.NUMBER })
-    types: number[] = null;
+    types: number[] | null = null;
 
     @QueryParam()
     @Schemable()
@@ -55,21 +55,22 @@ export class TObject extends Thing {
     @Required()
     @Type({ type: Types.OBJECT, class: Language })
     @ExcludeIndexes()
-    language: Language = null;
+    language: Language | null = null;
 
 }
 
 @Component({
     selector: 'app-core-base-tester',
     templateUrl: './core-base-tester.component.html',
-    styleUrls: [ './core-base-tester.component.scss' ],
 })
 export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
 
     constructor() {
 
         super();
-        this.form.addControl('status', new FormControl('active', [ Validators.required ]));
+        if (this.form) {
+            this.form.addControl('status', new FormControl('active', [ Validators.required ]));
+        }
 
     }
 
@@ -104,7 +105,7 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
 
     updateParams(params: AppParams): void {
 
-        return null;
+        return;
 
     }
 
@@ -135,7 +136,7 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
 
     onSubmit(): void {
 
-        console.log(this.form.getRawValue());
+        if (this.form) console.log(this.form.getRawValue());
 
     }
 

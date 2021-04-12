@@ -17,11 +17,8 @@ export class SharedDirectivesTesterComponent {
     numbersOnlyIntegersControl: FormControl;
     fractionDigitsControl: FormControl;
     numbersOnlyWithFractionDigitsControl: FormControl;
-    numbersOnly;
-    numbersOnlyIntegers;
-    fractionDigits: number;
-    @ViewChild('fTrimOnBlur', { static: false }) fTrimOnBlur: HTMLFormElement;
-    @ViewChild('fNumbersOnly', { static: false }) fNumbersOnly: HTMLFormElement;
+    @ViewChild('fTrimOnBlur', { static: false }) fTrimOnBlur: HTMLFormElement | undefined;
+    @ViewChild('fNumbersOnly', { static: false }) fNumbersOnly: HTMLFormElement | undefined;
 
     constructor() {
 

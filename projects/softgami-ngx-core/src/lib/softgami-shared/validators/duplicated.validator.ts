@@ -7,7 +7,7 @@ export function DuplicatedValidator<T>(index: number, values: T[], key?: string)
         const error: ValidationErrors = {
             duplicated: true,
         };
-        let returnValue: ValidationErrors = null;
+        let returnValue: ValidationErrors | null = null;
         if (!control.value) return null;
 
         values.forEach((v: T, i: number) => {
@@ -16,7 +16,7 @@ export function DuplicatedValidator<T>(index: number, values: T[], key?: string)
 
                 if (key) {
 
-                    if (v[key] === control.value) returnValue = error;
+                    if ((v as any)[key] === control.value) returnValue = error;
 
                 } else {
 

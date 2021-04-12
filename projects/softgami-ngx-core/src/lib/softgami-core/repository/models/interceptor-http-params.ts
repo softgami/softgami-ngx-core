@@ -6,14 +6,14 @@ import { InterceptorOptions } from './interceptor-options.interface';
 export class InterceptorHttpParams extends HttpParams {
 
     thing: Thing;
-    interceptorOptions: InterceptorOptions;
+    interceptorOptions: InterceptorOptions | undefined;
 
     constructor(
         private readonly t: Thing,
-        private readonly options?: InterceptorOptions,
+        private readonly options?: InterceptorOptions | undefined,
     ) {
 
-        super(t ? { fromObject: t.toQueryParamsObject() } : null);
+        super(t ? { fromObject: t.toQueryParamsObject() } : undefined);
         this.thing = t;
         this.interceptorOptions = options;
 

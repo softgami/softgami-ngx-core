@@ -4,8 +4,8 @@
     <select [(ngModel)]="selectedSortOption" name="select-sort-option">
         <option value="null">Select</option>
         <ng-container *ngFor="let option of sortOptions; let i = index;">
-            <option value="{{ option.value }}">{{ option.key }} asc</option>
-            <option value="{{ option.value }}">{{ option.key }} desc</option>
+            <option value="{{ option.field }}">{{ option.label }} asc</option>
+            <option value="{{ option.field }}">{{ option.label }} desc</option>
         </ng-container>
     </select>
     {{ selectedSortOption }}

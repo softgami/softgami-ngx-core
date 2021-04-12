@@ -16,7 +16,7 @@ export class IncludesPipe implements PipeTransform {
 
         valuesList.forEach((value: T) => {
 
-            const valueResolved: string = SoftgamiTsUtilsService.resolveObjectPath<string>(value, path);
+            const valueResolved: string | undefined = SoftgamiTsUtilsService.resolveObjectPath<string>(value, path);
             if (valueResolved) {
 
                 if (isCaseSensitive && valueResolved.includes(searchText)) {

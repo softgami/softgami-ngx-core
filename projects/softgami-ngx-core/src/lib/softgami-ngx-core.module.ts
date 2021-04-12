@@ -1,6 +1,7 @@
 import { Country, Language } from 'softgami-ts-core';
 import { NgModule } from '@angular/core';
 
+// @dynamic
 @NgModule({
     declarations: [ ],
     imports: [ ],
@@ -8,7 +9,7 @@ import { NgModule } from '@angular/core';
 })
 export class SoftgamiNgxCoreModule {
 
-    static country: Country = null;
-    static language: Language = null;
+    static country: Country | undefined;
+    static language: Language | undefined;
 
 }

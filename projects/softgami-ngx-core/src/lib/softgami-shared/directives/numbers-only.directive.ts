@@ -11,9 +11,9 @@ export class NumbersOnlyDirective {
     private regex = /^\d+(\.){0,1}\d*$/g;
     private regexIntegerOnly = '^[0-9]*$';
     private specialKeys: Array<string> = [ 'Backspace', 'Tab', 'End', 'Home', '-', 'Control', 'ArrowRight', 'ArrowLeft', 'Enter' ];
-    @Input() integerOnly: boolean;
-    @Input() asNumber: boolean;
-    @Input() fractionDigits: number;
+    @Input() integerOnly: boolean | undefined;
+    @Input() asNumber: boolean | undefined;
+    @Input() fractionDigits: number | string | undefined;
 
     constructor(private el: ElementRef, private control: NgControl) {}
 
@@ -54,7 +54,9 @@ export class NumbersOnlyDirective {
         let val = Number(this.el.nativeElement.value);
         if (this.asNumber && this.control && this.integerOnly) {
 
-            this.control.control.setValue(isNaN(val) || this.el.nativeElement.value === '' ? '' : val);
+            if (this.control && this.control.control) {
+                this.control.control.setValue(isNaN(val) || this.el.nativeElement.value === '' ? '' : val);
+            }
 
         }
         if (this.asNumber && this.control && !this.integerOnly && this.el.nativeElement.value) {
@@ -71,7 +73,9 @@ export class NumbersOnlyDirective {
                     }
 
                 }
-                this.control.control.setValue(isNaN(val) || this.el.nativeElement.value === '' ? '' : val);
+                if (this.control && this.control.control) {
+                    this.control.control.setValue(isNaN(val) || this.el.nativeElement.value === '' ? '' : val);
+                }
 
             }
 

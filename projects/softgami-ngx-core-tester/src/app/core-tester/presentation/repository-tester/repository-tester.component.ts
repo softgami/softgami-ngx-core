@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SortBySelectOption } from 'softgami-ts-core';
 
 import { Cat } from '../../../../domain/core-tester/models/cat.model';
@@ -12,12 +12,12 @@ import { GetAllCatsUseCaseService } from '../../../../domain/core-tester/reposit
 })
 export class RepositoryTesterComponent implements OnInit {
 
-    searchText: string;
-    cats: Cat[];
-    sortOptions: SortBySelectOption[];
-    selectedSortOption: string;
-    form: FormGroup;
-    @ViewChild('f', { static: false }) f;
+    searchText: string | undefined;
+    cats: Cat[] | undefined;
+    sortOptions: SortBySelectOption[] | undefined;
+    selectedSortOption: string | undefined;
+    form: FormGroup = new FormGroup({});
+    @ViewChild('f', { static: false }) f: ElementRef | undefined;
 
     constructor(private readonly getAllCatsUseCaseService: GetAllCatsUseCaseService) { }
 
@@ -38,23 +38,31 @@ export class RepositoryTesterComponent implements OnInit {
 
     onSubmit(): void {
 
-        return null;
+        return;
 
     }
 
     callApi(): void {
 
-        this.form.get('language').setValue({
-            id: '12345',
-            name: 'name of the language',
-        });
+        if (this.form) {
+            const languageControl: AbstractControl | null = this.form.get('language');
+            if (languageControl) {
+                languageControl.setValue({
+                    id: '12345',
+                    name: 'name of the language',
+                });
+            }
+        }
+        
         const cat: Cat = new Cat();
         cat.q = this.searchText;
 
         this.getAllCatsUseCaseService.execute(cat)
-            .subscribe((cats: Cat[]) => {
+            .subscribe((cats: Cat[] | null) => {
 
-                this.cats = cats;
+                if (cats) {
+                    this.cats = cats;
+                }
 
             });
 

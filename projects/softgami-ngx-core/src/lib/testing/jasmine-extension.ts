@@ -3,8 +3,8 @@
 
 export abstract class JasmineExtension {
 
-    public static spyOn: (arg1: any, arg2: any) => any = null;
-    public static createSpyObj: (arg1: any, arg2: any) => any = null;
+    public static spyOn: ((arg1: any, arg2: any) => any) | null = null;
+    public static createSpyObj: ((arg1: any, arg2: any) => any) | null = null;
 
     public static init(spyOn: (arg1: any, arg2: any) => any, createSpyObj: (arg1: any, arg2: any) => any): void {
 
@@ -39,12 +39,15 @@ export abstract class JasmineExtension {
 
         const componentSpy = {};
 
+        
         JasmineExtension.getInstanceMethodNames(object)
         // .filter((property: string) => skipMethodsList.includes(property) === false)
             .forEach((property: string) => {
 
-                componentSpy[property] = JasmineExtension.spyOn(object, property);
-                componentSpy[property].and.callThrough();
+                if (JasmineExtension && JasmineExtension.spyOn) {
+                    (componentSpy as any)[property] = JasmineExtension.spyOn(object, property);
+                    (componentSpy as any)[property].and.callThrough();
+                }
 
             });
 
@@ -85,14 +88,17 @@ export abstract class JasmineExtension {
 
     public static hasMethod(obj: unknown, name: string): boolean {
 
-        const desc: PropertyDescriptor = Object.getOwnPropertyDescriptor(obj, name);
+        const desc: PropertyDescriptor | undefined = Object.getOwnPropertyDescriptor(obj, name);
         return !!desc && typeof desc.value === 'function';
 
     }
 
-    public static createServiceSpy<T>(type: { name; prototype }): T {
+    public static createServiceSpy<T>(type: { name: string; prototype: any }): T | null {
 
-        return JasmineExtension.createSpyObj(type.name as string, Object.getOwnPropertyNames(type.prototype));
+        if (JasmineExtension && JasmineExtension.createSpyObj) {
+            return JasmineExtension.createSpyObj(type.name, Object.getOwnPropertyNames(type.prototype));
+        }
+        return null;
 
     }
 

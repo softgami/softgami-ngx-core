@@ -9,7 +9,7 @@ import { PhoneValidator } from '../validators/phone.validator';
 })
 export class PhoneValidatorDirective implements Validator {
 
-    @Input() phoneValidatorLocale: string;
+    @Input() phoneValidatorLocale: string | undefined;
 
     validate(control: AbstractControl): ValidationErrors | null {
 

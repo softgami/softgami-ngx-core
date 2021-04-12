@@ -8,7 +8,7 @@ import { RepositoryModule } from './repository/repository.module';
     imports: [
         CommonModule,
         RepositoryModule,
-        TranslateModule.forRoot(),
+        TranslateModule,
     ],
 })
 export class NgModuleSoftgamiCoreModule {}

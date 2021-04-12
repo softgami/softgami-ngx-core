@@ -9,8 +9,8 @@ import { TaxNumberValidator } from '../validators/tax-number.validator';
 })
 export class TaxNumberValidatorDirective implements Validator {
 
-    @Input() taxNumberValidatorCountryCode: string;
-    @Input() taxNumberValidatorIsIndividual: boolean;
+    @Input() taxNumberValidatorCountryCode: string | undefined;
+    @Input() taxNumberValidatorIsIndividual: boolean | undefined;
 
     validate(control: AbstractControl): ValidationErrors | null {
 

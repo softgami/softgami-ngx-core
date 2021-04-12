@@ -23,7 +23,7 @@ export class LocalStorageService extends AbstractHtml5StorageService {
 
     }
 
-    get<T>(key: string): T {
+    get<T>(key: string): T | undefined {
 
         return super.get<T>(key);
 

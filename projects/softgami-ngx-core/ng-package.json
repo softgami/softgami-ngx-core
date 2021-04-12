@@ -4,10 +4,9 @@
   "lib": {
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {
-      "@ngx-translate/core": "ngxTranslateCore",
-      "crypto-js": "cryptoJs",
-      "softgami-ts-core": "softgamiTsCore",
-      "@brazilian-utils/is-valid-cpf": "isValidCpf"
+      "softgami-ts-core": "softgami-ts-core",
+      "@ngx-translate/core": "@ngx-translate/core",
+      "crypto-js": "crypto-js"
     }
   }
 }

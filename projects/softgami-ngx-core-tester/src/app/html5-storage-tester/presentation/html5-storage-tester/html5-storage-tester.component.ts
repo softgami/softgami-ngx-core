@@ -7,13 +7,12 @@ import { SessionStorageService } from 'projects/softgami-ngx-core/src/lib/html5-
 @Component({
     selector: 'app-html5-storage-tester',
     templateUrl: './html5-storage-tester.component.html',
-    styleUrls: [ './html5-storage-tester.component.scss' ],
 })
 export class Html5StorageTesterComponent implements OnInit {
 
-    defaultStorageValue: string;
-    localStorageValue: string;
-    sessionStorageValue: string;
+    defaultStorageValue: string | undefined;
+    localStorageValue: string | undefined;
+    sessionStorageValue: string | undefined;
 
     constructor(
         private readonly html5StorageService: AbstractHtml5StorageService,
@@ -50,24 +49,39 @@ export class Html5StorageTesterComponent implements OnInit {
 
     }
 
-    changeDefaultStorageValue(value: string | number | boolean): void {
+    changeDefaultStorageValue(element: EventTarget | null): void {
 
-        this.html5StorageService.set('default-key', value);
-        this.defaultStorageValue = this.html5StorageService.get<string>('default-key');
+        const inputElement: HTMLInputElement | null = element as HTMLInputElement;
+        if (inputElement && inputElement.value) {
 
-    }
+            this.html5StorageService.set('default-key', inputElement.value);
+            this.defaultStorageValue = this.html5StorageService.get<string>('default-key');
 
-    changeLocalStorageValue(value: string | number | boolean): void {
-
-        this.localStorageService.set('local-storage-key', value);
-        this.localStorageValue = this.localStorageService.get<string>('local-storage-key');
+        }
 
     }
 
-    changeSessionStorageValue(value: string | number | boolean): void {
+    changeLocalStorageValue(element: EventTarget | null): void {
 
-        this.sessionStorageService.set('session-storage-key', value);
-        this.sessionStorageValue = this.sessionStorageService.get<string>('session-storage-key');
+        const inputElement: HTMLInputElement | null = element as HTMLInputElement;
+        if (inputElement && inputElement.value) {
+
+            this.localStorageService.set('local-storage-key', inputElement.value);
+            this.localStorageValue = this.localStorageService.get<string>('local-storage-key');
+
+        }
+
+    }
+
+    changeSessionStorageValue(element: EventTarget | null): void {
+
+        const inputElement: HTMLInputElement | null = element as HTMLInputElement;
+        if (inputElement && inputElement.value) {
+
+            this.sessionStorageService.set('session-storage-key', inputElement.value);
+            this.sessionStorageValue = this.sessionStorageService.get<string>('session-storage-key');
+
+        }
 
     }
 

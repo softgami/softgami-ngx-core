@@ -5,9 +5,9 @@ import { Subject } from 'rxjs';
 export interface Storage {
     length: number;
     setItem(key: string, value: string): void;
-    getItem(key: string): string;
+    getItem(key: string): string | null;
     removeItem(key: string): void;
-    key(index: number): string;
+    key(index: number): string | null;
     clear(): void;
 }
 
@@ -55,7 +55,7 @@ export abstract class AbstractHtml5StorageService {
         }
         if (!this.shouldEncrypt) {
 
-            this.storage.setItem(key, JSON.stringify(value));
+            if (this.storage) this.storage.setItem(key, JSON.stringify(value));
             this.onChangeEvent.next(key);
             return;
 
@@ -67,22 +67,22 @@ export abstract class AbstractHtml5StorageService {
             this.privateKey,
         ).toString();
 
-        this.storage.setItem(hashedKey, encryptedValue);
+        if (this.storage) this.storage.setItem(hashedKey, encryptedValue);
         this.onChangeEvent.next(key);
 
     }
 
-    get<T>(key: string): T {
+    get<T>(key: string): T | undefined {
 
         if (!this.shouldEncrypt) {
 
-            const value: string = this.storage.getItem(key);
+            const value: string | null = this.storage ? this.storage.getItem(key) : null;
             return value ? JSON.parse(value) as T : undefined;
 
         }
 
         const hashedKey = CryptoJS.SHA512(key).toString();
-        const encryptedValue = this.storage.getItem(hashedKey);
+        const encryptedValue = this.storage ? this.storage.getItem(hashedKey) : null;
         if (!encryptedValue) {
 
             return undefined;
@@ -107,26 +107,26 @@ export abstract class AbstractHtml5StorageService {
 
     removeItem(key: string): void {
 
-        this.storage.removeItem(key);
+        if (this.storage) this.storage.removeItem(key);
         this.onChangeEvent.next(key);
 
     }
 
     getLength(): number {
 
-        return this.storage.length;
+        return this.storage ? this.storage.length : 0;
 
     }
 
-    key(index: number): string {
+    key(index: number): string | null {
 
-        return this.storage.key(index);
+        return this.storage ? this.storage.key(index) : null;
 
     }
 
     clear(): void {
 
-        this.storage.clear();
+        if (this.storage) this.storage.clear();
         this.onClearEvent.next();
 
     }

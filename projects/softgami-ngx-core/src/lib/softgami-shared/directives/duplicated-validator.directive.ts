@@ -9,13 +9,13 @@ import { DuplicatedValidator } from '../validators/duplicated.validator';
 })
 export class DuplicatedValidatorDirective<T> implements Validator {
 
-    @Input() duplicatedValidatorIndex: number;
+    @Input() duplicatedValidatorIndex: number | undefined;
     @Input() duplicatedValidatorValues: T[] = [];
-    @Input() duplicatedValidatorKey: string;
+    @Input() duplicatedValidatorKey: string | undefined;
 
     validate(control: AbstractControl): ValidationErrors | null {
 
-        if (this.duplicatedValidatorIndex >= 0 && this.duplicatedValidatorValues &&
+        if (this.duplicatedValidatorIndex !== undefined && this.duplicatedValidatorIndex >= 0 && this.duplicatedValidatorValues &&
             Array.isArray(this.duplicatedValidatorValues) && this.duplicatedValidatorKey) {
 
             return DuplicatedValidator<T>(this.duplicatedValidatorIndex, this.duplicatedValidatorValues, this.duplicatedValidatorKey)(control);

@@ -30,15 +30,15 @@ export class SharedValidatorsTesterComponent {
     password: FormControl;
     zipCode: FormControl;
 
-    phoneTemplateDrivenModel: string;
-    dateTemplateDrivenModel: string;
-    emailTemplateDrivenModel: string;
-    firstTemplateDrivenModel: string;
-    secondTemplateDrivenModel: string;
-    whitespaceTemplateDrivenModel: string;
-    taxNumberTemplateDrivenModel: string;
+    phoneTemplateDrivenModel: string | undefined;
+    dateTemplateDrivenModel: string | undefined;
+    emailTemplateDrivenModel: string | undefined;
+    firstTemplateDrivenModel: string | undefined;
+    secondTemplateDrivenModel: string | undefined;
+    whitespaceTemplateDrivenModel: string | undefined;
+    taxNumberTemplateDrivenModel: string | undefined;
     duplicatedTemplateDrivenModels: {
-        number: number;
+        number: number | null;
     }[] = [
         {
             number: null,
@@ -48,10 +48,10 @@ export class SharedValidatorsTesterComponent {
         },
     ];
 
-    passwordTemplateDrivenModel: string;
-    zipCodeTemplateDrivenModel: string;
+    passwordTemplateDrivenModel: string | undefined;
+    zipCodeTemplateDrivenModel: string | undefined;
 
-    @ViewChild('f', { static: false }) f: HTMLFormElement;
+    @ViewChild('f', { static: false }) f: HTMLFormElement | undefined;
 
     constructor() {
 
@@ -93,7 +93,7 @@ export class SharedValidatorsTesterComponent {
         this.taxNumber = new FormControl(null,
             [
                 Validators.required,
-                TaxNumberValidator(null, true),
+                TaxNumberValidator(undefined, true),
             ],
         );
         this.duplicated = new FormControl(null,

@@ -9,7 +9,7 @@ import { ZipCodeValidator } from '../validators/zip-code.validator';
 })
 export class ZipCodeValidatorDirective implements Validator {
 
-    @Input() zipCodeValidatorLocale: string;
+    @Input() zipCodeValidatorLocale: string | undefined;
 
     validate(control: AbstractControl): ValidationErrors | null {
 

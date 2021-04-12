@@ -9,7 +9,7 @@ import { DateValidator } from '../validators/date.validator';
 })
 export class DateValidatorDirective implements Validator {
 
-    @Input() dateValidatorLocale: string;
+    @Input() dateValidatorLocale: string | undefined;
 
     validate(control: AbstractControl): ValidationErrors | null {
 

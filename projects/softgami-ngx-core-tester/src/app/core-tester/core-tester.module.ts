@@ -36,7 +36,19 @@ import { RepositoryTesterComponent } from './presentation/repository-tester/repo
             provide: AbstractCatsRepositoryService,
             useClass: CatsHttpRepositoryService,
         },
-        GetAllCatsUseCaseService,
+        {
+            provide: GetAllCatsUseCaseService,
+            useFactory: (
+                a: AbstractCatsRepositoryService,
+            ) => {
+
+                return new GetAllCatsUseCaseService(a);
+
+            },
+            deps: [
+                AbstractCatsRepositoryService,
+            ],
+        },
         {
             provide: AbstractCoreService,
             useExisting: CoreService,

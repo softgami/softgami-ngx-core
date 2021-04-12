@@ -1,7 +1,7 @@
 import { ActivatedRoute, Navigation, ParamMap, Params, Router } from '@angular/router';
+import { Component, Injector, OnDestroy, OnInit, StaticProvider, Type, ViewChild } from '@angular/core';
 import { concatMap, debounceTime, delay, distinctUntilChanged, filter, first, map } from 'rxjs/operators';
 import { FormGroup, NgForm } from '@angular/forms';
-import { Injector, OnDestroy, OnInit, StaticProvider, Type, ViewChild } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { Thing } from 'softgami-ts-core';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,24 +11,27 @@ import { AbstractHtml5StorageService } from '../../../html5-storage/abstract-htm
 import { AbstractMessageService } from '../../services/abstract-message.service';
 import { ComponentState } from './component-state.enum';
 
+@Component({
+    template: '',
+})
 export abstract class AbstractBaseComponent<T extends Thing> implements OnDestroy, OnInit {
 
     static providers: StaticProvider[] = [];
-    static injector: Injector = null;
-    subscription: Subscription;
-    object: T;
-    isInitCalled: boolean;
-    form: FormGroup;
+    static injector: Injector | null = null;
+    subscription: Subscription = new Subscription();
+    object: T | null = null;
+    isInitCalled: boolean = false;
+    form: FormGroup = new FormGroup({});
     totalControlsFilled = 0;
     defaultSuccessSaveMessage = 'DEFAULT_SUCCESS_SAVE_MESSAGE';
-    defaultErrorSaveMessage: string;
+    defaultErrorSaveMessage = '';
     defaultSuccessDeleteMessage = 'DEFAULT_SUCCESS_DELETE_MESSAGE';
-    defaultErrorLoadObjectMessage: string;
+    defaultErrorLoadObjectMessage = '';
     componentState: ComponentState = ComponentState.SUCCESS;
-    paramMapId: string;
+    paramMapId: string | null = null;
     readonly ComponentStateEnum = ComponentState;
 
-    @ViewChild('formElement', { static: false }) formElement: NgForm;
+    @ViewChild('formElement', { static: false }) formElement: NgForm | null = null;
 
     constructor(
         public router?: Router,
@@ -41,7 +44,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
         if (this.shouldUpdateObjectFromRouterData() && this.router) {
 
-            const navigation: Navigation = this.router.getCurrentNavigation();
+            const navigation: Navigation | null = this.router.getCurrentNavigation();
             if (navigation && navigation.extras && navigation.extras.state && navigation.extras.state.dataObject) {
 
                 this.object = navigation.extras.state.dataObject;
@@ -50,7 +53,10 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
         }
         this.waitForInit();
-        if (this.getInitialForm()) this.form = this.getInitialForm();
+        const initialForm: FormGroup | null = this.getInitialForm();
+        if (initialForm !== null) {
+            this.form = initialForm;
+        }
         this.initParamMapIdSubscription();
 
     }
@@ -66,7 +72,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    getInitialForm(): FormGroup {
+    getInitialForm(): FormGroup | null {
 
         return null;
 
@@ -129,10 +135,9 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
             staticInjector = Injector.create({
                 providers: AbstractBaseComponent.providers,
             });
+            this.setInjectedResources(staticInjector);
 
         }
-
-        this.setInjectedResources(staticInjector);
 
     }
 
@@ -174,7 +179,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    getInjectedResource<I>(staticInjector: Injector, type: Type<I>): I {
+    getInjectedResource<I>(staticInjector: Injector, type: Type<I>): I | undefined {
 
         try {
 
@@ -182,13 +187,18 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
         } catch (ex) {
 
-            return AbstractBaseComponent.injector.get<I>(type) as I;
+            if (AbstractBaseComponent.injector) return AbstractBaseComponent.injector.get<I>(type) as I;
+            return undefined;
 
         }
 
     }
 
     initQueryParamsSubscription(): void {
+
+        if (!this.activatedRoute) {
+            return;
+        }
 
         const subscription: Subscription = this.activatedRoute.queryParams
             .pipe(
@@ -237,7 +247,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
             .pipe(
                 map((paramsAsMap: ParamMap) => paramsAsMap.get('id')),
                 delay(200),
-                filter((id: string) => {
+                filter((id: string | null) => {
 
                     this.paramMapId = id;
                     if (!this.shouldUpdateObjectFromParamMapId()) return true;
@@ -250,7 +260,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
                     return true;
 
                 }),
-                concatMap((id: string) => {
+                concatMap((id: string | null) => {
 
                     if (this.shouldUpdateObjectFromParamMapId()) {
 
@@ -262,28 +272,29 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
                                 this.componentState = ComponentState.LOADING;
 
                             }, 0);
-                            return this.defaultFindOneObject(id);
+                            if (id) return this.defaultFindOneObject(id);
+                            else return of(null);
 
                         }
 
                     } else return of(null);
 
                 }),
-            ).subscribe((object: T) => {
+            ).subscribe((object: T | null) => {
 
                 if (!object) return;
                 setTimeout(() => {
 
                     this.componentState = ComponentState.SUCCESS;
                     this.object = object;
-                    this.updateFormFromObject<T>(this.form, object);
+                    if (this.form) this.updateFormFromObject<T>(this.form, object);
                     this.successDefaultObjectLoaded(object);
 
                 }, 100);
 
             }, () => {
 
-                this.messageService.error(this.defaultErrorLoadObjectMessage);
+                if (this.messageService) this.messageService.error(this.defaultErrorLoadObjectMessage);
                 this.changeRoute('');
 
             });
@@ -298,7 +309,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    successDefaultObjectLoaded(object: T): void {
+    successDefaultObjectLoaded(object: T): void | null {
 
         return null;
 
@@ -328,9 +339,9 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
         Object.getOwnPropertyNames(thing).forEach((property: string) => {
 
-            if (form.controls[property] && form.controls[property].value !== thing[property]) {
+            if (form.controls[property] && form.controls[property].value !== (thing as any)[property]) {
 
-                form.controls[property].setValue(thing[property]);
+                form.controls[property].setValue((thing as any)[property]);
 
             }
 
@@ -339,7 +350,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    updateFormFromParams(form: FormGroup, params: Params): void {
+    updateFormFromParams(form: FormGroup | null, params: Params): void {
 
         if (!form || !params) return;
 
@@ -358,7 +369,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
         Object.getOwnPropertyNames(form.controls).forEach((control: string) => {
 
-            form.controls[control].setValue((object[control] !== null && object[control] !== undefined) ? object[control] : null);
+            form.controls[control].setValue(((object as any)[control] !== null && (object as any)[control] !== undefined) ? (object as any)[control] : null);
 
         });
         this.updateTotalControlsFilled();
@@ -367,6 +378,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     changeRoute(urlSuffix: string): void {
 
+        if (!this.router) return;
         const relativeUrl = `../${urlSuffix}`;
         const url: string = this.router.createUrlTree([ relativeUrl ], { relativeTo: this.activatedRoute }).toString();
         this.router.navigate([ url ], { state: { dataObject: this.object } });
@@ -375,6 +387,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     updateRoute(queryParams: Params, activatedRoute?: ActivatedRoute, commands?: unknown[], queryParamsHandling?: 'merge' | 'preserve' | ''): void {
 
+        if (!this.router) return;
         let url: string = this.router.createUrlTree([]).toString();
         if (activatedRoute && commands) {
 
@@ -398,7 +411,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         this.totalControlsFilled = Object.keys(this.form.controls)
             .filter((key: string) => {
 
-                const control = this.form.controls[key];
+                const control = this.form ? this.form.controls[key]: null;
                 if (!control || control.value === null || control.value === undefined) {
 
                     return false;
@@ -436,7 +449,6 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
     cleanSubscriptions(): void {
 
         if (this.subscription) this.subscription.unsubscribe();
-        this.subscription = undefined;
 
     }
 
@@ -450,7 +462,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         if (this.object) {
 
             this.resetForm();
-            this.object = undefined;
+            this.object = null;
 
         }
 
@@ -458,13 +470,19 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     resetForm(): void {
 
-        this.formElement.resetForm();
-        const formGroup: FormGroup = this.getInitialForm();
-        if (formGroup) {
+        if (this.formElement) this.formElement.resetForm();
+        const initialFormGroup: FormGroup | null = this.getInitialForm();
+        if (initialFormGroup && initialFormGroup.controls) {
 
-            Object.keys(formGroup.controls).forEach((controlName: string) => {
+            Object.keys(initialFormGroup.controls).forEach((controlName: string) => {
 
-                this.form.get(controlName).setValue(formGroup.get(controlName).value);
+                if (this.form) {
+                    const initialControl = initialFormGroup.get(controlName);
+                    const control = this.form.get(controlName);
+                    if (initialControl && control) {
+                        control.setValue(initialControl.value);
+                    }
+                }
 
             });
 
@@ -474,12 +492,13 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     onDefaultSubmitSaveObject(): void {
 
-        if (this.form.invalid) return;
+        if (!this.form || this.form.invalid) return;
 
         this.componentState = ComponentState.LOADING;
         this.object = Object.assign(this.object || {}, this.form.getRawValue());
 
-        const s: Subscription = this.defaultSaveObject(this.object)
+        if (this.object) {
+            const s: Subscription = this.defaultSaveObject(this.object)
             .subscribe((o: T) => {
 
                 this.componentState = ComponentState.SUCCESS;
@@ -493,7 +512,8 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
                 this.onErrorSaveObject();
 
             });
-        this.addSubscription(s);
+            this.addSubscription(s);
+        }
 
     }
 
@@ -507,13 +527,13 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     onSuccessSaveObject(): void {
 
-        this.messageService.success(this.defaultSuccessSaveMessage);
+        if (this.messageService) this.messageService.success(this.defaultSuccessSaveMessage);
 
     }
 
     onErrorSaveObject(): void {
 
-        this.messageService.error(this.defaultErrorSaveMessage);
+        if (this.messageService) this.messageService.error(this.defaultErrorSaveMessage);
 
     }
 
@@ -534,8 +554,8 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
             )
             .subscribe(() => {
 
-                this.messageService.success(this.defaultSuccessDeleteMessage);
-                this.router.navigate(
+                if (this.messageService) this.messageService.success(this.defaultSuccessDeleteMessage);
+                if (this.router) this.router.navigate(
                     [ '../' ],
                     { relativeTo: this.activatedRoute, queryParams: { skip: 0 }, queryParamsHandling: 'merge' },
                 );
@@ -543,7 +563,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
             }, () => {
 
                 this.componentState = ComponentState.ERROR;
-                this.messageService.error(this.defaultErrorSaveMessage);
+                if (this.messageService) this.messageService.error(this.defaultErrorSaveMessage);
 
             });
         this.subscription.add(s);

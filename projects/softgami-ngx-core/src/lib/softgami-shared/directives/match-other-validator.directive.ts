@@ -1,4 +1,4 @@
-import { AbstractControl, FormControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
+import { AbstractControl, NgModel, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { Directive, forwardRef, Input } from '@angular/core';
 
 import { MatchOtherValidator } from '../validators/match-other.validator';
@@ -9,11 +9,11 @@ import { MatchOtherValidator } from '../validators/match-other.validator';
 })
 export class MatchOtherValidatorDirective implements Validator {
 
-    @Input() otherControl: FormControl;
+    @Input() otherControl: NgModel | undefined;
 
     validate(control: AbstractControl): ValidationErrors | null {
 
-        return MatchOtherValidator(this.otherControl)(control);
+        return this.otherControl ? MatchOtherValidator(this.otherControl.control)(control) : null;
 
     }
 

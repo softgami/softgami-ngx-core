@@ -9,23 +9,11 @@ export abstract class AbstractHttpService {
 
     constructor(private readonly httpClient: HttpClient) { }
 
-    get<T>(
-        url: string, params?: HttpParams, headers?: HttpHeaders,
-        responseType?: 'arraybuffer' | 'blob' | 'json' | 'text'): Observable<T> {
+    get<T>(url: string, params?: HttpParams, headers?: HttpHeaders): Observable<T | null> {
 
-        return of(responseType)
+        return this.httpClient.get<T>(url, { params, observe: 'response', headers })
             .pipe(
-                concatMap((r: 'arraybuffer' | 'blob' | 'json' | 'text') => {
-
-                    if (r === 'blob') {
-
-                        return this.httpClient.get(url, { params, observe: 'response', headers, responseType: 'blob' });
-
-                    }
-                    return this.httpClient.get<T>(url, { params, observe: 'response', headers });
-
-                }),
-                tap((res: HttpResponse<T>) => {
+                tap((res: HttpResponse<T> | T) => {
 
                     this.onSuccess(res);
 
@@ -39,9 +27,9 @@ export abstract class AbstractHttpService {
                     this.onEnd();
 
                 }),
-                map((res: HttpResponse<T>) => {
+                map((res: HttpResponse<T> | T) => {
 
-                    return res.body;
+                    return res && res instanceof HttpResponse ? res.body : res;
 
                 }),
                 catchError((error: HttpErrorResponse) => {
@@ -53,7 +41,39 @@ export abstract class AbstractHttpService {
 
     }
 
-    post<I, O>(url: string, body: I, params?: HttpParams, headers?: HttpHeaders): Observable<O> {
+    getBlob(url: string, params?: HttpParams, headers?: HttpHeaders): Observable<Blob | null> {
+
+        return this.httpClient.get(url, { params, observe: 'response', headers, responseType: 'blob' })
+            .pipe(
+                tap((res: HttpResponse<Blob>) => {
+
+                    this.onSuccess(res);
+
+                }, (error: HttpErrorResponse) => {
+
+                    this.onError(error);
+
+                }),
+                finalize(() => {
+
+                    this.onEnd();
+
+                }),
+                map((res: HttpResponse<Blob>) => {
+
+                    return res && res instanceof HttpResponse ? res.body : res;
+
+                }),
+                catchError((error: HttpErrorResponse) => {
+
+                    return throwError(this.handleError(error));
+
+                }),
+            );
+
+    }
+
+    post<I, O>(url: string, body: I, params?: HttpParams, headers?: HttpHeaders): Observable<O | null> {
 
         return this.httpClient.post<O>(url, body, { observe: 'response', params, headers })
             .pipe(
@@ -71,9 +91,9 @@ export abstract class AbstractHttpService {
                     this.onEnd();
 
                 }),
-                map((res: HttpResponse<O>) => {
+                map((res: HttpResponse<O> | O) => {
 
-                    return res.body;
+                    return res && res instanceof HttpResponse ? res.body : res;
 
                 }),
                 catchError((error: HttpErrorResponse) => {
@@ -85,7 +105,7 @@ export abstract class AbstractHttpService {
 
     }
 
-    put<I, O>(url: string, body: I, params?: HttpParams, headers?: HttpHeaders): Observable<O> {
+    put<I, O>(url: string, body: I, params?: HttpParams, headers?: HttpHeaders): Observable<O | null> {
 
         return this.httpClient.put<O>(url, body, { observe: 'response', params, headers })
             .pipe(
@@ -103,9 +123,9 @@ export abstract class AbstractHttpService {
                     this.onEnd();
 
                 }),
-                map((res: HttpResponse<O>) => {
+                map((res: HttpResponse<O> | O) => {
 
-                    return res.body;
+                    return res && res instanceof HttpResponse ? res.body : res;
 
                 }),
                 catchError((error: HttpErrorResponse) => {
@@ -137,7 +157,7 @@ export abstract class AbstractHttpService {
                 }),
                 map((res: HttpResponse<void>) => {
 
-                    return res.body;
+                    return;
 
                 }),
                 catchError((error: HttpErrorResponse) => {
@@ -149,19 +169,19 @@ export abstract class AbstractHttpService {
 
     }
 
-    onSuccess<T>(response: HttpResponse<T>): void {
+    onSuccess<T>(response: HttpResponse<T | Blob> | T): void | null {
 
         return null;
 
     }
 
-    onError(response: HttpErrorResponse): void {
+    onError(response: HttpErrorResponse): void | null {
 
         return null;
 
     }
 
-    onEnd(): void {
+    onEnd(): void | null {
 
         return null;
 
