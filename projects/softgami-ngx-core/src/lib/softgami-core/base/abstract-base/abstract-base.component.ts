@@ -133,7 +133,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         }
 
         let staticInjector: Injector;
-        if (AbstractBaseComponent.providers && AbstractBaseComponent.providers.length) {
+        if (AbstractBaseComponent.providers) {
 
             staticInjector = Injector.create({
                 providers: AbstractBaseComponent.providers,
