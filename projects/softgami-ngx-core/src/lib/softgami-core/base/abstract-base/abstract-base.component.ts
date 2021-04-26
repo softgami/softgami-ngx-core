@@ -19,7 +19,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     static providers: StaticProvider[] = [];
     static injector: Injector | null = null;
-    subscription: Subscription = new Subscription();
+    readonly subscription: Subscription = new Subscription();
     object: T | null = null;
     isInitCalled = false;
     form: FormGroup = new FormGroup({});
@@ -447,7 +447,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     addSubscription(subscrition: Subscription): void {
 
-        this.subscription ? this.subscription.add(subscrition) : this.subscription = subscrition;
+        this.subscription.add(subscrition);
 
     }
 
