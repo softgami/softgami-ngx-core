@@ -65,7 +65,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
     }
 
     abstract initMainObject(): T;
-    abstract handleQueryParams(params: T): void;
+    abstract handleQueryParams(params?: T): void;
     abstract getParamId(): string;
 
     ngOnInit(): void {
@@ -307,7 +307,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    defaultFindOneObject(id: string): Observable<T> {
+    defaultFindOneObject(id: string): Observable<T | null> {
 
         console.error('defaultFindOneObject not implemented yet.');
         throw new Error('defaultFindOneObject not implemented yet.');
@@ -509,7 +509,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         if (this.object) {
 
             const s: Subscription = this.defaultSaveObject(this.object)
-                .subscribe((o: T) => {
+                .subscribe((o: T | null) => {
 
                     this.componentState = ComponentState.SUCCESS;
                     this.object = o;
@@ -528,7 +528,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    defaultSaveObject(object: T): Observable<T> {
+    defaultSaveObject(object: T): Observable<T | null> {
 
         this.componentState = ComponentState.ERROR;
         console.error('defaultSaveObject not implemented yet.');
