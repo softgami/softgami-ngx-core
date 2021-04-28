@@ -5,11 +5,11 @@ import { InterceptorOptions } from './interceptor-options.interface';
 
 export class InterceptorHttpParams extends HttpParams {
 
-    thing: Thing;
+    thing: Thing | undefined;
     interceptorOptions: InterceptorOptions | undefined;
 
     constructor(
-        private readonly t: Thing,
+        private readonly t?: Thing,
         private readonly options?: InterceptorOptions | undefined,
     ) {
 
