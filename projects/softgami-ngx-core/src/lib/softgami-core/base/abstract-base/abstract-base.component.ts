@@ -555,7 +555,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         const s: Subscription = this.showDefaultConfirmDeleteDialog()
             .pipe(
                 first(),
-                filter((result: boolean) => result === true),
+                filter((result: boolean | undefined) => result === true),
                 concatMap(() => {
 
                     this.componentState = ComponentState.LOADING;
@@ -592,7 +592,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    showDefaultConfirmDeleteDialog(): Observable<boolean> {
+    showDefaultConfirmDeleteDialog(): Observable<boolean | undefined> {
 
         console.error('showDefaultConfirmDeleteDialog not implemented yet.');
         throw new Error('showDefaultConfirmDeleteDialog not implemented yet.');
