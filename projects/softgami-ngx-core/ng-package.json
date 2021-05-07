@@ -9,5 +9,5 @@
       "crypto-js": "crypto-js"
     }
   },
-  "allowedNonPeerDependencies": ["crypto-js", "softgami-ts-core", "validator"]
+  "allowedNonPeerDependencies": ["crypto-js", "validator"]
 }
