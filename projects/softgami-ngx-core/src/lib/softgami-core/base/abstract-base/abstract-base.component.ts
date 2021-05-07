@@ -43,6 +43,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         public messageService?: AbstractMessageService,
     ) {
 
+        this.object = this.initMainObject();
         if (this.shouldUpdateObjectFromRouterData() && this.router) {
 
             const navigation: Navigation | null = this.router.getCurrentNavigation();
@@ -186,11 +187,11 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
         try {
 
-            return staticInjector.get<I>(type) as I;
+            return staticInjector.get<I>(type);
 
         } catch (ex) {
 
-            if (AbstractBaseComponent.injector) return AbstractBaseComponent.injector.get<I>(type) as I;
+            if (AbstractBaseComponent.injector) return AbstractBaseComponent.injector.get<I>(type);
             return undefined;
 
         }
@@ -291,9 +292,12 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
                 setTimeout(() => {
 
                     this.componentState = ComponentState.SUCCESS;
-                    this.object = object;
+
+                    if (this.object) this.object = this.object?.fromJson(object as unknown as any) || null;
+                    else this.object = object;
+
                     if (this.form) this.updateFormFromObject<T>(this.form, object);
-                    this.successDefaultObjectLoaded(object);
+                    this.successDefaultObjectLoaded(this.object);
 
                 }, 100);
 
@@ -314,7 +318,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
     }
 
-    successDefaultObjectLoaded(object: T): void | null {
+    successDefaultObjectLoaded(object: T | null): void | null {
 
         return null;
 

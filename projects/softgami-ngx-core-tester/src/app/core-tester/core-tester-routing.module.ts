@@ -10,6 +10,10 @@ const appRoutes: Routes = [
         component: CoreBaseTesterComponent,
     },
     {
+        path: 'core/base/:id',
+        component: CoreBaseTesterComponent,
+    },
+    {
         path: 'core/repository',
         component: RepositoryTesterComponent,
     },

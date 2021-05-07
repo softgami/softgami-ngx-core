@@ -70,7 +70,11 @@
             "styles": [
               "projects/softgami-ngx-core-tester/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "crypto-js",
+              "validator"
+            ]
           },
           "configurations": {
             "production": {

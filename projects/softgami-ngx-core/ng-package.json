@@ -8,5 +8,6 @@
       "@ngx-translate/core": "@ngx-translate/core",
       "crypto-js": "crypto-js"
     }
-  }
+  },
+  "allowedNonPeerDependencies": ["crypto-js", "softgami-ts-core", "validator"]
 }

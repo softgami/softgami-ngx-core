@@ -1,9 +1,11 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component } from '@angular/core';
 import {
     ExcludeIndexes,
     QueryParam,
     Required,
     Schemable,
+    SoftgamiTsUtilsService,
     Sortable,
     Thing,
     Trim,
@@ -12,10 +14,16 @@ import {
     Unique,
 } from 'softgami-ts-core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable, of } from 'rxjs';
 
 import { AbstractBaseComponent } from 'projects/softgami-ngx-core/src/lib/softgami-core/base/abstract-base/abstract-base.component';
 
 export class Language extends Thing {
+
+    @QueryParam()
+    @Required()
+    @Type({ type: Types.MONGO_OBJECT_ID })
+    _id: string | null = null;
 
     @QueryParam()
     @Sortable({ label: 'CODE' })
@@ -29,20 +37,21 @@ export class Language extends Thing {
     @QueryParam()
     @Schemable()
     @Sortable({ label: 'LANGUAGE' })
-    @Required()
     @Type({ type: Types.OBJECT, class: Language })
     @ExcludeIndexes()
-    idioma: Language | null = null;
+    parent?: Language | null = null;
 
 }
 
 export class TObject extends Thing {
 
     @QueryParam()
+    @Required()
     @Type({ type: Types.MONGO_OBJECT_ID })
     _id: string | null = null;
 
     @QueryParam()
+    @Required()
     @Sortable({ label: 'TYPE' })
     @Type({ type: Types.ARRAY, arrayItemType: Types.NUMBER })
     types: number[] | null = null;
@@ -63,9 +72,9 @@ export class TObject extends Thing {
 })
 export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
 
-    constructor() {
+    constructor(private route: ActivatedRoute) {
 
-        super();
+        super(undefined, route);
         if (this.form) {
 
             this.form.addControl('status', new FormControl('active', [ Validators.required ]));
@@ -83,6 +92,37 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
     shouldUpdateDefaultFormFromParams(): boolean {
 
         return false;
+
+    }
+
+    shouldUpdateObjectFromParamMapId(): boolean {
+
+        return true;
+
+    }
+
+    defaultFindOneObject(id: string): Observable<TObject | null> {
+
+        return of({
+            _id: '123456789012345678901234',
+            types: [ 1, 2 ],
+            language: {
+                _id: '123456789012345678901234',
+                name: 'Português',
+                code: 'pt-br',
+                parent: {
+                    _id: '123456789012345678901234',
+                    name: 'Português',
+                    code: 'pt-br',
+                },
+            } as unknown as Language,
+        } as TObject);
+
+    }
+
+    successDefaultObjectLoaded(object: TObject): void {
+
+        console.log(SoftgamiTsUtilsService.cleanEmpty(object));
 
     }
 
@@ -117,8 +157,8 @@ export class CoreBaseTesterComponent extends AbstractBaseComponent<TObject> {
         this.object.language.idioma.idioma.code = 123456; */
 
         // console.log(this.object);
-        console.log('----------------------');
-        console.log(this.object);
+        // console.log('----------------------');
+        // console.log(this.object);
 
     }
 

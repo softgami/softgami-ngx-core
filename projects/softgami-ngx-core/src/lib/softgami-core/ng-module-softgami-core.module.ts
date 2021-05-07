@@ -4,11 +4,13 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { RepositoryModule } from './repository/repository.module';
 
+export const translateModule = TranslateModule.forRoot();
+
 @NgModule({
     imports: [
         CommonModule,
         RepositoryModule,
-        TranslateModule,
+        translateModule,
     ],
 })
 export class NgModuleSoftgamiCoreModule {}
