@@ -171,7 +171,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
         if (!this.html5StorageService) {
 
             this.html5StorageService =
-                this.getInjectedResource<AbstractHtml5StorageService>(staticInjector, AbstractHtml5StorageService as Type<AbstractHtml5StorageService>);
+                this.getInjectedResource<AbstractHtml5StorageService>(staticInjector, AbstractHtml5StorageService as unknown as Type<AbstractHtml5StorageService>);
 
         }
         if (!this.messageService) {
@@ -515,10 +515,24 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
             const s: Subscription = this.defaultSaveObject(this.object)
                 .subscribe((o: T | null) => {
 
+                    const id = this.getParamId();
                     this.componentState = ComponentState.SUCCESS;
-                    this.object = o;
                     this.onSuccessSaveObject();
-                    this.changeRoute(this.getParamId());
+
+                    if (!id) {
+
+                        this.object = o;
+                        this.changeRoute(this.getParamId());
+
+                    } else if (o) {
+
+                        if (this.object) this.object = this.object?.fromJson(o as unknown as any) || null;
+                        else this.object = o;
+
+                        if (this.form) this.updateFormFromObject<T>(this.form, o);
+                        this.successDefaultObjectLoaded(this.object);
+
+                    }
 
                 }, () => {
 
