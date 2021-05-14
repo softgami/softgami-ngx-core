@@ -1,13 +1,13 @@
 {
   "name": "softgami-ngx-core",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "peerDependencies": {
     "@angular/common": "^11.2.9",
     "@angular/core": "^11.2.9",
     "rxjs": "~6.6.0",
-    "@ngx-translate/core": "13.0.0",
-    "@ngx-translate/http-loader": "6.0.0",
-    "softgami-ts-core": "4.0.10"
+    "@ngx-translate/core": "^13.0.0",
+    "@ngx-translate/http-loader": "^6.0.0",
+    "softgami-ts-core": "^4.0.11"
   },
   "dependencies": {
     "tslib": "^2.0.0",

@@ -215,6 +215,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
                     return of(params);
 
                 }),
+                filter((params: Params) => !this.shouldUpdateObjectFromParamMapId()),
                 concatMap((params: Params) => {
 
                     if (this.object && this.object instanceof Thing) this.object.updatePropertiesFromParams(params);
@@ -293,8 +294,7 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
 
                     this.componentState = ComponentState.SUCCESS;
 
-                    if (this.object) this.object = this.object?.fromJson(object as unknown as any) || null;
-                    else this.object = object;
+                    this.object = this.initMainObject().fromJson(object);
 
                     if (this.form) this.updateFormFromObject<T>(this.form, object);
                     this.successDefaultObjectLoaded(this.object);
@@ -519,15 +519,10 @@ export abstract class AbstractBaseComponent<T extends Thing> implements OnDestro
                     this.componentState = ComponentState.SUCCESS;
                     this.onSuccessSaveObject();
 
-                    if (!id) {
+                    this.object = this.initMainObject().fromJson(o);
 
-                        this.object = o;
-                        this.changeRoute(this.getParamId());
-
-                    } else if (o) {
-
-                        if (this.object) this.object = this.object?.fromJson(o as unknown as any) || null;
-                        else this.object = o;
+                    if (!id) this.changeRoute(this.getParamId());
+                    else if (o) {
 
                         if (this.form) this.updateFormFromObject<T>(this.form, o);
                         this.successDefaultObjectLoaded(this.object);
