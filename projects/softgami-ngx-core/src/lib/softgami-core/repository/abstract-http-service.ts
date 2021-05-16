@@ -1,6 +1,7 @@
 import { catchError, finalize, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
+import { SoftgamiTsUtilsService, Thing, ValidatorService } from 'softgami-ts-core';
 
 import { ErrorResponse } from './error/error-response.interface';
 import { ErrorResponseFactory } from './error/error-response-factory';
@@ -73,9 +74,27 @@ export abstract class AbstractHttpService {
 
     }
 
-    post<I, O>(url: string, body: I, params?: HttpParams, headers?: HttpHeaders): Observable<O | null> {
+    post<I, O>(url: string, body: I, params?: HttpParams, headers?: HttpHeaders, shouldCleanJson = false): Observable<O | null> {
 
-        return this.httpClient.post<O>(url, body, { observe: 'response', params, headers })
+        let parsed: I | undefined;
+        try {
+
+            if (shouldCleanJson && body instanceof Thing) {
+
+                parsed = ValidatorService
+                    .validate<I>(
+                        SoftgamiTsUtilsService.convertToCleanJson<I>(body, true),
+                        body.constructor as new () => I,
+                        undefined,
+                        false,
+                        false);
+                if (parsed) parsed = SoftgamiTsUtilsService.convertToCleanJson<I>(parsed, true);
+
+            }
+
+        } catch (error) {}
+
+        return this.httpClient.post<O>(url, parsed || body, { observe: 'response', params, headers })
             .pipe(
                 tap((res: HttpResponse<O>) => {
 
@@ -105,9 +124,27 @@ export abstract class AbstractHttpService {
 
     }
 
-    put<I, O>(url: string, body: I, params?: HttpParams, headers?: HttpHeaders): Observable<O | null> {
+    put<I, O>(url: string, body: I, params?: HttpParams, headers?: HttpHeaders, shouldCleanJson = false): Observable<O | null> {
 
-        return this.httpClient.put<O>(url, body, { observe: 'response', params, headers })
+        let parsed: I | undefined;
+        try {
+
+            if (shouldCleanJson && body instanceof Thing) {
+
+                parsed = ValidatorService
+                    .validate<I>(
+                        SoftgamiTsUtilsService.convertToCleanJson<I>(body, true),
+                        body.constructor as new () => I,
+                        undefined,
+                        false,
+                        false);
+                if (parsed) parsed = SoftgamiTsUtilsService.convertToCleanJson<I>(parsed, true);
+
+            }
+
+        } catch (error) {}
+
+        return this.httpClient.put<O>(url, parsed || body, { observe: 'response', params, headers })
             .pipe(
                 tap((res: HttpResponse<O>) => {
 
