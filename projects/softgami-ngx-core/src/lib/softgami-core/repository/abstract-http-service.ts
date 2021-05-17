@@ -212,7 +212,6 @@ export abstract class AbstractHttpService {
                         undefined,
                         false,
                         false);
-                console.log(SoftgamiTsUtilsService.convertToCleanJson<I>(body, true));
                 if (parsed) parsed = SoftgamiTsUtilsService.convertToCleanJson<I>(parsed, true);
 
             }
@@ -231,7 +230,7 @@ export abstract class AbstractHttpService {
 
         if (res && res instanceof HttpResponse) {
 
-            if (ClassDefMapping) {
+            if (ClassDefMapping && res.body) {
 
                 const object: O = new ClassDefMapping();
                 if (object && object instanceof Thing) {
