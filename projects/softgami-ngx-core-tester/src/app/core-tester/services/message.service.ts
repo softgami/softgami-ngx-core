@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { AbstractMessageService } from 'projects/softgami-ngx-core/src/lib/softgami-core/services/abstract-message.service';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class MessageService extends AbstractMessageService {
 
     error(message?: string): void {

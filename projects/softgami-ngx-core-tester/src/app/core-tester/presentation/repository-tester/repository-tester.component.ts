@@ -4,6 +4,14 @@ import { SortBySelectOption } from 'softgami-ts-core';
 
 import { Cat } from '../../../../domain/core-tester/models/cat.model';
 import { GetAllCatsUseCaseService } from '../../../../domain/core-tester/repository-tester/use-cases/get-all-cats-use-case.service';
+import { GetAllTigerCatsUseCaseService } from '../../../../domain/core-tester/repository-tester/use-cases/get-all-tiger-cats-use-case.service';
+import { GetOneCatUseCaseService } from '../../../../domain/core-tester/repository-tester/use-cases/get-one-cat-use-case.service';
+import { GetOneTigerCatUseCaseService } from '../../../../domain/core-tester/repository-tester/use-cases/get-one-tiger-cat-use-case.service';
+import { SaveCatUseCaseService } from '../../../../domain/core-tester/repository-tester/use-cases/save-cat-use-case.service';
+import { SaveTigerCatUseCaseService } from '../../../../domain/core-tester/repository-tester/use-cases/save-tiger-cat-use-case.service';
+import { TigerCat } from '../../../../domain/core-tester/models/tiger-cat.model';
+import { UpdateCatUseCaseService } from '../../../../domain/core-tester/repository-tester/use-cases/update-cat-use-case.service';
+import { UpdateTigerCatUseCaseService } from '../../../../domain/core-tester/repository-tester/use-cases/update-tiger-cat-use-case.service';
 
 @Component({
     selector: 'app-repository-tester',
@@ -19,7 +27,16 @@ export class RepositoryTesterComponent implements OnInit {
     form: FormGroup = new FormGroup({});
     @ViewChild('f', { static: false }) f: ElementRef | undefined;
 
-    constructor(private readonly getAllCatsUseCaseService: GetAllCatsUseCaseService) { }
+    constructor(
+        private readonly getAllCatsUseCaseService: GetAllCatsUseCaseService,
+        private readonly getAllTigerCatsUseCaseService: GetAllTigerCatsUseCaseService,
+        private readonly getOneCatUseCaseService: GetOneCatUseCaseService,
+        private readonly getOneTigerCatUseCaseService: GetOneTigerCatUseCaseService,
+        private readonly saveCatUseCaseService: SaveCatUseCaseService,
+        private readonly saveTigerCatUseCaseService: SaveTigerCatUseCaseService,
+        private readonly updateCatUseCaseService: UpdateCatUseCaseService,
+        private readonly updateTigerCatUseCaseService: UpdateTigerCatUseCaseService,
+    ) { }
 
     ngOnInit(): void {
 
@@ -64,11 +81,74 @@ export class RepositoryTesterComponent implements OnInit {
         this.getAllCatsUseCaseService.execute(cat)
             .subscribe((cats: Cat[] | null) => {
 
+                console.log(cats);
                 if (cats) {
 
                     this.cats = cats;
 
                 }
+
+            });
+
+        this.getAllTigerCatsUseCaseService.execute(cat)
+            .subscribe((tigerCats: TigerCat[] | null) => {
+
+                console.log(tigerCats);
+
+            });
+
+    }
+
+    callOne(): void {
+
+        this.getOneCatUseCaseService.execute(new Cat())
+            .subscribe((cat: Cat | null) => {
+
+                console.log(cat);
+
+            });
+        this.getOneTigerCatUseCaseService.execute(new Cat())
+            .subscribe((tigerCat: TigerCat | null) => {
+
+                console.log(tigerCat);
+
+            });
+
+    }
+
+    save(): void {
+
+        const cat: Cat = new Cat();
+        cat.name = 'cat 1';
+        this.saveCatUseCaseService.execute(cat)
+            .subscribe((cat: Cat | null) => {
+
+                console.log(cat);
+
+            });
+        this.saveTigerCatUseCaseService.execute(new TigerCat())
+            .subscribe((tigerCat: TigerCat | null) => {
+
+                console.log(tigerCat);
+
+            });
+
+    }
+
+    update(): void {
+
+        const cat: Cat = new Cat();
+        cat.name = 'cat 1';
+        this.updateCatUseCaseService.execute(cat)
+            .subscribe((cat: Cat | null) => {
+
+                console.log(cat);
+
+            });
+        this.updateTigerCatUseCaseService.execute(new TigerCat())
+            .subscribe((tigerCat: TigerCat | null) => {
+
+                console.log(tigerCat);
 
             });
 
