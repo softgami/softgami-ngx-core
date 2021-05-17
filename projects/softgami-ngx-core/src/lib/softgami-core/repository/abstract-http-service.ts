@@ -10,7 +10,7 @@ export abstract class AbstractHttpService {
 
     constructor(private readonly httpClient: HttpClient) { }
 
-    get<T>(url: string, params?: HttpParams, headers?: HttpHeaders): Observable<T | null> {
+    get<T, M>(url: string, params?: HttpParams, headers?: HttpHeaders, ClassDefMapping?: new () => M): Observable<T | null> {
 
         return this.httpClient.get<T>(url, { params, observe: 'response', headers })
             .pipe(
@@ -30,7 +30,7 @@ export abstract class AbstractHttpService {
                 }),
                 map((res: HttpResponse<T> | T) => {
 
-                    return res && res instanceof HttpResponse ? res.body : res;
+                    return this.mapResponse<T, M>(res, ClassDefMapping) as unknown as T;
 
                 }),
                 catchError((error: HttpErrorResponse) => {
@@ -74,25 +74,9 @@ export abstract class AbstractHttpService {
 
     }
 
-    post<I, O>(url: string, body: I, params?: HttpParams, headers?: HttpHeaders, shouldCleanJson = false): Observable<O | null> {
+    post<I, O>(url: string, body: I, params?: HttpParams, headers?: HttpHeaders, shouldCleanJson = false, ClassDefMapping?: new () => O): Observable<O | null> {
 
-        let parsed: I | undefined;
-        try {
-
-            if (shouldCleanJson && body instanceof Thing) {
-
-                parsed = ValidatorService
-                    .validate<I>(
-                        SoftgamiTsUtilsService.convertToCleanJson<I>(body, true),
-                        body.constructor as new () => I,
-                        undefined,
-                        false,
-                        false);
-                if (parsed) parsed = SoftgamiTsUtilsService.convertToCleanJson<I>(parsed, true);
-
-            }
-
-        } catch (error) {}
+        const parsed: I | undefined = this.cleanJson(body, shouldCleanJson);
 
         return this.httpClient.post<O>(url, parsed || body, { observe: 'response', params, headers })
             .pipe(
@@ -112,7 +96,7 @@ export abstract class AbstractHttpService {
                 }),
                 map((res: HttpResponse<O> | O) => {
 
-                    return res && res instanceof HttpResponse ? res.body : res;
+                    return this.mapResponse<O, O>(res, ClassDefMapping);
 
                 }),
                 catchError((error: HttpErrorResponse) => {
@@ -124,25 +108,9 @@ export abstract class AbstractHttpService {
 
     }
 
-    put<I, O>(url: string, body: I, params?: HttpParams, headers?: HttpHeaders, shouldCleanJson = false): Observable<O | null> {
+    put<I, O>(url: string, body: I, params?: HttpParams, headers?: HttpHeaders, shouldCleanJson = false, ClassDefMapping?: new () => O): Observable<O | null> {
 
-        let parsed: I | undefined;
-        try {
-
-            if (shouldCleanJson && body instanceof Thing) {
-
-                parsed = ValidatorService
-                    .validate<I>(
-                        SoftgamiTsUtilsService.convertToCleanJson<I>(body, true),
-                        body.constructor as new () => I,
-                        undefined,
-                        false,
-                        false);
-                if (parsed) parsed = SoftgamiTsUtilsService.convertToCleanJson<I>(parsed, true);
-
-            }
-
-        } catch (error) {}
+        const parsed: I | undefined = this.cleanJson(body, shouldCleanJson);
 
         return this.httpClient.put<O>(url, parsed || body, { observe: 'response', params, headers })
             .pipe(
@@ -162,7 +130,7 @@ export abstract class AbstractHttpService {
                 }),
                 map((res: HttpResponse<O> | O) => {
 
-                    return res && res instanceof HttpResponse ? res.body : res;
+                    return this.mapResponse<O, O>(res, ClassDefMapping);
 
                 }),
                 catchError((error: HttpErrorResponse) => {
@@ -227,6 +195,60 @@ export abstract class AbstractHttpService {
     handleError(error: HttpErrorResponse): ErrorResponse {
 
         return ErrorResponseFactory.getErrorResponse(error.status);
+
+    }
+
+    cleanJson<I>(body: I, shouldCleanJson = false): I | undefined {
+
+        let parsed: I | undefined;
+        try {
+
+            if (shouldCleanJson && body instanceof Thing) {
+
+                parsed = ValidatorService
+                    .validate<I>(
+                        SoftgamiTsUtilsService.convertToCleanJson<I>(body, true),
+                        body.constructor as new () => I,
+                        undefined,
+                        false,
+                        false);
+                console.log(SoftgamiTsUtilsService.convertToCleanJson<I>(body, true));
+                if (parsed) parsed = SoftgamiTsUtilsService.convertToCleanJson<I>(parsed, true);
+
+            }
+
+        } catch (error) {
+
+            console.warn('Could not clean json.', error);
+
+        }
+
+        return parsed;
+
+    }
+
+    mapResponse<I, O>(res: I | HttpResponse<I>, ClassDefMapping?: new () => O): O | null {
+
+        if (res && res instanceof HttpResponse) {
+
+            if (ClassDefMapping) {
+
+                const object: O = new ClassDefMapping();
+                if (object && object instanceof Thing) {
+
+                    if (Array.isArray(res.body)) return res.body.map((o) => object.fromJson(o)) as unknown as O;
+                    else return object.fromJson(res.body) as unknown as O;
+
+                } else {
+
+                    if (Array.isArray(res.body)) return res.body.map((o) => Object.assign(new ClassDefMapping(), o)) as unknown as O;
+                    else return Object.assign(object, res.body) as unknown as O;
+
+                }
+
+            } else return res.body as unknown as O;
+
+        } else return res as unknown as O;
 
     }
 
